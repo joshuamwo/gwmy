@@ -1,7 +1,6 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { ThemeProvider } from "@/lib/theme-provider";
 import { useEffect, useState } from "react";
 
 export default function App() {
@@ -17,13 +16,5 @@ export default function App() {
     return null;
   }
 
-  return (
-    <>
-      <div>HelLo</div>
-      <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-        {theme === "light" ? "Dark" : "Light"}
-      </button>
-      <div>World</div>
-    </>
-  );
+  return <div>home</div>;
 }

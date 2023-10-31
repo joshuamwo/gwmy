@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/**
+ * Need these custom style
+ * for header & category filter bar
+ * special sticky control in mobile
+ */
+@media (max-width: 639px) {
+  .app-header.sticky,
+  .app-category-filter-bar.sticky,
+  .mobile-sticky-after-header {
+    transition: transform 0.3s ease-in-out;
+  }
+  .scroll-down .app-header.sticky,
+  .scroll-down .app-category-filter-bar.sticky {
+    transform: translate3d(0, -100%, 0);
+  }
+  /*  */
+  .scroll-up .mobile-sticky-after-header {
+    transform: translate3d(0, -100%, 0);
+  }
+}
