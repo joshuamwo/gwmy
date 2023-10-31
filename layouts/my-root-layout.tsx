@@ -19,7 +19,7 @@ export default function MyRootLayout({
       <div className=" flex min-h-screen w-full flex-col bg-light-300 dark:bg-dark-100 ">
 					<Header sidebarIsOpen={sidebarIsOpen} sidebarToggle={sidebarToggle} />
         <div className="flex flex-1">
-          <Sidebar />
+          <Sidebar sidebarIsOpen={sidebarIsOpen} />
           {children}
         </div>
       </div>
