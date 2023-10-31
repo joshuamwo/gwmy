@@ -17,7 +17,7 @@ export default function MyRootLayout({
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <div className=" flex min-h-screen w-full flex-col bg-light-300 dark:bg-dark-100 ">
-        <Header sidebarIsOpen={sidebarIsOpen} sidebarToggle={sidebarToggle} />
+					<Header sidebarIsOpen={sidebarIsOpen} sidebarToggle={sidebarToggle} />
         <div className="flex flex-1">
           <Sidebar />
           {children}
