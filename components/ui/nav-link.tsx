@@ -23,7 +23,7 @@ export default function NavLink({
       <span
         className={classnames(
           "flex flex-shrink-0 items-center justify-start",
-          sidebarIsOpen ? "w-auto xl:w-8" : "w-8 xl:w-auto"
+          sidebarIsOpen ? "w-8 xl:w-auto" : "w-auto xl:w-8"
         )}
       >
         {icon}
@@ -31,7 +31,7 @@ export default function NavLink({
       <span
         className={classnames(
           "text-dark-100 dark:text-light-400",
-          sidebarIsOpen ? "hidden xl:inline-flex" : "inline-flex xl:hidden"
+          sidebarIsOpen ? "inline-flex xl:hidden" : "hidden xl:inline-flex"
         )}
       >
         {title}
