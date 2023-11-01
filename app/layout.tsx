@@ -17,8 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={figtree.className}>
-      <body>
+    <html lang="en" className={classnames(figtree.className)}>
+      <body className="">
         <MyRootLayout>{children}</MyRootLayout>
       </body>
     </html>

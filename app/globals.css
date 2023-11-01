@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 /**
  * Need these custom style
  * for header & category filter bar
@@ -20,5 +21,30 @@
   /*  */
   .scroll-up .mobile-sticky-after-header {
     transform: translate3d(0, -100%, 0);
+  }
+}
+
+/* 
+
+* main content padding per screen size
+* and sidebar open/close state
+
+*/
+
+@media (min-width: 639px) {
+  .main-content-sidebar-open {
+    padding-left: 15rem /* 240px */;
+  }
+  .main-content-sidebar-closed {
+    padding-left: 75px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .main-content-sidebar-open {
+    padding-left: 75px;
+  }
+  .main-content-sidebar-closed {
+    padding-left: 15rem /* 240px */;
   }
 }

@@ -1,20 +1,26 @@
 "use client";
 
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
-
 export default function App() {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  // This is to prevent server-side & client-side rendering mismatch
-  useEffect(() => {
-    setMounted(true);
-    console.log(theme);
-  }, [theme]);
-  if (!mounted) {
-    return null;
-  }
-
-  return <div>home</div>;
+  return (
+    <div className="app-category-filter-bar sticky top-16 z-20 flex min-h-[64px] w-full overflow-hidden border-b border-light-400 bg-light-100 px-4 py-4 dark:border-dark-300 dark:bg-dark-100 sm:top-[70px] sm:min-h-[70px] sm:px-5 sm:py-5 md:px-6 lg:px-7 3xl:px-8">
+      <h1>1</h1>
+      <h1>1</h1>
+      <h1>1</h1>
+      <h1>1</h1>
+      <h1>1</h1>
+      <h1>1</h1>
+      <h1>1</h1>
+      <h1>1</h1>
+      <h1>1</h1>
+      <h1>1</h1>
+      <h1>1</h1>
+      <h1>1</h1>
+      <h1>1</h1>
+      <h1>1</h1>
+      <h1>1</h1>
+      <h1>1</h1>
+      <h1>1</h1>
+      <h1>1</h1>
+    </div>
+  );
 }

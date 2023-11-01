@@ -16,9 +16,9 @@ export default function Sidebar({
   return (
     <aside
       className={classnames(
-        className,
-        " transition-all duration-500 h-full flex-col justify-between overflow-y-auto border-r border-light-400 bg-light-100 text-dark-900 dark:border-0 dark:bg-dark-200",
-        sidebarIsOpen ? "sm:w-60 xl:w-[75px]" : "sm:w-[75px] xl:w-60"
+        "h-full flex-col justify-between overflow-y-auto border-r border-light-400 bg-light-100 text-dark-900 dark:border-0 dark:bg-dark-200",
+        sidebarIsOpen ? "sm:w-60 xl:w-[75px]" : "sm:w-[75px] xl:w-60",
+        className
       )}
     >
       <div className="flex h-full w-full flex-col">
