@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import cn from "classnames";
+import { classnames } from "@/utils/classnames";
 import { SpinnerIcon } from "@/components/icons/spinner-icon";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
