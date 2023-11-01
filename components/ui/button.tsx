@@ -28,7 +28,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) => (
     <button
       ref={ref}
-      className={cn(
+      className={classnames(
         "transition-fill-colors flex items-center justify-center gap-2 font-semibold duration-200",
         isLoading || disabled
           ? "pointer-events-none cursor-not-allowed"
