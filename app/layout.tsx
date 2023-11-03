@@ -19,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={classnames(figtree.className)}>
       <body className="">
-        <MyRootLayout>{children}</MyRootLayout>
+        
+          <MyRootLayout>{children}</MyRootLayout>
+       
       </body>
     </html>
   );

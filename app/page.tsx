@@ -1,9 +1,56 @@
 "use client";
 
+import { createBrowserClient } from "@supabase/ssr";
+import Button from "@/components/ui/button";
+import { useSupabase } from "@/context/supabase-context";
+
 export default function App() {
+  const { supabase } = useSupabase();
+
+  const signIn = async () => {
+    await supabase.auth.signInWithPassword({
+      email: "yulluson@gmail.com",
+      password: "12345six",
+    });
+    // .signInWithOAuth({
+    //   provider,
+    //   options: {
+    //     redirectTo: `http://localhost:3000/api/auth/callback`,
+    //     queryParams: {
+    //       access_type: "offline",
+    //       prompt: "consent",
+    //     },
+    //   },
+    // });
+  };
+  const signUp = async () => {
+    await supabase.auth.signUp({
+      email: "yulluson@gmail.com",
+      password: "12345six",
+    });
+    // .signInWithOAuth({
+    //   provider,
+    //   options: {
+    //     redirectTo: `http://localhost:3000/api/auth/callback`,
+    //     queryParams: {
+    //       access_type: "offline",
+    //       prompt: "consent",
+    //     },
+    //   },
+    // });
+  };
+  const signOut = async () => {
+    await supabase.auth.signOut();
+  };
+
   return (
-    <div className="app-category-filter-bar sticky top-16 z-20 flex min-h-[64px] w-full overflow-hidden border-b border-light-400 bg-light-100 px-4 py-4 dark:border-dark-300 dark:bg-dark-100 sm:top-[70px] sm:min-h-[70px] sm:px-5 sm:py-5 md:px-6 lg:px-7 3xl:px-8">
+    <div className="gap-2 app-category-filter-bar sticky top-16 z-20 flex min-h-[64px] w-full overflow-hidden border-b border-light-400 bg-light-100 px-4 py-4 dark:border-dark-300 dark:bg-dark-100 sm:top-[70px] sm:min-h-[70px] sm:px-5 sm:py-5 md:px-6 lg:px-7 3xl:px-8">
       <h1>Main Content Goes Here</h1>
+      <div className="flex flex-col gap-4 w-full">
+        <Button onClick={() => signIn()}>Sign In</Button>
+        <Button onClick={() => signUp()}>Sign Up</Button>
+        <Button onClick={() => signOut()}>Sign Out</Button>
+      </div>
     </div>
   );
 }

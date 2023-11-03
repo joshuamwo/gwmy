@@ -6,6 +6,7 @@ import Header from "@/components/sections/header";
 import Sidebar from "@/components/sections/sidebar";
 import { classnames } from "@/utils/classnames";
 import { useState } from "react";
+import { SupabaseProvider } from "@/context/supabase-context";
 
 const BottomNavigation = dynamic(
   () => import("@/components/sections/bottom-navigation")
@@ -22,24 +23,26 @@ export default function MyRootLayout({
   };
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <div className="flex flex-col min-h-screen w-full  bg-light-300 dark:bg-dark-100 ">
-        <Header sidebarIsOpen={sidebarIsOpen} sidebarToggle={sidebarToggle} />
-        <div className="flex flex-1">
-          <Sidebar sidebarIsOpen={sidebarIsOpen} />
-          <main
-            style={{}}
-            className={`flex w-full flex-col ${
-              sidebarIsOpen
-                ? "main-content-sidebar-open"
-                : "main-content-sidebar-closed"
-            }`}
-          >
-            {children}
-          </main>
+    <SupabaseProvider>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <div className="flex flex-col min-h-screen w-full  bg-light-300 dark:bg-dark-100 ">
+          <Header sidebarIsOpen={sidebarIsOpen} sidebarToggle={sidebarToggle} />
+          <div className="flex flex-1">
+            <Sidebar sidebarIsOpen={sidebarIsOpen} />
+            <main
+              style={{}}
+              className={`flex w-full flex-col ${
+                sidebarIsOpen
+                  ? "main-content-sidebar-open"
+                  : "main-content-sidebar-closed"
+              }`}
+            >
+              {children}
+            </main>
+          </div>
+          <BottomNavigation />
         </div>
-        <BottomNavigation />
-      </div>
-    </ThemeProvider>
+      </ThemeProvider>
+    </SupabaseProvider>
   );
 }
