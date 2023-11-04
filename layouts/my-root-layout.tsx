@@ -49,6 +49,7 @@ export default function MyRootLayout({
             </div>
             <BottomNavigation />
           </div>
+          <ModalContainer />
         </ModalProvider>
       </ThemeProvider>
     </SupabaseProvider>

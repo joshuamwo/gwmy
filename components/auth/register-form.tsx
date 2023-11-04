@@ -86,7 +86,7 @@ export default function RegisterForm() {
                 type="submit"
                 className="!mt-5 w-full text-sm tracking-[0.2px] lg:!mt-7"
               >
-                Register
+                Sign Up
               </Button>
             </>
           </form>

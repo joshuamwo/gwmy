@@ -3,23 +3,32 @@ import { useRouter } from "next/navigation";
 // import { useModalAction, useModalState } from "./modal-controller";
 import { useEffect, Fragment } from "react";
 import { usePathname } from "next/navigation";
-import RegisterForm from "../auth/register-form";
 import { CloseIcon } from "../icons/close-icon";
+import dynamic from "next/dynamic";
+import { useModalState } from "./modal-controller";
+import { useModalAction } from "./modal-controller";
 
-type ModalToggleProps = "open" | "close";
-interface ModalContainerProps {
-  modalIsOpen?: boolean;
-  modalToggle: (action: ModalToggleProps) => void;
+const RegisterForm = dynamic(() => import("@/components/auth/register-form"));
+
+// type ModalToggleProps = "open" | "close";
+// interface ModalContainerProps {
+//   modalIsOpen?: boolean;
+//   modalToggle: (action: ModalToggleProps) => void;
+// }
+
+function renderModalContent(view: string) {
+  switch (view) {
+    case "SIGNUP":
+      return <RegisterForm />;
+      break;
+  }
 }
 
-export function ModalContainer({
-  modalIsOpen,
-  modalToggle,
-}: ModalContainerProps) {
+export function ModalContainer() {
   const router = useRouter();
 
-  // const { view, isOpen } = useModalState();
-  // const { closeModal } = useModalAction();
+  const { view, isOpen } = useModalState();
+  const { closeModal } = useModalAction();
 
   // close modal when route change
   let pathname: string = "";
@@ -27,18 +36,17 @@ export function ModalContainer({
 
   useEffect(() => {
     if (pathname !== newPathname) {
-      console.log("pathname changed");
-      // closeModal();
+      closeModal();
     }
     pathname = newPathname;
   }, [newPathname]);
 
   return (
-    <Transition show={modalIsOpen} as={Fragment}>
+    <Transition show={isOpen} as={Fragment}>
       <Dialog
         as="div"
         className="fixed inset-0 z-50 overflow-y-auto overflow-x-hidden xs:p-4"
-        onClose={() => modalToggle("close")}
+        onClose={() => closeModal()}
       >
         <div className="min-h-screen text-center">
           <Transition.Child
@@ -72,7 +80,7 @@ export function ModalContainer({
             <div className="relative z-50 inline-block min-h-screen w-full transform overflow-hidden text-start align-middle transition-all xs:min-h-[auto] xs:w-auto">
               <div className="relative flex min-h-screen items-center overflow-hidden xs:block xs:min-h-[auto] xs:rounded-md">
                 <button
-                  onClick={() => modalToggle("close")}
+                  onClick={() => closeModal()}
                   aria-label="Close panel"
                   className="absolute top-5 z-10 text-dark-900 outline-none transition-all hover:text-dark focus-visible:outline-none right-4  dark:text-dark-800 hover:dark:text-light-200 md:top-6 md:right-5 lg:top-7 lg:right-7 
 																		"
@@ -80,9 +88,7 @@ export function ModalContainer({
                   <CloseIcon className="h-4 w-4 focus-visible:outline-none lg:h-[18px] lg:w-[18px] 3xl:h-5 3xl:w-5" />
                 </button>
                 <div className="h-full w-full">
-                  {/* {view && renderModalContent(view)}
-                   */}
-                  <RegisterForm />
+                  {view && renderModalContent(view)}
                 </div>
               </div>
             </div>
