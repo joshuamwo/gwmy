@@ -10,7 +10,11 @@ export default function BottomNavigation() {
   const pathname = usePathname();
   return (
     <nav className="fixed bottom-0 z-30 grid h-14 w-full auto-cols-fr grid-flow-col items-center bg-light py-2 text-center shadow-bottom-nav dark:bg-dark-250 sm:hidden">
-      <Button variant="icon" aria-label="Home" onClick={() => router.push("/")}>
+      <Button
+        variant="icon"
+        aria-label="Home"
+        onClick={() => router.push("/", { scroll: false })}
+      >
         <HomeIcon className="h-full w-5" />
       </Button>
       <SearchButton />

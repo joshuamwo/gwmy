@@ -7,6 +7,9 @@ import Sidebar from "@/components/sections/sidebar";
 import { classnames } from "@/utils/classnames";
 import { useState } from "react";
 import { SupabaseProvider } from "@/context/supabase-context";
+import { ModalContainer } from "@/components/modals/modals-container";
+import { ModalProvider } from "@/components/modals/modal-controller";
+import Button from "@/components/ui/button";
 
 const BottomNavigation = dynamic(
   () => import("@/components/sections/bottom-navigation")
@@ -25,23 +28,28 @@ export default function MyRootLayout({
   return (
     <SupabaseProvider>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <div className="flex flex-col min-h-screen w-full  bg-light-300 dark:bg-dark-100 ">
-          <Header sidebarIsOpen={sidebarIsOpen} sidebarToggle={sidebarToggle} />
-          <div className="flex flex-1">
-            <Sidebar sidebarIsOpen={sidebarIsOpen} />
-            <main
-              style={{}}
-              className={`flex w-full flex-col ${
-                sidebarIsOpen
-                  ? "main-content-sidebar-open"
-                  : "main-content-sidebar-closed"
-              }`}
-            >
-              {children}
-            </main>
+        <ModalProvider>
+          <div className="flex flex-col min-h-screen w-full  bg-light-300 dark:bg-dark-100 ">
+            <Header
+              sidebarIsOpen={sidebarIsOpen}
+              sidebarToggle={sidebarToggle}
+            />
+            <div className="flex flex-1">
+              <Sidebar sidebarIsOpen={sidebarIsOpen} />
+              <main
+                style={{}}
+                className={`flex w-full flex-col ${
+                  sidebarIsOpen
+                    ? "main-content-sidebar-open"
+                    : "main-content-sidebar-closed"
+                }`}
+              >
+                {children}
+              </main>
+            </div>
+            <BottomNavigation />
           </div>
-          <BottomNavigation />
-        </div>
+        </ModalProvider>
       </ThemeProvider>
     </SupabaseProvider>
   );
