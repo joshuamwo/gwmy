@@ -6,7 +6,8 @@ import { NextResponse } from "next/server";
 // Define an asynchronous GET function to handle GET requests
 export async function GET(request: Request) {
   // Extract the 'code' and 'next' parameters from the request URL's search parameters
-  const { searchParams } = new URL(request.url);
+  const requestUrl = new URL(request.url);
+  const searchParams = requestUrl.searchParams;
   const code = searchParams.get("code");
   const next = searchParams.get("next") ?? "/";
 
@@ -33,14 +34,16 @@ export async function GET(request: Request) {
           },
         },
       }
-    );
+				);
+						
+    //test
     console.log(cookieStore);
 
     // Exchange the 'code' for a session
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     // If there's no error in exchanging the code for a session, redirect the user to the 'next' URL
     if (!error) {
-      return NextResponse.redirect(new URL(`/${next.slice(1)}`, request.url));
+      return NextResponse.redirect(requestUrl.origin);
     }
   }
 

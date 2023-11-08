@@ -36,7 +36,7 @@ export function ModalContainer() {
 
   useEffect(() => {
     if (pathname !== newPathname) {
-      closeModal();
+      // closeModal();
     }
     pathname = newPathname;
   }, [newPathname]);
@@ -77,8 +77,8 @@ export function ModalContainer() {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-110"
           >
-            <div className="relative z-50 inline-block min-h-screen w-full transform overflow-hidden text-start align-middle transition-all xs:min-h-[auto] xs:w-auto">
-              <div className="relative flex min-h-screen items-center overflow-hidden xs:block xs:min-h-[auto] xs:rounded-md">
+            <div className="p-4 xs:p-0 relative z-50 inline-block min-h-screen w-full transform overflow-hidden text-start align-middle transition-all xs:min-h-[auto] xs:w-auto">
+              <div className="relative flex min-h-screen items-center overflow-hidden xs:block xs:min-h-[auto] rounded-md">
                 <button
                   onClick={() => closeModal()}
                   aria-label="Close panel"
