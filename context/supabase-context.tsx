@@ -74,10 +74,10 @@ export const useSupabase = () => {
   return context;
 };
 
-export const userContext = () => {
-  const context = useContext(UserContext);
-  if (context === undefined) {
-    throw new Error("userContext must be used within a UserContext");
-  }
-  return context;
-};
+// export const userContext = () => {
+//   const context = useContext(UserContext);
+//   if (context === undefined) {
+//     throw new Error("userContext must be used within a UserContext");
+//   }
+//   return context;
+// };
