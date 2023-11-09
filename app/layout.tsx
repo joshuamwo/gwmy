@@ -6,12 +6,15 @@ import { classnames } from "@/utils/classnames";
 
 import MyRootLayout from "@/layouts/my-root-layout";
 
+
 export const metadata: Metadata = {
   title: "GWMY",
   description: "God Wants Me Young",
 };
 
-export default function RootLayout({
+
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -19,9 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={classnames(figtree.className)}>
       <body className="">
-        
-          <MyRootLayout>{children}</MyRootLayout>
-       
+        <MyRootLayout>{children}</MyRootLayout>
       </body>
     </html>
   );
