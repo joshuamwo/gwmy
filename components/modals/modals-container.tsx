@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 import { useModalState } from "./modal-controller";
 import { useModalAction } from "./modal-controller";
 
-const RegisterForm = dynamic(() => import("@/components/auth/register-form"));
+const AuthForm = dynamic(() => import("@/components/auth/auth-form"));
 
 // type ModalToggleProps = "open" | "close";
 // interface ModalContainerProps {
@@ -19,7 +19,7 @@ const RegisterForm = dynamic(() => import("@/components/auth/register-form"));
 function renderModalContent(view: string) {
   switch (view) {
     case "SIGNUP":
-      return <RegisterForm />;
+      return <AuthForm />;
       break;
   }
 }

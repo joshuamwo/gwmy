@@ -8,7 +8,7 @@ import { FormBgPattern } from "./form-bg-pattern";
 import { useSupabase } from "@/context/supabase-context";
 import { GoogleIcon } from "../icons/google-icon";
 
-export default function RegisterForm() {
+export default function EmailPasswordAuth() {
   const { openModal, closeModal } = useModalAction();
   const [registerInput, setRegisterInput] = useState<RegisterInput>({
     email: "",
