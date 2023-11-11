@@ -9,9 +9,14 @@ import ProfileMenu from "../menus/profile-menu";
 interface HeaderProps {
   sidebarIsOpen: boolean;
   sidebarToggle: () => void;
+  isUserLoggedIn: boolean;
 }
 
-export default function Header({ sidebarIsOpen, sidebarToggle }: HeaderProps) {
+export default function Header({
+  sidebarIsOpen,
+  sidebarToggle,
+  isUserLoggedIn,
+}: HeaderProps) {
   const pathname = usePathname();
 
   return (

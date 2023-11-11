@@ -18,8 +18,7 @@ type Action =
   | { type: "close" };
 
 export type MODAL_VIEWS =
-  | "SIGNIN"
-  | "SIGNUP"
+  | "AUTHFORM"
   | "CHECKOUT"
   | "FORGOT_PASSWORD"
   | "RESET_PASSWORD"
@@ -36,7 +35,7 @@ ModalActionContext.displayName = "ModalActionContext";
 function modalReducer(state: ModalState, action: Action): ModalState {
   switch (action.type) {
     case "open":
-      return {	
+      return {
         ...state,
         view: action.view,
         isOpen: true,

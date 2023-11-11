@@ -18,7 +18,7 @@ const AuthForm = dynamic(() => import("@/components/auth/auth-form"));
 
 function renderModalContent(view: string) {
   switch (view) {
-    case "SIGNUP":
+    case "AUTHFORM":
       return <AuthForm />;
       break;
   }
