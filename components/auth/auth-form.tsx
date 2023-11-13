@@ -3,10 +3,12 @@ import { FormBgPattern } from "./form-bg-pattern";
 import { useSupabase } from "@/context/supabase-context";
 import { GoogleIcon } from "../icons/google-icon";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 export default function AuthForm() {
   // Supabase signup
   const { supabase } = useSupabase();
+  const pathname = usePathname();
 
   const signUp = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -14,7 +16,7 @@ export default function AuthForm() {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${location.origin}/api/auth/callback`,
+          redirectTo: `${pathname}`,
         },
       });
     } catch (err) {
@@ -28,7 +30,7 @@ export default function AuthForm() {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${location.origin}/api/auth/callback`,
+          redirectTo: `${pathname}`,
         },
       });
     } catch (err) {
