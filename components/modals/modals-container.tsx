@@ -35,10 +35,11 @@ export function ModalContainer() {
   const newPathname = usePathname();
 
   useEffect(() => {
-    if (pathname !== newPathname) {
-      // closeModal();
-    }
-    pathname = newPathname;
+    // if (pathname !== newPathname) {
+    //   // closeModal();
+    // }
+			// pathname = newPathname;
+			closeModal()
   }, [newPathname]);
 
   return (

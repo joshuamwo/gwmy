@@ -1,7 +1,5 @@
 // PrivacyPolicy.jsx
 
-import React from "react";
-
 const PrivacyPolicy = () => {
   return (
     <div className="bg-light-300 dark:bg-dark-100 text-black dark:text-white min-h-screen p-8">
@@ -11,8 +9,9 @@ const PrivacyPolicy = () => {
         <p className="mb-4">
           This Privacy Policy governs the manner in which GWMY collects, uses,
           maintains, and discloses information collected from users (each, a
-          'User') of the GWMY website (gwmy.yulluco.com). This privacy policy
-          applies to the site and all products and services offered by GWMY.
+          &ldquo;User&rdquo;) of the GWMY website (gwmy.yulluco.com). This
+          privacy policy applies to the site and all products and services
+          offered by GWMY.
         </p>
 
         <h2 className="text-xl font-semibold mb-4">Information We Collect</h2>
