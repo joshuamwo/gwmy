@@ -11,7 +11,7 @@ const PrivacyPolicy = () => {
         <p className="mb-4">
           This Privacy Policy governs the manner in which GWMY collects, uses,
           maintains, and discloses information collected from users (each, a
-          "User") of the GWMY website (gwmy.yulluco.com). This privacy policy
+          'User') of the GWMY website (gwmy.yulluco.com). This privacy policy
           applies to the site and all products and services offered by GWMY.
         </p>
 
