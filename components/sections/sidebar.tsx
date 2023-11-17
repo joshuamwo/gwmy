@@ -2,6 +2,7 @@ import { useRecoilValue } from "recoil";
 import { userState } from "@/recoil/atoms";
 import CustomerSidebar from "./customer-sidebar";
 import { classnames } from "@/utils/classnames";
+import AdminSidebar from "./admin-sidebar";
 
 interface SidebarProps {
   sidebarIsOpen: boolean;
@@ -25,7 +26,7 @@ export default function Sidebar({
       {user?.user_type !== "alpha" ? (
         <CustomerSidebar sidebarIsOpen={sidebarIsOpen} classname={className} />
       ) : (
-        <pre>{user?.user_type}</pre>
+        <AdminSidebar sidebarIsOpen={sidebarIsOpen} classname={className} />
       )}
     </aside>
   );
