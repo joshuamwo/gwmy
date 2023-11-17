@@ -9,14 +9,15 @@ export default function AuthForm() {
   // Supabase signup
   const { supabase } = useSupabase();
   const pathname = usePathname();
+  const provider = "google";
 
   const signUp = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
+      await supabase.auth.signInWithOAuth({
+        provider,
         options: {
-          redirectTo: `${pathname}`,
+          redirectTo: `http://localhost:3000/auth/callback`,
         },
       });
     } catch (err) {
@@ -26,16 +27,12 @@ export default function AuthForm() {
 
   const signIn = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: `${pathname}`,
-        },
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `http://localhost:3000/auth/callback`,
+      },
+    });
   };
 
   // SignUp vs SignIn state
@@ -64,7 +61,7 @@ export default function AuthForm() {
             <div className="text-13px leading-6 tracking-[0.2px] dark:text-light-900">
               {isSignIn ? "Don't have an account?" : "Already have an account?"}{" "}
               <button
-                onClick={isSignIn ? signUp : signIn}
+                onClick={isSignIn ? signIn : signUp}
                 className="inline-flex font-semibold text-brand hover:text-dark-400 hover:dark:text-light-500"
               >
                 {isSignIn ? "Sign Up" : "Sign In"}

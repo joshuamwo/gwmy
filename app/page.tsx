@@ -7,17 +7,39 @@ import { useRecoilValue } from "recoil";
 import { userState } from "@/recoil/atoms";
 import { useRouter } from "next/navigation";
 import { useRecoilState } from "recoil";
+import { useState } from "react";
 
 export default function App() {
   const { supabase } = useSupabase();
   const { openModal, closeModal } = useModalAction();
   const router = useRouter();
   const [user, setUser] = useRecoilState(userState);
+  const [loading, setLoading] = useState(false);
 
   async function signOut(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    e.preventDefault();
-    await supabase.auth.signOut();
-    router.push("/");
+    // e.preventDefault();
+    setLoading(true);
+    // Check if we have a session
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (session) {
+      await supabase.auth
+        .signOut()
+        .then((res) => {
+          setUser(null)
+          setLoading(false);
+          router.refresh();
+          console.log("Signed Out", res);
+        })
+        .catch((err) => {
+          console.log(err);
+          router.refresh();
+          setLoading(false);
+        });
+    }
+    router.refresh();
   }
 
   return (
@@ -32,6 +54,7 @@ export default function App() {
               onClick={(e) => {
                 user ? signOut(e) : openModal("AUTHFORM");
               }}
+              disabled={loading}
             >
               {user ? "Sign Out" : "Sign In"}
             </Button>

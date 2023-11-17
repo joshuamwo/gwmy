@@ -40,17 +40,13 @@ export function SupabaseProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  getUser();
-
   useEffect(() => {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(() => {
-      // router.refresh();
+      getUser();
+      router.refresh();
     });
-
-    //refresh user
-    getUser();
 
     return () => {
       subscription.unsubscribe();
