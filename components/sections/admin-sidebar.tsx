@@ -20,26 +20,26 @@ export default function AdminSidebar({
     <div className="flex h-full w-full flex-col">
       <nav className="flex flex-col">
         <NavLink
-          title="Dashboard"
-          href="/"
-          sidebarIsOpen={sidebarIsOpen}
-          icon={<DashboardIcon className="h-[18px] w-[18px] text-current" />}
-        />
-        <NavLink
           title="My Shop"
-          href="/myshop"
+          href="/"
           sidebarIsOpen={sidebarIsOpen}
           icon={<MyShopIcon className="h-[18px] w-[18px] text-current" />}
         />
         <NavLink
+          title="Dashboard"
+          href="/admin/dashboard"
+          sidebarIsOpen={sidebarIsOpen}
+          icon={<DashboardIcon className="h-[18px] w-[18px] text-current" />}
+        />
+        <NavLink
           title="Orders"
-          href="/orders"
+          href="/admin/orders"
           sidebarIsOpen={sidebarIsOpen}
           icon={<OrdersIcon className="h-[18px] w-[18px] text-current" />}
         />
         <NavLink
           title="My Events"
-          href="/myevents"
+          href="/admin/my-events"
           sidebarIsOpen={sidebarIsOpen}
           icon={
             <EventsIcon className="h-[18px] w-[18px] text-current fill-inherit" />
@@ -47,7 +47,7 @@ export default function AdminSidebar({
         />
         <NavLink
           title="My Products"
-          href="/myproducts"
+          href="/admin/my-products"
           sidebarIsOpen={sidebarIsOpen}
           icon={<ProductsIcon className="h-[18px] w-[18px] text-current" />}
         />
