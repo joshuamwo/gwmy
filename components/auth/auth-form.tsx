@@ -13,15 +13,15 @@ export default function AuthForm() {
 
   const signUp = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    try {
-      await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: `http://localhost:3000/auth/callback`,
-        },
-      });
-    } catch (err) {
-      console.log(err);
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `http://localhost:3000/auth/callback`,
+      },
+    });
+    if (error) {
+      window.alert(error.message);
     }
   };
 

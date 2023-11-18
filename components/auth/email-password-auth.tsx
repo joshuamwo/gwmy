@@ -16,7 +16,6 @@ export default function EmailPasswordAuth() {
   });
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log(e.target.id, e.target.value);
 
     setRegisterInput({
       ...registerInput,
@@ -29,26 +28,18 @@ export default function EmailPasswordAuth() {
 
   const signUp = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    try {
+ 
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
           redirectTo: `${location.origin}/api/auth/callback`,
         },
       });
-    } catch (err) {
-      console.log(err);
-    }
+			if (error) {
+			window.EvalError(error.message)
+		}
   };
 
-  // useEffect(() => {
-  //   console.log("data: ", data);
-  //   console.log("error: ", error);
-  // }, [data, error]);
-
-  // useEffect(() => {
-  //   console.log("registerInput: ", registerInput);
-  // }, [registerInput]);
 
   return (
     <div className="bg-light px-6 pt-10 pb-8 dark:bg-dark-300 sm:px-8 lg:p-12">

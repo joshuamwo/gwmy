@@ -1,5 +1,5 @@
 import { useSupabase } from "@/context/supabase-context";
-import { useRecoilState } from "@/lib/recoil";
+import { useRecoilState } from "@/recoil/recoil";
 import { userState } from "@/recoil/atoms";
 import { useRouter } from "next/navigation";
 import { SupabaseClient } from "@supabase/supabase-js";
@@ -25,11 +25,9 @@ const signOut = async ({ loading, setLoading, supabase }: signOutProps) => {
       .then((res) => {
         setUser(null);
         router.refresh();
-        console.log("Signed Out", res);
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         router.refresh();
         setLoading(false);
       });

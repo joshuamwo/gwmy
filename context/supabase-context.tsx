@@ -36,7 +36,6 @@ export function SupabaseProvider({ children }: { children: React.ReactNode }) {
       setUser(data[0]);
     } else {
       setUser(null);
-      console.log(error);
     }
   }
 
