@@ -28,7 +28,7 @@ export default function App() {
       await supabase.auth
         .signOut()
         .then((res) => {
-          setUser(null)
+          setUser(null);
           setLoading(false);
           router.refresh();
           console.log("Signed Out", res);

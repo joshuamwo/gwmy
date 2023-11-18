@@ -1,13 +1,17 @@
 import Button from "./button";
 import { UserIcon } from "@/components/icons/user-icon";
 
-export default function ProfileButton() {
+interface ProfileButtonProps { 
+	handleClick: () => void;
+}
+
+export default function ProfileButton({handleClick}: ProfileButtonProps)  {
   return (
     <Button
       variant="icon"
       aria-label="User"
       className="flex"
-      onClick={() => window.alert("TODO: Open profile menu")}
+      onClick={handleClick}
     >
       <UserIcon className="h-5 w-5" />
     </Button>
