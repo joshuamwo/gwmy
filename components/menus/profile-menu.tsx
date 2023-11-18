@@ -44,15 +44,11 @@ function AuthorizedMenu({ user, setUser }: any) {
   return (
     <Menu>
       <Menu.Button>
-        {user?.avatar_url ? (
-          <Avatar
-            src={user?.avatar_url}
-            alt={user.full_name}
-            sx={{ width: 28, height: 28 }}
-          />
-        ) : (
-          <Avatar>{user?.full_name[0]}</Avatar>
-        )}
+        <Avatar
+          src={user?.avatar_url}
+          alt={user.full_name}
+          sx={{ width: 28, height: 28 }}
+        />
       </Menu.Button>
     </Menu>
   );
