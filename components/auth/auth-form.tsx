@@ -36,7 +36,7 @@ export default function AuthForm() {
   };
 
   // SignUp vs SignIn state
-  const [isSignIn, setIsSignIn] = useState<boolean>(true);
+  const [isSignIn, setIsSignIn] = useState<boolean>(false);
 
   return (
     <div className="bg-light px-6 pt-10 pb-8 dark:bg-dark-300 sm:px-8 lg:p-12">
