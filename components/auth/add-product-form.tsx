@@ -8,7 +8,7 @@ import { FormBgPattern } from "./form-bg-pattern";
 import { useSupabase } from "@/context/supabase-context";
 import { GoogleIcon } from "../icons/google-icon";
 
-export default function EmailPasswordAuth() {
+export default function AddProductForm() {
   const { openModal, closeModal } = useModalAction();
   const [registerInput, setRegisterInput] = useState<RegisterInput>({
     email: "",
@@ -46,60 +46,59 @@ export default function EmailPasswordAuth() {
         <div className="w-full shrink-0 text-left md:w-[380px]">
           <div className="flex flex-col pb-5 text-center lg:pb-9 xl:pb-10 xl:pt-2">
             <h2 className="text-lg font-medium tracking-[-0.3px] text-dark dark:text-light lg:text-xl">
-              We Hate Passwords Too!
+              Add Product
             </h2>
           </div>
           <div className="space-y-4 lg:space-y-5 flex flex-col items-center">
-            <div className="flex flex-row">
+            <div className="flex flex-row w-full justify-between">
               {" "}
               <Input
-                id="firstName"
-                label="First Name"
+                id="productName"
+                label="Product Name"
                 className="mr-4"
                 inputClassName="bg-light dark:bg-dark-300 "
                 onChange={onInputChange}
               />
               <Input
-                id="lastName"
-                label="Last Name"
-                className=" ml-4"
+                id="price"
+                label="Price Ksh."
+                className="ml-4 w-20"
+                type="number"
                 inputClassName="bg-light dark:bg-dark-300"
                 onChange={onInputChange}
               />
             </div>
-
             <Input
-              id="email"
-              label="Your Email"
-              inputClassName="bg-light dark:bg-dark-300"
-              type="email"
-              onChange={onInputChange}
-            />
-            <Password
-              id="password"
-              label="Password"
-              inputClassName="bg-light dark:bg-dark-300"
+              id="productDescription"
+              className="w-full h-36"
+              label="Product Desctiption"
+              inputClassName="bg-light dark:bg-dark-300 w-full h-32"
+              type="textarea"
               onChange={onInputChange}
             />
 
             <Button
+              className="mt-2 w-full text-sm tracking-[0.2px] lg:!my-7"
+              variant="outline"
+            >
+              <label htmlFor="product-images-upload" className="w-full h-full">
+                Upload Images
+                <input
+                  type="file"
+                  id="product-images-upload"
+                  className="w-full h-full opacity-0 "
+                />
+              </label>
+            </Button>
+            {/* image preview */}
+
+            <Button
               type="submit"
               className="!my-5 w-full text-sm tracking-[0.2px] lg:!my-7"
-              onClick={signUp}
+              onClick={() => window.alert("Product added successfully")}
             >
-              <GoogleIcon className="fill-white " />
-              Sign Up With Google
+              Submit
             </Button>
-
-            <div className="text-13px leading-6 tracking-[0.2px] dark:text-light-900">
-              Already have an account?{" "}
-              <button
-                // onClick={() => openModal("LOGIN_VIEW")}
-                className="inline-flex font-semibold text-brand hover:text-dark-400 hover:dark:text-light-500"
-              >
-                Log In
-              </button>
-            </div>
           </div>
         </div>
       </div>

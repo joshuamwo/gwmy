@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /**
  * Need these custom style
  * for header & category filter bar
@@ -47,4 +46,12 @@
   .main-content-sidebar-closed {
     padding-left: 15rem /* 240px */;
   }
+}
+
+/* To remove arrows from number inputs */
+
+input[type="number"] {
+  -webkit-appearance: none; /* Chrome, Safari, Edge, Opera */
+  -moz-appearance: textfield; /* Firefox */
+  appearance: none; /* Standard */
 }

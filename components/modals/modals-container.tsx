@@ -7,6 +7,7 @@ import { CloseIcon } from "../icons/close-icon";
 import dynamic from "next/dynamic";
 import { useModalState } from "./modal-controller";
 import { useModalAction } from "./modal-controller";
+import AddProductForm from "../auth/add-product-form";
 
 const AuthForm = dynamic(() => import("@/components/auth/auth-form"));
 
@@ -20,6 +21,9 @@ function renderModalContent(view: string) {
   switch (view) {
     case "AUTHFORM":
       return <AuthForm />;
+      break;
+    case "ADDPRODUCTFORM":
+      return <AddProductForm />;
       break;
   }
 }
@@ -38,8 +42,8 @@ export function ModalContainer() {
     // if (pathname !== newPathname) {
     //   // closeModal();
     // }
-			// pathname = newPathname;
-			closeModal()
+    // pathname = newPathname;
+    closeModal();
   }, [newPathname]);
 
   return (

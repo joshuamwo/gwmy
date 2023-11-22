@@ -32,12 +32,12 @@ export default function Search({
         Search
       </label>
       <button className="start-1 absolute p-2 text-body outline-none focus:outline-none active:outline-none">
-        <SearchIcon className="h-5 w-5" />
+        <SearchIcon className="h-5 w-5 fill-white" />
       </button>
       <input
         type="text"
         id="search"
-        className="ps-10 pe-4 h-10 flex items-center w-full rounded appearance-none transition duration-300 ease-in-out text-heading text-sm focus:outline-none focus:ring-0 border border-border-base focus:border-accent"
+        className="dark:bg-dark-100 dark:placeholder:text-white ps-10 pe-4 h-10 flex items-center w-full rounded appearance-none transition duration-300 ease-in-out text-heading text-sm focus:outline-none focus:ring-0 border border-border-base focus:border-accent"
         placeholder="Type your query and press Enter"
         aria-label="Search"
         autoComplete="off"

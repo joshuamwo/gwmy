@@ -31,15 +31,24 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               {label}
             </span>
           )}
-          <input
-            type={type}
-            ref={ref}
-            {...props}
-            className={classnames(
-              "h-11 w-full appearance-none rounded border border-light-500 bg-transparent px-4 py-2 text-13px text-dark ring-[0.5px] ring-light-500 placeholder:text-dark-900 focus:border-brand focus:ring-[0.5px] focus:ring-brand dark:border-dark-600 dark:text-light dark:ring-dark-600 dark:placeholder:text-dark-700 dark:focus:border-brand dark:focus:ring-brand md:h-12 lg:px-5 xl:h-[50px]",
-              inputClassName
-            )}
-          />
+          {type === "textarea" ? (
+            <textarea
+              className={classnames(
+                " w-full appearance-none rounded border border-light-500 bg-transparent px-4 py-2 text-13px text-dark ring-[0.5px] ring-light-500 placeholder:text-dark-900 focus:border-brand focus:ring-[0.5px] focus:ring-brand dark:border-dark-600 dark:text-light dark:ring-dark-600 dark:placeholder:text-dark-700 dark:focus:border-brand dark:focus:ring-brand lg:px-5 ",
+                inputClassName
+              )}
+            />
+          ) : (
+            <input
+              type={type}
+              ref={ref}
+              {...props}
+              className={classnames(
+                "h-11 w-full appearance-none rounded border border-light-500 bg-transparent px-4 py-2 text-13px text-dark ring-[0.5px] ring-light-500 placeholder:text-dark-900 focus:border-brand focus:ring-[0.5px] focus:ring-brand dark:border-dark-600 dark:text-light dark:ring-dark-600 dark:placeholder:text-dark-700 dark:focus:border-brand dark:focus:ring-brand md:h-12 lg:px-5 xl:h-[50px]",
+                inputClassName
+              )}
+            />
+          )}
         </label>
         {error && (
           <span role="alert" className="block pt-2 text-xs text-warning">

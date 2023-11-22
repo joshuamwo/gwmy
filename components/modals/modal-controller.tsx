@@ -19,6 +19,7 @@ type Action =
 
 export type MODAL_VIEWS =
   | "AUTHFORM"
+  | "ADDPRODUCTFORM"
   | "CHECKOUT"
   | "FORGOT_PASSWORD"
   | "RESET_PASSWORD"
