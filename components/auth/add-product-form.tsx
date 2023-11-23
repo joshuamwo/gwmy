@@ -92,13 +92,18 @@ export default function AddProductForm() {
             {/* Image Preview */}
 
             {imagePreview.length !== 0 && (
-              <div className="w-full h-40 relative !my-10">
+              <div className="w-full !mt-5">
                 <ImageCourosel>
                   {imagePreview.map((image, index) => (
                     <ImageSlide key={index}>
                       <img
                         src={image}
                         className="object-cover"
+                        style={{
+                          width: "100%",
+                          height: "15rem",
+                          objectFit: "cover",
+                        }}
                         alt={`image ${index}`}
                       />
                     </ImageSlide>
@@ -108,18 +113,19 @@ export default function AddProductForm() {
             )}
 
             <Button
-              className="mt-2 w-full text-sm tracking-[0.2px] lg:!my-7"
+              className="w-full text-sm  tracking-[0.2px] lg:!my-7"
               variant="outline"
             >
-              <label htmlFor="product-images-upload" className="w-full h-full">
+              <label htmlFor="product-images-upload" className="w-full ">
                 {imagePreview.length == 0 ? "Upload Images" : "Add Images"}
                 <Input
-                  label="Product Images"
+                  label=""
                   type="file"
                   id="product-images-upload"
-                  className="w-full h-full opacity-0 "
+                  className="w-full opacity-0 "
                   onChange={handleImageUpload}
                   multiple
+                  hidden
                 />
               </label>
             </Button>
