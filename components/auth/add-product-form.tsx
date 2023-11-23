@@ -9,6 +9,7 @@ import { useSupabase } from "@/context/supabase-context";
 import Image from "next/image";
 import { ImageCourosel, ImageSlide } from "../ui/image-courosel";
 import "@splidejs/react-splide/css";
+import { DeleteIcon } from "../icons/delete-icon";
 
 interface ProductInput {
   productName: string;
@@ -37,7 +38,7 @@ export default function AddProductForm() {
   const { supabase } = useSupabase();
 
   // Image upload
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("image upload");
     //set image preview
     if (e.target.files) {
@@ -48,6 +49,12 @@ export default function AddProductForm() {
       console.log(fileArray);
       setImagePreview([...imagePreview, ...fileArray]);
     }
+  };
+
+  const handleImageInputRemove = (index: number) => {
+    // remove image from preview
+    const newImagePreview = imagePreview.filter((image, i) => i !== index);
+    setImagePreview(newImagePreview);
   };
 
   return (
@@ -95,6 +102,15 @@ export default function AddProductForm() {
                 <ImageCourosel>
                   {imagePreview.map((image, index) => (
                     <ImageSlide key={index}>
+                      {/* delete image */}
+                      <div className="absolute top-2 right-2">
+                        <Button
+                          variant="icon"
+                          onClick={() => handleImageInputRemove(index)}
+                        >
+                          <DeleteIcon className="h-5 w-5 fill-white opacity-50 hover:opacity-100 hover:animate-pulse hover:scale-125 hover:fill-red-500" />
+                        </Button>
+                      </div>
                       <img
                         src={image}
                         className="object-cover"
@@ -121,7 +137,7 @@ export default function AddProductForm() {
                   type="file"
                   id="product-images-upload"
                   className="w-full opacity-0 "
-                  onChange={handleImageUpload}
+                  onChange={handleImageInput}
                   multiple
                   hidden
                   accept="image/*"
