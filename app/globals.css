@@ -50,6 +50,8 @@
 
 /* To remove arrows from number inputs */
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button,
 input[type="number"] {
   -webkit-appearance: none; /* Chrome, Safari, Edge, Opera */
   -moz-appearance: textfield; /* Firefox */

@@ -12,3 +12,10 @@ export type UserStateType = {
   website?: string;
   user_type?: string;
 } | null;
+
+export interface ProductInput {
+  productName: string;
+  price: number;
+  productDescription: string;
+  productImageLinks?: string[];
+}

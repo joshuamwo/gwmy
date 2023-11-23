@@ -8,6 +8,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   variant?: "text" | "outline" | "solid" | "icon" | "solidDanger";
   children?: React.ReactNode;
+  type?: "button" | "submit" | "reset";
 }
 
 const variantClasses = {
@@ -23,7 +24,15 @@ const variantClasses = {
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { className, isLoading, disabled, children, variant = "solid", ...props },
+    {
+      className,
+      isLoading,
+      disabled,
+      children,
+      variant = "solid",
+      type = "button",
+      ...props
+    },
     ref
   ) => (
     <button
@@ -37,6 +46,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         variantClasses[variant],
         className
       )}
+      type={type}
       {...props}
     >
       {isLoading && <SpinnerIcon className="h-auto w-5 animate-spin" />}

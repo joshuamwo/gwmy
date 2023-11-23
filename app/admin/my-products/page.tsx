@@ -3,9 +3,28 @@ import Button from "@/components/ui/button";
 import Search from "@/components/search";
 import { PlusIcon } from "@/components/icons/plus-icon";
 import { useModalAction } from "@/components/modals/modal-controller";
+import { useSupabase } from "@/context/supabase-context";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function MyProducts() {
   const { openModal } = useModalAction();
+  const { supabase } = useSupabase();
+  const router = useRouter();
+
+  const [products, setProducts] = useState<any>([]);
+
+  //fetch products
+  const fetchProducts = async () => {
+    const { data, error } = await supabase.from("products").select("*");
+    if (error) console.log(error);
+    if (data) console.log(data);
+    setProducts(data);
+  };
+  useEffect(() => {
+    fetchProducts();
+  }, [supabase]);
+
   return (
     <div className="h-full p-5 md:p-8">
       <div className="p-5 md:p-8 bg-light dark:bg-dark-200 shadow rounded mb-8 flex flex-col">
@@ -31,6 +50,14 @@ export default function MyProducts() {
           </div>
         </div>
       </div>
+
+      <div>
+        {products.map((product: any) => (
+          <div id={product.id}>{product.product_name}</div>
+        ))}
+        <pre></pre>
+      </div>
+
       <Button
         onClick={() => openModal("ADDPRODUCTFORM")}
         className="absolute bottom-24 sm:bottom-6 right-6 rounded-full h-16 w-16 md:hidden"

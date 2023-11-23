@@ -10,13 +10,8 @@ import Image from "next/image";
 import { ImageCourosel, ImageSlide } from "../ui/image-courosel";
 import "@splidejs/react-splide/css";
 import { DeleteIcon } from "../icons/delete-icon";
-
-interface ProductInput {
-  productName: string;
-  price: number;
-  productDescription: string;
-  productImageLinks?: string[];
-}
+import { CircularProgress, LinearProgress } from "@mui/material";
+import { ProductInput } from "@/types";
 
 export default function AddProductForm() {
   const [product, setProduct] = useState<ProductInput>({
@@ -28,8 +23,11 @@ export default function AddProductForm() {
   const [imagePreview, setImagePreview] = useState<string[]>([]);
   const [images, setImages] = useState<File[] | null>(null);
   const [imageLinks, setImageLinks] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (success) setSuccess(false);
     setProduct({
       ...product,
       [e.target.id]: e.target.value,
@@ -39,8 +37,9 @@ export default function AddProductForm() {
   // Supabase
   const { supabase } = useSupabase();
 
-  // Image upload
+  // Image input and preview set
   const handleImageInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    // e.preventDefault();
     //set image preview
     if (e.target.files) {
       const files = e.target.files;
@@ -52,24 +51,22 @@ export default function AddProductForm() {
       //if images is not null, apped new image file otherwise setImages(files)
       const imageArray = Array.from(files);
       images ? setImages([...images, ...imageArray]) : setImages(imageArray);
-      console.log(images);
     }
   };
 
+  //image input remove
   const handleImageInputRemove = (index: number) => {
     // remove image from preview
     const newImagePreview = imagePreview.filter((image, i) => i !== index);
     setImagePreview(newImagePreview);
     // remove image from images
     const newImages = images?.filter((image, i) => i !== index);
-    console.log(newImages);
   };
 
-  // upload images to supabase storage creating a folder
-  // for each user is they don't have one
+  // upload images
 
-  const uploadImages = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
+  const uploadImages = async () => {
+    if (!images) return;
     let imageUrls: string[] = [];
     if (images) {
       const {
@@ -84,7 +81,6 @@ export default function AddProductForm() {
           .from("product-images")
           .upload(filePath, image);
         if (error) {
-          console.log(error);
           throw error;
         }
         imageUrls.push(
@@ -92,16 +88,59 @@ export default function AddProductForm() {
         );
       });
       await Promise.all(promises);
-      setImageLinks(imageUrls);
+      setProduct({
+        ...product,
+        productImageLinks: imageUrls,
+      });
     }
   };
 
-  const handleAddProducts = async (e: FormEvent) => {
-    // uploadImages();
+  const handleAddProducts = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    uploadImages().then(
+      //add product to database
+      async () => {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        const user = session?.user;
+        const userId = user?.id;
+        const { data, error } = await supabase
+          .from("products")
+          .insert([
+            {
+              product_name: product.productName,
+              product_description: product.productDescription,
+              price: product.price,
+              image_urls: product?.productImageLinks,
+              owner: userId,
+            },
+          ])
+          .single();
+        if (error) {
+          setLoading(false);
+          throw error;
+        }
+        setLoading(false);
+        setSuccess(true);
+        setImagePreview([]);
+        setImages(null);
+        setProduct({
+          productName: "",
+          price: 0,
+          productDescription: "",
+          productImageLinks: [],
+        });
+      }
+    );
   };
 
   return (
-    <div className="bg-light px-6 pt-10 pb-8 dark:bg-dark-300 sm:px-8 lg:p-12">
+    <form
+      onSubmit={(e) => handleAddProducts(e)}
+      className="bg-light px-6 pt-10 pb-8 dark:bg-dark-300 sm:px-8 lg:p-12"
+    >
       <FormBgPattern className="hidden xs:flex absolute bottom-0 left-0 text-light dark:text-dark-300 dark:opacity-60" />
       <div className="relative z-10 flex items-center">
         <div className="w-full shrink-0 text-left md:w-[380px]">
@@ -118,24 +157,33 @@ export default function AddProductForm() {
                 label="Product Name"
                 className="mr-4"
                 inputClassName="bg-light dark:bg-dark-300 "
-                onChange={onInputChange}
+                onChange={(e) => onInputChange(e)}
+                required
+                placeholder="Product Name"
+                value={product.productName}
               />
               <Input
                 id="price"
-                label="Price Ksh."
+                label="Price"
                 className="ml-4 w-20"
                 type="number"
                 inputClassName="bg-light dark:bg-dark-300"
-                onChange={onInputChange}
+                onChange={(e) => onInputChange(e)}
+                required
+                placeholder="Ksh."
+                value={product.price}
               />
             </div>
             <Input
               id="productDescription"
-              className="w-full h-36"
+              className="w-full "
               label="Product Desctiption"
-              inputClassName="bg-light dark:bg-dark-300 w-full h-32"
-              type="textarea"
-              onChange={onInputChange}
+              inputClassName="bg-light dark:bg-dark-300 w-full !mb-5"
+              type="text"
+              onChange={(e) => onInputChange(e)}
+              required
+              placeholder="Write Product Description"
+              value={product.productDescription}
             />
 
             {/* Image Preview */}
@@ -170,9 +218,8 @@ export default function AddProductForm() {
               </div>
             )}
 
-            <pre>{JSON.stringify(imageLinks, null, 4)}</pre>
-
             <Button
+              type="button"
               className="w-full text-sm  tracking-[0.2px]"
               variant="outline"
             >
@@ -182,7 +229,7 @@ export default function AddProductForm() {
                   type="file"
                   id="product-images-upload"
                   className="w-full opacity-0 "
-                  onChange={handleImageInput}
+                  onChange={(e) => handleImageInput(e)}
                   multiple
                   hidden
                   accept="image/*"
@@ -193,13 +240,25 @@ export default function AddProductForm() {
             <Button
               type="submit"
               className="w-full text-sm tracking-[0.2px]"
-              onClick={(e) => uploadImages(e)}
+              onClick={(e) => handleAddProducts(e)}
+              disabled={
+                !product.productName ||
+                !product.productDescription ||
+                !product.price ||
+                loading
+              }
             >
-              Submit
+              {loading ? (
+                <CircularProgress color="success" />
+              ) : success ? (
+                "Product Added. Add Another? "
+              ) : (
+                "Submit"
+              )}
             </Button>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 }
