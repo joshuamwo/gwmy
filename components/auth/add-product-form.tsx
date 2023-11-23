@@ -14,7 +14,7 @@ interface ProductInput {
   productName: string;
   price: number;
   productDescription: string;
-  productImages?: string[];
+  productImageLinks?: string[];
 }
 
 export default function AddProductForm() {
@@ -23,7 +23,7 @@ export default function AddProductForm() {
     productName: "",
     price: 0,
     productDescription: "",
-    productImages: [],
+    productImageLinks: [],
   });
   const [imagePreview, setImagePreview] = useState<string[]>([]);
 
@@ -39,16 +39,16 @@ export default function AddProductForm() {
 
   // Image upload
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("image upload");
     //set image preview
-    const files = e.target.files;
-    if (files) {
+    if (e.target.files) {
+      const files = e.target.files;
       const fileArray = Array.from(files).map((file) =>
-        URL.createObjectURL(file)
+        window.URL.createObjectURL(file)
       );
-      setImagePreview((prevImages) => prevImages.concat(fileArray));
+      console.log(fileArray);
+      setImagePreview([...imagePreview, ...fileArray]);
     }
-    console.log(files);
-    console.log(imagePreview);
   };
 
   return (
@@ -118,14 +118,14 @@ export default function AddProductForm() {
             >
               <label htmlFor="product-images-upload" className="w-full ">
                 {imagePreview.length == 0 ? "Upload Images" : "Add Images"}
-                <Input
-                  label=""
+                <input
                   type="file"
                   id="product-images-upload"
                   className="w-full opacity-0 "
                   onChange={handleImageUpload}
                   multiple
                   hidden
+                  accept="image/*"
                 />
               </label>
             </Button>
