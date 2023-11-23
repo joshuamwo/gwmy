@@ -26,6 +26,8 @@ export default function AddProductForm() {
     productImageLinks: [],
   });
   const [imagePreview, setImagePreview] = useState<string[]>([]);
+  const [images, setImages] = useState<File[] | null>(null);
+  const [imageLinks, setImageLinks] = useState<string[]>([]);
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProduct({
@@ -39,15 +41,18 @@ export default function AddProductForm() {
 
   // Image upload
   const handleImageInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("image upload");
     //set image preview
     if (e.target.files) {
       const files = e.target.files;
       const fileArray = Array.from(files).map((file) =>
         window.URL.createObjectURL(file)
       );
-      console.log(fileArray);
+
       setImagePreview([...imagePreview, ...fileArray]);
+      //if images is not null, apped new image file otherwise setImages(files)
+      const imageArray = Array.from(files);
+      images ? setImages([...images, ...imageArray]) : setImages(imageArray);
+      console.log(images);
     }
   };
 
@@ -55,6 +60,44 @@ export default function AddProductForm() {
     // remove image from preview
     const newImagePreview = imagePreview.filter((image, i) => i !== index);
     setImagePreview(newImagePreview);
+    // remove image from images
+    const newImages = images?.filter((image, i) => i !== index);
+    console.log(newImages);
+  };
+
+  // upload images to supabase storage creating a folder
+  // for each user is they don't have one
+
+  const uploadImages = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    let imageUrls: string[] = [];
+    if (images) {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      const user = session?.user;
+      const userId = user?.id;
+      const promises = images.map(async (image) => {
+        const imageName = image.name;
+        const filePath = `public/${userId + imageName}`;
+        const { error, data } = await supabase.storage
+          .from("product-images")
+          .upload(filePath, image);
+        if (error) {
+          console.log(error);
+          throw error;
+        }
+        imageUrls.push(
+          `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-images/${data.path}`
+        );
+      });
+      await Promise.all(promises);
+      setImageLinks(imageUrls);
+    }
+  };
+
+  const handleAddProducts = async (e: FormEvent) => {
+    // uploadImages();
   };
 
   return (
@@ -127,6 +170,8 @@ export default function AddProductForm() {
               </div>
             )}
 
+            <pre>{JSON.stringify(imageLinks, null, 4)}</pre>
+
             <Button
               className="w-full text-sm  tracking-[0.2px]"
               variant="outline"
@@ -148,7 +193,7 @@ export default function AddProductForm() {
             <Button
               type="submit"
               className="w-full text-sm tracking-[0.2px]"
-              onClick={() => window.alert("Product added successfully")}
+              onClick={(e) => uploadImages(e)}
             >
               Submit
             </Button>
