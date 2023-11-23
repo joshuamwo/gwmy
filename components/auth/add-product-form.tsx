@@ -18,7 +18,6 @@ interface ProductInput {
 }
 
 export default function AddProductForm() {
-  const { openModal, closeModal } = useModalAction();
   const [product, setProduct] = useState<ProductInput>({
     productName: "",
     price: 0,
@@ -96,7 +95,7 @@ export default function AddProductForm() {
                 <ImageCourosel>
                   {imagePreview.map((image, index) => (
                     <ImageSlide key={index}>
-                      <img
+                      <Image
                         src={image}
                         className="object-cover"
                         style={{

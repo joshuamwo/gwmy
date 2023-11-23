@@ -39,12 +39,9 @@ export function ModalContainer() {
   const newPathname = usePathname();
 
   useEffect(() => {
-    // if (pathname !== newPathname) {
-    //   // closeModal();
-    // }
     // pathname = newPathname;
     closeModal();
-  }, [newPathname]);
+  }, [newPathname, closeModal]);
 
   return (
     <Transition show={isOpen} as={Fragment}>
