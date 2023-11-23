@@ -95,7 +95,7 @@ export default function AddProductForm() {
                 <ImageCourosel>
                   {imagePreview.map((image, index) => (
                     <ImageSlide key={index}>
-                      <Image
+                      <img
                         src={image}
                         className="object-cover"
                         style={{

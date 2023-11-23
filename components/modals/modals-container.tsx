@@ -38,10 +38,10 @@ export function ModalContainer() {
   let pathname: string = "";
   const newPathname = usePathname();
 
-  useEffect(() => {
-    // pathname = newPathname;
-    closeModal();
-  }, [newPathname, closeModal]);
+  // useEffect(() => {
+  //   // pathname = newPathname;
+  //   closeModal();
+  // }, [newPathname, closeModal]);
 
   return (
     <Transition show={isOpen} as={Fragment}>
