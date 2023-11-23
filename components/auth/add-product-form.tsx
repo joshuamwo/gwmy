@@ -6,37 +6,49 @@ import Password from "../forms/password";
 import { FormEvent, useEffect, useState } from "react";
 import { FormBgPattern } from "./form-bg-pattern";
 import { useSupabase } from "@/context/supabase-context";
-import { GoogleIcon } from "../icons/google-icon";
+import Image from "next/image";
+import { ImageCourosel, ImageSlide } from "../ui/image-courosel";
+import "@splidejs/react-splide/css";
+
+interface ProductInput {
+  productName: string;
+  price: number;
+  productDescription: string;
+  productImages?: string[];
+}
 
 export default function AddProductForm() {
   const { openModal, closeModal } = useModalAction();
-  const [registerInput, setRegisterInput] = useState<RegisterInput>({
-    email: "",
-    password: "",
+  const [product, setProduct] = useState<ProductInput>({
+    productName: "",
+    price: 0,
+    productDescription: "",
+    productImages: [],
   });
+  const [imagePreview, setImagePreview] = useState<string[]>([]);
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRegisterInput({
-      ...registerInput,
+    setProduct({
+      ...product,
       [e.target.id]: e.target.value,
     });
   };
 
-  // Supabase signup
+  // Supabase
   const { supabase } = useSupabase();
 
-  const signUp = async (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${location.origin}/api/auth/callback`,
-      },
-    });
-    if (error) {
-      window.EvalError(error.message);
+  // Image upload
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    //set image preview
+    const files = e.target.files;
+    if (files) {
+      const fileArray = Array.from(files).map((file) =>
+        URL.createObjectURL(file)
+      );
+      setImagePreview((prevImages) => prevImages.concat(fileArray));
     }
+    console.log(files);
+    console.log(imagePreview);
   };
 
   return (
@@ -77,20 +89,40 @@ export default function AddProductForm() {
               onChange={onInputChange}
             />
 
+            {/* Image Preview */}
+
+            {imagePreview.length !== 0 && (
+              <div className="w-full h-40 relative !my-10">
+                <ImageCourosel>
+                  {imagePreview.map((image, index) => (
+                    <ImageSlide key={index}>
+                      <img
+                        src={image}
+                        className="object-cover"
+                        alt={`image ${index}`}
+                      />
+                    </ImageSlide>
+                  ))}
+                </ImageCourosel>
+              </div>
+            )}
+
             <Button
               className="mt-2 w-full text-sm tracking-[0.2px] lg:!my-7"
               variant="outline"
             >
               <label htmlFor="product-images-upload" className="w-full h-full">
-                Upload Images
-                <input
+                {imagePreview.length == 0 ? "Upload Images" : "Add Images"}
+                <Input
+                  label="Product Images"
                   type="file"
                   id="product-images-upload"
                   className="w-full h-full opacity-0 "
+                  onChange={handleImageUpload}
+                  multiple
                 />
               </label>
             </Button>
-            {/* image preview */}
 
             <Button
               type="submit"

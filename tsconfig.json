@@ -22,6 +22,15 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "tailwind.config.js", "app/admin/orders", "app/admin/my-products"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "tailwind.config.js",
+    "app/admin/orders",
+    "app/admin/my-products",
+    "components/ui/image-courosel.tsx"
+  ],
   "exclude": ["node_modules"]
 }

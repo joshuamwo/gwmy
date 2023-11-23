@@ -55,3 +55,16 @@ input[type="number"] {
   -moz-appearance: textfield; /* Firefox */
   appearance: none; /* Standard */
 }
+
+/* Image courosel arrowS and pagination styling */
+
+.splide__pagination__page.is-active {
+  background-color: #24b47e;
+}
+.splide__arrow {
+  background-color: #24b47e;
+}
+
+.splide__pagination__page {
+  background-color: white;
+}
