@@ -113,7 +113,7 @@ export default function AddProductForm() {
             )}
 
             <Button
-              className="w-full text-sm  tracking-[0.2px] lg:!my-7"
+              className="w-full text-sm  tracking-[0.2px]"
               variant="outline"
             >
               <label htmlFor="product-images-upload" className="w-full ">
@@ -132,7 +132,7 @@ export default function AddProductForm() {
 
             <Button
               type="submit"
-              className="!my-5 w-full text-sm tracking-[0.2px] lg:!my-7"
+              className="w-full text-sm tracking-[0.2px]"
               onClick={() => window.alert("Product added successfully")}
             >
               Submit
