@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import MyProductsList from "@/components/sections/my-products-list";
 import { useRecoilState } from "recoil";
 import { productState } from "@/recoil/atoms";
-import { ProductList } from "@/types";
+import { Product } from "@/types";
 
 export default function MyProducts() {
   const { openModal } = useModalAction();
@@ -23,7 +23,7 @@ export default function MyProducts() {
     const { data, error } = await supabase.from("products").select("*");
     if (error) console.log(error);
     if (data) {
-      const products = data as ProductList[] ;
+      const products = data as Product[];
       setProducts(products);
     }
   };
@@ -32,8 +32,11 @@ export default function MyProducts() {
   }, [supabase]);
 
   return (
-    <div className="h-full p-5 md:p-8">
-      <div className="p-5 md:p-8 bg-light dark:bg-dark-200 shadow rounded mb-8 flex flex-col">
+    <div className="h-full p-5 md:p-8 flex-col">
+      <div
+        className="p-5 md:p-8 bg-light dark:bg-dark-200 shadow rounded mb-8 flex flex-col"
+        style={{ position: "relative" }}
+      >
         <div className="flex w-full flex-col  items-center md:flex-row">
           <div className="mb-4 md:mb-0 md:w-1/4 sm:block">
             <h1 className="text-lg font-semibold text-heading">Products</h1>
@@ -55,13 +58,6 @@ export default function MyProducts() {
             </Button>
           </div>
         </div>
-      </div>
-
-      <div>
-        {products.map((product: any) => (
-          <div id={product.id}>{product.product_name}</div>
-        ))}
-        <pre></pre>
       </div>
 
       <div>

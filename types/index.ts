@@ -49,6 +49,4 @@ export interface Product {
 }
 
 //can take null	or Product
-export interface ProductList {
-  products: Product[] | null;
-}
+export type ProductList = Product[] | null;
