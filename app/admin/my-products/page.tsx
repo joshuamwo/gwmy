@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import MyProductsList from "@/components/sections/my-products-list";
 import { useRecoilState } from "recoil";
 import { productState } from "@/recoil/atoms";
-import { Product } from "@/types";
 import { ProductList } from "@/types";
 
 export default function MyProducts() {
