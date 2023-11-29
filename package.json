@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^1.7.17",
     "@mui/material": "^5.14.18",
+    "@mui/x-data-grid": "^6.18.2",
     "@splidejs/react-splide": "^0.7.12",
     "@supabase/auth-ui-react": "^0.4.6",
     "@supabase/auth-ui-shared": "^0.1.8",

@@ -6,20 +6,27 @@ import { useModalAction } from "@/components/modals/modal-controller";
 import { useSupabase } from "@/context/supabase-context";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import MyProductsList from "@/components/sections/my-products-list";
+import { useRecoilState } from "recoil";
+import { productState } from "@/recoil/atoms";
+import { Product } from "@/types";
+import { ProductList } from "@/types";
 
 export default function MyProducts() {
   const { openModal } = useModalAction();
   const { supabase } = useSupabase();
   const router = useRouter();
 
-  const [products, setProducts] = useState<any>([]);
+  const [products, setProducts] = useRecoilState(productState);
 
   //fetch products
   const fetchProducts = async () => {
     const { data, error } = await supabase.from("products").select("*");
     if (error) console.log(error);
-    if (data) console.log(data);
-    setProducts(data);
+    if (data) {
+      const products = data as ProductList[] ;
+      setProducts(products);
+    }
   };
   useEffect(() => {
     fetchProducts();
@@ -56,6 +63,10 @@ export default function MyProducts() {
           <div id={product.id}>{product.product_name}</div>
         ))}
         <pre></pre>
+      </div>
+
+      <div>
+        <MyProductsList />
       </div>
 
       <Button
