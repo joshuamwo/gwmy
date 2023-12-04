@@ -70,3 +70,10 @@ input[type="number"] {
 .splide__pagination__page {
   background-color: white;
 }
+
+/* Mui Data Grid */
+/* important */
+
+.MuiDataGrid-cell {
+  outline: none !important;
+}

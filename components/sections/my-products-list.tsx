@@ -1,10 +1,9 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { useRecoilValue } from "recoil";
 import { productState } from "@/recoil/atoms";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { useTheme } from "next-themes";
 import React from "react";
-import Box from "@mui/material";
 
 export default function MyProductsList() {
   const columns: GridColDef[] = [
@@ -41,13 +40,26 @@ export default function MyProductsList() {
   return (
     <div className=" w-full rounded bg-light dark:bg-dark-200 shadow">
       <ThemeProvider theme={theme}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          sx={{
-            boxShadow: 2,
-          }}
-        />
+        {products.length > 0 ? (
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            disableColumnFilter
+            disableColumnSelector
+            disableDensitySelector
+            slots={{ toolbar: GridToolbar }}
+            slotProps={{
+              toolbar: {
+                showQuickFilter: true,
+              },
+            }}
+            sx={{ "&, [class^=Mui-focused]": { border: "none" } }}
+          />
+        ) : (
+          <span className="flex text-center justify-center bg-transparent">
+            Nothing to show here. Add some products first.
+          </span>
+        )}
       </ThemeProvider>
     </div>
   );
