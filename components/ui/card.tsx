@@ -36,7 +36,7 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
         //overlay
         <div
           // onClick={() => openModal("PRODUCT_DETAILS", { slug })}
-          className="absolute top-0 left-0 z-10 flex h-full w-full cursor-pointer items-center justify-center gap-9 bg-dark/60 p-4 opacity-0 backdrop-blur-sm transition-all group-hover:gap-5 group-hover:opacity-100 dark:bg-dark/70"
+          className="absolute top-0 left-0 flex h-full w-full cursor-pointer items-center justify-center gap-9 bg-dark/60 p-4 opacity-0 backdrop-blur-sm transition-all group-hover:gap-5 group-hover:opacity-100 dark:bg-dark/70"
         >
           <button
             className={classnames(
