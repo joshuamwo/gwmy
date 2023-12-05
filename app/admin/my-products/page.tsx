@@ -4,7 +4,7 @@ import Search from "@/components/search";
 import { PlusIcon } from "@/components/icons/plus-icon";
 import { useModalAction } from "@/components/modals/modal-controller";
 import { useSupabase } from "@/context/supabase-context";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import MyProductsList from "@/components/sections/my-products-list";
 import { useRecoilState } from "recoil";
@@ -32,38 +32,42 @@ export default function MyProducts() {
   }, [supabase]);
 
   return (
-    <div className="h-full p-5 md:p-8 flex-col">
-      <div
-        className="p-5 md:p-8 bg-light dark:bg-dark-200 shadow rounded mb-8 flex flex-col"
-        style={{ position: "relative" }}
-      >
-        <div className="flex w-full flex-col  items-center justify-between md:flex-row">
-          <div className="mb-4 md:mb-0 md:w-1/4 sm:block">
-            <h1 className="text-lg font-semibold text-heading">Products</h1>
-          </div>
-          <div className="hidden md:flex mt-5 items-center whitespace-nowrap text-base font-semibold text-accent md:mt-0 md:ms-5">
-            <Button
-              onClick={() => openModal("ADDPRODUCTFORM")}
-              className="h-8 bottom-24 right-6"
-            >
-              <label
-                htmlFor="add-product-button"
-                className="text-xs sm:text-md"
+    <div className="">
+      <div className="p-5 md:p-8 flex-col">
+        <div className="sticky top-16 z-10 p-5 md:p-8 bg-light dark:bg-dark-200 shadow rounded mb-8 flex flex-col">
+          <div className=" flex w-full flex-col  items-center md:flex-row">
+            <div className="mb-4 md:mb-0 md:w-1/4 sm:block">
+              <h1 className="text-lg font-semibold text-heading">
+                My Products
+              </h1>
+            </div>
+            <div className="flex w-full flex-col items-center ms-auto md:w-3/4">
+              <Search />
+            </div>
+            <div className="hidden md:flex mt-5 items-center whitespace-nowrap text-base font-semibold text-accent md:mt-0 md:ms-5">
+              <Button
+                onClick={() => openModal("ADDPRODUCTFORM")}
+                className="h-8 bottom-24 right-6"
               >
-                Add Product
-              </label>
-            </Button>
+                <label
+                  htmlFor="add-product-button"
+                  className="text-xs sm:text-md"
+                >
+                  Add Product
+                </label>
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="">
-        <MyProductsList />
+        <div className="">
+          <MyProductsList />
+        </div>
       </div>
 
       <Button
         onClick={() => openModal("ADDPRODUCTFORM")}
-        className="absolute bottom-24 sm:bottom-6 right-6 rounded-full h-16 w-16 md:hidden"
+        className="fixed z-999 bottom-24 sm:bottom-6 right-6 rounded-full h-16 w-16 md:hidden"
       >
         <PlusIcon className="fill-white h-6" />
       </Button>

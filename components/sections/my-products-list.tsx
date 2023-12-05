@@ -1,66 +1,19 @@
-import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { useRecoilValue } from "recoil";
 import { productState } from "@/recoil/atoms";
-import { ThemeProvider, createTheme } from "@mui/material";
-import { useTheme } from "next-themes";
 import React from "react";
+import Card from "../ui/card";
 
 export default function MyProductsList() {
-  const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 70 },
-    { field: "productName", headerName: "Product Name", width: 400 },
-    { field: "price", headerName: "Price", width: 150 },
-    { field: "stock", headerName: "Stock Available", width: 200 },
-  ];
-
   const products = useRecoilValue(productState);
-
-  const rows = products.map((product) => {
-    if (product === null) return null;
-    return {
-      id: product.id,
-      productName: product.product_name,
-      price: product.price,
-      stock: product.stock_quantity,
-    };
-  });
-
-  const { resolvedTheme, setTheme } = useTheme();
-
-  const theme = React.useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: resolvedTheme === "dark" ? "dark" : "light",
-        },
-      }),
-    [resolvedTheme]
-  );
-
   return (
-    <div className=" w-full rounded bg-light dark:bg-dark-200 shadow">
-      <ThemeProvider theme={theme}>
-        {products.length > 0 ? (
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            disableColumnFilter
-            disableColumnSelector
-            disableDensitySelector
-            slots={{ toolbar: GridToolbar }}
-            slotProps={{
-              toolbar: {
-                showQuickFilter: true,
-              },
-            }}
-            sx={{ "&, [class^=Mui-focused]": { border: "none" } }}
-          />
-        ) : (
-          <span className="flex text-center justify-center bg-transparent">
-            Nothing to show here. Add some products first.
-          </span>
-        )}
-      </ThemeProvider>
+    <div className="w-full px-4 pb-9 pt-5 md:px-6 md:pb-10 md:pt-6 lg:px-7 lg:pb-12 3xl:px-8">
+      <div className="grid grid-cols-1 gap-5 xs:grid-cols-2 md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] lg:gap-6 3xl:gap-7 2xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
+        {products.length > 0
+          ? products.map((product) => (
+              <Card product={product} key={product.id} />
+            ))
+          : ""}
+      </div>
     </div>
   );
 }
