@@ -25,7 +25,8 @@ export type MODAL_VIEWS =
   | "RESET_PASSWORD"
   | "SUCCESS"
   | "ERROR"
-  | "PAYMENT";
+  | "PAYMENT"
+  | "EDITPRODUCTFORM";
 
 const ModalContext = createContext<ModalState>(initialState);
 const ModalActionContext = createContext<Dispatch<Action> | undefined>(

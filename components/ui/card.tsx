@@ -5,6 +5,7 @@ import { classnames } from "@/utils/classnames";
 import { DetailsIcon } from "./details-icon";
 import { PreviewIcon } from "./preview-icon";
 import { EditIcon } from "./edit-icon";
+import { useModalAction } from "../modals/modal-controller";
 
 interface CardProps {
   product: Product;
@@ -18,7 +19,8 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
     : "/images/product-image-placeholder.jpeg";
 
   const [isGridCompact, setIsGridCompact] = useState(false);
-
+  const { openModal, closeModal } = useModalAction();
+  const modalName1 = "EDITPRODUCTFORM";
   return (
     <div>
       <div className="group relative flex aspect-[3/2] w-full ">
@@ -33,7 +35,7 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
               (max-width: 1200px) 50vw,
               33vw"
         />
-        //overlay
+        {/* overlay */}
         <div
           // onClick={() => openModal("PRODUCT_DETAILS", { slug })}
           className="absolute top-0 left-0 flex h-full w-full cursor-pointer items-center justify-center gap-9 bg-dark/60 p-4 opacity-0 backdrop-blur-sm transition-all group-hover:gap-5 group-hover:opacity-100 dark:bg-dark/70"
@@ -43,6 +45,7 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
               "text-center font-medium text-light",
               isGridCompact ? "text-xs" : "text-13px"
             )}
+            onClick={() => openModal(modalName1, product)}
           >
             <div
               className={classnames(

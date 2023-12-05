@@ -4,7 +4,7 @@ import Input from "../forms/input";
 import Button from "../ui/button";
 import Password from "../forms/password";
 import { FormEvent, useEffect, useState } from "react";
-import { FormBgPattern } from "./form-bg-pattern";
+import { FormBgPattern } from "../auth/form-bg-pattern";
 import { useSupabase } from "@/context/supabase-context";
 import Image from "next/image";
 import { ImageCourosel, ImageSlide } from "../ui/image-courosel";

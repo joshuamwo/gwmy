@@ -7,7 +7,8 @@ import { CloseIcon } from "../icons/close-icon";
 import dynamic from "next/dynamic";
 import { useModalState } from "./modal-controller";
 import { useModalAction } from "./modal-controller";
-import AddProductForm from "../auth/add-product-form";
+import AddProductForm from "../products/add-product-form";
+import EditProductForm from "../products/edit-product-form";
 
 const AuthForm = dynamic(() => import("@/components/auth/auth-form"));
 
@@ -24,6 +25,9 @@ function renderModalContent(view: string) {
       break;
     case "ADDPRODUCTFORM":
       return <AddProductForm />;
+      break;
+    case "EDITPRODUCTFORM":
+      return <EditProductForm />;
       break;
   }
 }
