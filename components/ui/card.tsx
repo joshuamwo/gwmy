@@ -4,18 +4,21 @@ import { useState } from "react";
 import { classnames } from "@/utils/classnames";
 import { DetailsIcon } from "./details-icon";
 import { PreviewIcon } from "./preview-icon";
+import { EditIcon } from "./edit-icon";
 
 interface CardProps {
   product: Product;
+  isMyProductsPage?: boolean;
 }
 
-export default function Card({ product }: CardProps) {
+export default function Card({ product, isMyProductsPage }: CardProps) {
   product.image_urls[0] && console.log(product.image_urls[0]);
   const src = product.image_urls[0]
     ? product.image_urls[0]
     : "/images/product-image-placeholder.jpeg";
 
   const [isGridCompact, setIsGridCompact] = useState(false);
+
   return (
     <div>
       <div className="group relative flex aspect-[3/2] w-full ">
@@ -47,11 +50,23 @@ export default function Card({ product }: CardProps) {
                 isGridCompact ? "h-11 w-11" : "h-[50px] w-[50px]"
               )}
             >
-              <PreviewIcon
-                className={classnames(isGridCompact ? "h-4 w-4" : "h-5 w-5")}
-              />
+              {isMyProductsPage ? (
+                <EditIcon
+                  className={classnames(
+                    "fill-white",
+                    isGridCompact ? "h-4 w-4" : "h-5 w-5"
+                  )}
+                />
+              ) : (
+                <PreviewIcon
+                  className={classnames(
+                    "fill-white",
+                    isGridCompact ? "h-4 w-4" : "h-5 w-5"
+                  )}
+                />
+              )}
             </div>
-            Preview
+            {isMyProductsPage ? "Edit" : "Preview"}
           </button>
           <button
             // onClick={goToDetailsPage}
@@ -67,10 +82,13 @@ export default function Card({ product }: CardProps) {
               )}
             >
               <DetailsIcon
-                className={classnames(isGridCompact ? "h-4 w-4" : "h-5 w-5")}
+                className={classnames(
+                  "fill-white",
+                  isGridCompact ? "h-4 w-4" : "h-5 w-5"
+                )}
               />
             </div>
-            Details
+            {isMyProductsPage ? "Preview" : "Details"}
           </button>
         </div>
       </div>
