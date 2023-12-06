@@ -221,9 +221,9 @@ export default function AddProductForm() {
                           <Button
                             variant="icon"
                             onClick={() => handleImageInputRemove(index)}
-                            className="w-10 h-10 rounded-full bg-dark-300 dark:bg-dark-400"
+                            className="w-10 h-10 rounded-full bg-dark-300 dark:bg-dark-400 hover:bg-red-500"
                           >
-                            <DeleteIcon className="h-5 w-5 text-white opacity-80 hover:opacity-100 hover:animate-pulse hover:scale-125 hover:fill-red-500" />
+                            <DeleteIcon className="h-5 w-5 text-white opacity-80 hover:opacity-100 hover:animate-pulse hover:scale-125 " />
                           </Button>
                         </div>
                         <img

@@ -6,6 +6,7 @@ import { DetailsIcon } from "./details-icon";
 import { PreviewIcon } from "./preview-icon";
 import { EditIcon } from "./edit-icon";
 import { useModalAction } from "../modals/modal-controller";
+import { DeleteIcon } from "../icons/delete-icon";
 
 interface CardProps {
   product: Product;
@@ -87,6 +88,30 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
             </div>
             {isMyProductsPage ? "Preview" : "Details"}
           </button>
+          {isMyProductsPage && (
+            <button
+              // onClick={goToDetailsPage}
+              className={classnames(
+                "relative z-[11] text-center font-medium text-light",
+                isGridCompact ? "text-xs" : "text-13px"
+              )}
+            >
+              <div
+                className={classnames(
+                  "mb-2 flex items-center justify-center rounded-full bg-dark-800 text-light backdrop-blur-sm transition-all hover:bg-brand",
+                  isGridCompact ? "h-11 w-11" : "h-[50px] w-[50px]"
+                )}
+              >
+                <DeleteIcon
+                  className={classnames(
+                    "",
+                    isGridCompact ? "h-4 w-4" : "h-5 w-5"
+                  )}
+                />
+              </div>
+              Delete
+            </button>
+          )}
         </div>
       </div>
       <div className="flex items-start justify-between pt-3.5">
