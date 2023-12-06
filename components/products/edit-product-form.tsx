@@ -1,19 +1,15 @@
-import { useModalAction } from "../modals/modal-controller";
-import { RegisterInput } from "@/types";
 import Input from "../forms/input";
 import Button from "../ui/button";
-import Password from "../forms/password";
-import { FormEvent, useEffect, useState } from "react";
+import { useState } from "react";
 import { FormBgPattern } from "../auth/form-bg-pattern";
 import { useSupabase } from "@/context/supabase-context";
-import Image from "next/image";
 import { ImageCourosel, ImageSlide } from "../ui/image-courosel";
 import "@splidejs/react-splide/css";
 import { DeleteIcon } from "../icons/delete-icon";
 import { CircularProgress, LinearProgress } from "@mui/material";
-import { ProductInput } from "@/types";
 import { useModalState } from "../modals/modal-controller";
 import { Product } from "@/types";
+import AutocompleteDropdown from "../ui/autocomplete-dropdown";
 
 export default function AddProductForm() {
   // get product from	modal state
@@ -139,6 +135,15 @@ export default function AddProductForm() {
     );
   };
 
+  // Autocomplete Dropdown items
+  const categories = ["Luku", "Music", "Event"];
+  const subCategories = {
+    Luku: ["Tops", "Hats", "Pants"],
+    Music: ["Single", "Album"],
+    Event: ["Concert", "Confrence"],
+  };
+  const [selectedCategory, setSelectedCategory] = useState("");
+
   return (
     <div className="flex max-w-full flex-col bg-light text-left dark:bg-dark-250 xs:max-w-[430px] sm:max-w-[550px] md:max-w-[600px] lg:max-w-[960px] xl:max-w-[1200px] 2xl:max-w-[1266px] 3xl:max-w-[1460px]">
       <form
@@ -157,7 +162,7 @@ export default function AddProductForm() {
               <div className="flex flex-row w-full justify-between">
                 {" "}
                 <Input
-                  id="productName"
+                  id="product_name"
                   label="Product Name"
                   className="mr-4"
                   inputClassName="bg-light dark:bg-dark-300 "
@@ -179,7 +184,7 @@ export default function AddProductForm() {
                 />
               </div>
               <Input
-                id="productDescription"
+                id="product_escription"
                 className="w-full "
                 label="Product Desctiption"
                 inputClassName="bg-light dark:bg-dark-300 w-full !mb-5"
@@ -190,6 +195,20 @@ export default function AddProductForm() {
                 value={product.product_description}
               />
 
+              <div className="flex flex-row w-full gap-4 justify-between h-32">
+                <AutocompleteDropdown
+                  options={categories}
+                  selectedOption={selectedCategory}
+                  setSelectedOption={setSelectedCategory}
+                  label="Category"
+                />
+                <AutocompleteDropdown
+                  options={categories}
+                  selectedOption={selectedCategory}
+                  setSelectedOption={setSelectedCategory}
+                  label="Sub Category"
+                />
+              </div>
               {/* Image Preview */}
 
               {imagePreview.length !== 0 && (

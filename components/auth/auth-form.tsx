@@ -4,6 +4,7 @@ import { useSupabase } from "@/context/supabase-context";
 import { GoogleIcon } from "../icons/google-icon";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { sign } from "crypto";
 
 export default function AuthForm() {
   // Supabase signup
@@ -11,28 +12,17 @@ export default function AuthForm() {
   const pathname = usePathname();
   const provider = "google";
 
-  const signUp = async (e: React.MouseEvent<HTMLElement>) => {
+  const signIn = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `http://localhost:3000/auth/callback`,
+        redirectTo: `${window.origin}/auth/callback/`,
       },
     });
     if (error) {
       window.alert(error.message);
     }
-  };
-
-  const signIn = async (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `http://localhost:3000/auth/callback`,
-      },
-    });
   };
 
   // SignUp vs SignIn state
@@ -52,7 +42,7 @@ export default function AuthForm() {
             <Button
               type="submit"
               className="!my-5 w-full text-sm tracking-[0.2px] lg:!my-7"
-              onClick={isSignIn ? signIn : signUp}
+              onClick={signIn}
             >
               <GoogleIcon className="fill-white " />
               {isSignIn ? "Sign In With Google" : "Sign Up With Google"}
@@ -61,7 +51,7 @@ export default function AuthForm() {
             <div className="text-13px leading-6 tracking-[0.2px] dark:text-light-900">
               {isSignIn ? "Don't have an account?" : "Already have an account?"}{" "}
               <button
-                onClick={isSignIn ? signIn : signUp}
+                onClick={signIn}
                 className="inline-flex font-semibold text-brand hover:text-dark-400 hover:dark:text-light-500"
               >
                 {isSignIn ? "Sign Up" : "Sign In"}

@@ -77,3 +77,27 @@ input[type="number"] {
 .MuiDataGrid-cell {
   outline: none !important;
 }
+
+/* scroll bars */
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: darkgrey;
+  border-radius: 3rem;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 3rem;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #24b47e;
+  border-radius: 3rem;
+}
