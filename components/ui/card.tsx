@@ -55,17 +55,11 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
             >
               {isMyProductsPage ? (
                 <EditIcon
-                  className={classnames(
-                    "fill-white",
-                    isGridCompact ? "h-4 w-4" : "h-5 w-5"
-                  )}
+                  className={classnames(isGridCompact ? "h-5 w-5" : "h-6 w-6")}
                 />
               ) : (
                 <PreviewIcon
-                  className={classnames(
-                    "fill-white",
-                    isGridCompact ? "h-4 w-4" : "h-5 w-5"
-                  )}
+                  className={classnames(isGridCompact ? "h-5 w-5" : "h-6 w-6")}
                 />
               )}
             </div>
