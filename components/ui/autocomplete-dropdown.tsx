@@ -2,11 +2,12 @@ import { Fragment, useState } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon } from "./check-icon";
 import { ChevronUpDownIcon } from "./chevron-up-down-icon";
+import { productCategoryType } from "@/types";
 
 interface propsType {
   options: Array<string>;
   selectedOption: string;
-  setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedOption: React.Dispatch<React.SetStateAction<any>>;
   label: string;
   className?: string;
 }

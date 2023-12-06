@@ -50,3 +50,5 @@ export interface Product {
 
 //can take null	or Product
 export type ProductList = Product[] | null;
+
+export type productCategoryType = "Head Wear" | "Tops" | "Pants";

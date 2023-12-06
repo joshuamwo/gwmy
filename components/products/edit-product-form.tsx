@@ -10,6 +10,8 @@ import { CircularProgress, LinearProgress } from "@mui/material";
 import { useModalState } from "../modals/modal-controller";
 import { Product } from "@/types";
 import AutocompleteDropdown from "../ui/autocomplete-dropdown";
+import { productCategories, productSubCategories } from "@/constants/config";
+import { productCategoryType } from "@/types";
 
 export default function AddProductForm() {
   // get product from	modal state
@@ -135,14 +137,22 @@ export default function AddProductForm() {
     );
   };
 
-  // Autocomplete Dropdown items
-  const categories = ["Luku", "Music", "Event"];
-  const subCategories = {
-    Luku: ["Tops", "Hats", "Pants"],
-    Music: ["Single", "Album"],
-    Event: ["Concert", "Confrence"],
-  };
-  const [selectedCategory, setSelectedCategory] = useState("");
+  // handle Category Change and Sub Category Change
+  const product_category = product.category as productCategoryType;
+
+  function handleCategoryChange(value: any) {
+    setProduct({
+      ...product,
+      category: value,
+      sub_category: "",
+    });
+  }
+  function handleSubCategoryChange(value: any) {
+    setProduct({
+      ...product,
+      sub_category: value,
+    });
+  }
 
   return (
     <div className="flex max-w-full flex-col bg-light text-left dark:bg-dark-250 xs:max-w-[430px] sm:max-w-[550px] md:max-w-[600px] lg:max-w-[960px] xl:max-w-[1200px] 2xl:max-w-[1266px] 3xl:max-w-[1460px]">
@@ -184,7 +194,7 @@ export default function AddProductForm() {
                 />
               </div>
               <Input
-                id="product_escription"
+                id="product_description"
                 className="w-full "
                 label="Product Desctiption"
                 inputClassName="bg-light dark:bg-dark-300 w-full !mb-5"
@@ -197,15 +207,19 @@ export default function AddProductForm() {
 
               <div className="flex flex-row w-full gap-4 justify-between h-32">
                 <AutocompleteDropdown
-                  options={categories}
-                  selectedOption={selectedCategory}
-                  setSelectedOption={setSelectedCategory}
+                  options={productCategories}
+                  selectedOption={product_category}
+                  setSelectedOption={handleCategoryChange}
                   label="Category"
                 />
                 <AutocompleteDropdown
-                  options={categories}
-                  selectedOption={selectedCategory}
-                  setSelectedOption={setSelectedCategory}
+                  options={
+                    productSubCategories[
+                      product_category ? product_category : "Tops"
+                    ]
+                  }
+                  selectedOption={product.sub_category}
+                  setSelectedOption={handleSubCategoryChange}
                   label="Sub Category"
                 />
               </div>
