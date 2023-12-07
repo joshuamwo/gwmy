@@ -30,4 +30,6 @@ export const productInputDefaults = {
   product_description: "",
   image_urls: [],
   is_published: false,
+  owner: "",
+  is_product_varied: false,
 };

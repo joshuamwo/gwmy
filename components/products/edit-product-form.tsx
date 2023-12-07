@@ -280,7 +280,7 @@ export default function AddProductForm() {
                 <span className="block cursor-pointer pb-2.5 font-normal text-dark/70 rtl:text-right dark:text-light/70">
                   Variations and Pricing
                 </span>
-                <ProductVariations
+                {/* <ProductVariations
                   variation_name="Color"
                   placeholder="Eg. Red, Green, Blue	"
                   variations={colorVariations}
@@ -292,7 +292,7 @@ export default function AddProductForm() {
                   placeholder="Eg. S, M, L, XL"
                   variations={sizeVariations}
                   handleVariationsInput={(e) => console.log(e)}
-                />
+                /> */}
               </div>
 
               {/* Image Preview */}

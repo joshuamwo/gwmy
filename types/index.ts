@@ -22,6 +22,8 @@ export interface ProductInput {
   product_description: string;
   image_urls?: string[];
   is_published: boolean;
+  owner: string;
+  is_product_varied: boolean;
 }
 
 export interface Product {
@@ -32,7 +34,8 @@ export interface Product {
   product_description: string;
   price: number;
   is_product_varied: boolean;
-  product_variations: Record<string, ProductVariationType[]>; // Change 'any' to the specific structure if known
+
+  product_variations: Record<string, number>; // Change 'any' to the specific structure if known
   is_price_varied: boolean;
   price_per_variations: Record<string, any>; // Change 'any' to the specific structure if known
   stock_quantity: number;
@@ -59,5 +62,5 @@ export type ProductCategoryType = "Luku" | "Music" | "Event";
 
 export interface ProductVariationType {
   variation: string;
-  price: number;
+  price: number | null;
 }
