@@ -203,7 +203,7 @@ export default function AddProductForm() {
                   className="scale-90"
                 />
               </div>
-              <div className="flex flex-row items-center justify-between hover:animate-pulse">
+              {/* <div className="flex flex-row items-center justify-between hover:animate-pulse">
                 <span className=" cursor-pointer text-sm flex justify-center font-normal text-dark/70 rtl:text-right dark:text-light/70">
                   Sizes are priced differently?
                 </span>
@@ -213,7 +213,7 @@ export default function AddProductForm() {
                   stateName="sizePriceVariation"
                   className="scale-90"
                 />
-              </div>
+              </div> */}
 
               {product.is_product_varied &&
                 productVariationTypes[product_category].map((variation) => (
@@ -230,7 +230,7 @@ export default function AddProductForm() {
                     />
                   </div>
                 ))}
-              {product.is_product_varied &&
+              {/* {product.is_product_varied &&
                 sizePriceVariation &&
                 productVariationTypes[product_category].map((variation) => (
                   <div>
@@ -245,7 +245,7 @@ export default function AddProductForm() {
                       setVariationAdded={setVariationAdded}
                     />
                   </div>
-                ))}
+                ))} */}
 
               <Input
                 id="price_per_variation"
