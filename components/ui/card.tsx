@@ -14,7 +14,6 @@ interface CardProps {
 }
 
 export default function Card({ product, isMyProductsPage }: CardProps) {
-  product.image_urls[0] && console.log(product.image_urls[0]);
   const src = product.image_urls[0]
     ? product.image_urls[0]
     : "/images/product-image-placeholder.jpeg";

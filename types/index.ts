@@ -14,10 +14,14 @@ export type UserStateType = {
 } | null;
 
 export interface ProductInput {
-  productName: string;
+  category: string;
+  sub_category: string;
+  product_name: string;
   price: number;
-  productDescription: string;
-  productImageLinks?: string[];
+  product_variations: {};
+  product_description: string;
+  image_urls?: string[];
+  is_published: boolean;
 }
 
 export interface Product {
@@ -28,7 +32,7 @@ export interface Product {
   product_description: string;
   price: number;
   is_product_varied: boolean;
-  product_variations: Record<string, any>; // Change 'any' to the specific structure if known
+  product_variations: Record<string, ProductVariationType[]>; // Change 'any' to the specific structure if known
   is_price_varied: boolean;
   price_per_variations: Record<string, any>; // Change 'any' to the specific structure if known
   stock_quantity: number;
@@ -51,4 +55,9 @@ export interface Product {
 //can take null	or Product
 export type ProductList = Product[] | null;
 
-export type productCategoryType = "Head Wear" | "Tops" | "Pants";
+export type ProductCategoryType = "Luku" | "Music" | "Event";
+
+export interface ProductVariationType {
+  variation: string;
+  price: number;
+}

@@ -10,8 +10,12 @@ import { CircularProgress, LinearProgress } from "@mui/material";
 import { useModalState } from "../modals/modal-controller";
 import { Product } from "@/types";
 import AutocompleteDropdown from "../ui/autocomplete-dropdown";
-import { productCategories, productSubCategories } from "@/constants/config";
-import { productCategoryType } from "@/types";
+import { productCategories, productSubCategories } from "@/constants/product";
+import { ProductCategoryType } from "@/types";
+import SwitchToggle from "../ui/switch-toggle";
+import { XIcon } from "../ui/x-icon";
+import ProductVariations from "./product-variations";
+import { ProductVariationType } from "@/types";
 
 export default function AddProductForm() {
   // get product from	modal state
@@ -22,6 +26,8 @@ export default function AddProductForm() {
     product.image_urls
   );
   const [images, setImages] = useState<File[] | null>(null);
+  // image urls to delete from cloud storage bucket
+  const [imagesToDelete, setImagesToDelete] = useState<string[]>([]);
   const [imageLinks, setImageLinks] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
@@ -61,6 +67,25 @@ export default function AddProductForm() {
     setImagePreview(newImagePreview);
     // remove image from images
     const newImages = images?.filter((image, i) => i !== index);
+  };
+
+  //uploaded image delete
+  const handleImageDelete = async (index: number, image: string) => {
+    console.log("delete image", index, image, typeof image);
+    // remove image from preview
+    const newImagePreview = imagePreview.filter((img) => img !== image);
+    setImagePreview(newImagePreview);
+    // remove image from product.image_urls
+    const newImageUrls = product.image_urls.filter((img) => img !== image);
+    setProduct({
+      ...product,
+      image_urls: newImageUrls,
+    });
+    //add	image to imagesToDelete
+    imagesToDelete.push(image);
+    console.log("imagesToDelete", imagesToDelete);
+    console.log("product.image_urls", newImageUrls);
+    console.log("image preview", newImagePreview);
   };
 
   // upload images
@@ -138,7 +163,7 @@ export default function AddProductForm() {
   };
 
   // handle Category Change and Sub Category Change
-  const product_category = product.category as productCategoryType;
+  const product_category = product.category as ProductCategoryType;
 
   function handleCategoryChange(value: any) {
     setProduct({
@@ -154,6 +179,16 @@ export default function AddProductForm() {
     });
   }
 
+  // product colors
+  const [colorVariations, setColorVariations] = useState<
+    ProductVariationType[]
+  >([]);
+
+  // 	product sizes
+  const [sizeVariations, setSizeVariations] = useState<ProductVariationType[]>(
+    []
+  );
+
   return (
     <div className="flex max-w-full flex-col bg-light text-left dark:bg-dark-250 xs:max-w-[430px] sm:max-w-[550px] md:max-w-[600px] lg:max-w-[960px] xl:max-w-[1200px] 2xl:max-w-[1266px] 3xl:max-w-[1460px]">
       <form
@@ -168,20 +203,41 @@ export default function AddProductForm() {
                 Edit Product
               </h2>
             </div>
+            {/* Category and Subcategory */}
+
+            <div className="flex flex-row w-full gap-4 justify-between h-32">
+              <AutocompleteDropdown
+                options={productCategories}
+                selectedOption={product_category}
+                setSelectedOption={handleCategoryChange}
+                label="Category"
+              />
+              <AutocompleteDropdown
+                options={
+                  productSubCategories[
+                    product_category ? product_category : "Luku"
+                  ]
+                }
+                selectedOption={product.sub_category}
+                setSelectedOption={handleSubCategoryChange}
+                label="Sub Category"
+              />
+            </div>
             <div className="space-y-4 lg:space-y-5 flex flex-col items-center">
-              <div className="flex flex-row w-full justify-between">
+              {/* Product Name and Price */}
+              <div className="w-full justify-between">
                 {" "}
                 <Input
                   id="product_name"
                   label="Product Name"
-                  className="mr-4"
+                  className=""
                   inputClassName="bg-light dark:bg-dark-300 "
                   onChange={(e) => onInputChange(e)}
                   required
                   placeholder="Product Name"
                   value={product.product_name}
                 />
-                <Input
+                {/* <Input
                   id="price"
                   label="Price"
                   className="ml-4 w-20"
@@ -191,8 +247,10 @@ export default function AddProductForm() {
                   required
                   placeholder="Ksh."
                   value={product.price}
-                />
+                /> */}
               </div>
+
+              {/* Product Description */}
               <Input
                 id="product_description"
                 className="w-full "
@@ -205,24 +263,38 @@ export default function AddProductForm() {
                 value={product.product_description}
               />
 
-              <div className="flex flex-row w-full gap-4 justify-between h-32">
-                <AutocompleteDropdown
-                  options={productCategories}
-                  selectedOption={product_category}
-                  setSelectedOption={handleCategoryChange}
-                  label="Category"
+              {/* Product Variations */}
+              {/* <div className="flex flex-col w-full">
+                <span className="block cursor-pointer pb-2.5 font-normal text-dark/70 rtl:text-right dark:text-light/70">
+                  Add Colors
+									</span>
+									
+                <span className="block cursor-pointer pb-2.5 font-normal text-dark/70 rtl:text-right dark:text-light/70">
+                  Add Sizes
+                </span>
+              </div> */}
+
+              {/* Product Variations */}
+
+              <div className="flex flex-col gap-2 items-center">
+                <span className="block cursor-pointer pb-2.5 font-normal text-dark/70 rtl:text-right dark:text-light/70">
+                  Variations and Pricing
+                </span>
+                <ProductVariations
+                  variation_name="Color"
+                  placeholder="Eg. Red, Green, Blue	"
+                  variations={colorVariations}
+                  handleVariationsInput={(e) => console.log(e)}
                 />
-                <AutocompleteDropdown
-                  options={
-                    productSubCategories[
-                      product_category ? product_category : "Tops"
-                    ]
-                  }
-                  selectedOption={product.sub_category}
-                  setSelectedOption={handleSubCategoryChange}
-                  label="Sub Category"
+
+                <ProductVariations
+                  variation_name="Size"
+                  placeholder="Eg. S, M, L, XL"
+                  variations={sizeVariations}
+                  handleVariationsInput={(e) => console.log(e)}
                 />
               </div>
+
               {/* Image Preview */}
 
               {imagePreview.length !== 0 && (
@@ -234,7 +306,7 @@ export default function AddProductForm() {
                         <div className="absolute top-2 right-2">
                           <Button
                             variant="icon"
-                            onClick={() => handleImageInputRemove(index)}
+                            onClick={() => handleImageDelete(index, image)}
                             className="w-10 h-10 rounded-full bg-dark-300 dark:bg-dark-400 hover:bg-red-500"
                           >
                             <DeleteIcon className="h-5 w-5 text-white opacity-80 hover:opacity-100 hover:animate-pulse hover:scale-125 " />
@@ -256,6 +328,8 @@ export default function AddProductForm() {
                 </div>
               )}
 
+              {/* Add images */}
+
               <Button
                 type="button"
                 className="w-full text-sm  tracking-[0.2px]"
@@ -274,6 +348,8 @@ export default function AddProductForm() {
                   />
                 </label>
               </Button>
+
+              {/* Submit Button */}
 
               <Button
                 type="submit"

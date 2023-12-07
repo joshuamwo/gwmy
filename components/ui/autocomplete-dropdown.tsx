@@ -2,11 +2,10 @@ import { Fragment, useState } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon } from "./check-icon";
 import { ChevronUpDownIcon } from "./chevron-up-down-icon";
-import { productCategoryType } from "@/types";
 
 interface propsType {
   options: Array<string>;
-  selectedOption: string;
+  selectedOption: string | undefined;
   setSelectedOption: React.Dispatch<React.SetStateAction<any>>;
   label: string;
   className?: string;
@@ -46,7 +45,7 @@ export default function AutocompleteDropdown({
           <div className="">
             <Combobox.Input
               className="w-full md:h-10 h-9 appearance-none rounded border border-light-500 bg-transparent px-4 py-2 text-13px text-dark ring-[0.5px] ring-light-500 placeholder:text-dark-900 focus:border-brand focus:ring-[0.5px] focus:ring-brand dark:border-dark-600 dark:text-light dark:ring-dark-600 dark:placeholder:text-dark-700 dark:focus:border-brand dark:focus:ring-brand lg:px-5 "
-              displayValue={() => selectedOption}
+              // displayValue={() => selectedOption}
               onChange={(event) => setQuery(event.target.value)}
             />
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
