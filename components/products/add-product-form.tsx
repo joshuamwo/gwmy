@@ -217,9 +217,8 @@ export default function AddProductForm() {
 
               {product.is_product_varied &&
                 productVariationTypes[product_category].map((variation) => (
-                  <div>
+                  <div key={variation.type}>
                     <ProductVariations
-                      key={variation.type}
                       placeholder={variation.placeholder}
                       handleVariationsInput={handleInput}
                       variation_name={variation.type}
