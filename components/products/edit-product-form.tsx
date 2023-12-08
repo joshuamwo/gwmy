@@ -33,7 +33,7 @@ export default function AddProductForm() {
   const productsGlobalState = useRecoilValue(productState);
   const fetchProducts = async () => {
     const { data, error } = await supabase.from("products").select("*");
-    if (error) throw(error);
+    if (error) throw error;
     if (data) {
       const products = data as Product[];
       setProducts(products);
@@ -45,7 +45,9 @@ export default function AddProductForm() {
   const [product, setProduct] = useState<Product>(productData);
   const product_category = product.category as ProductCategoryType;
   const product_sub_category = product.sub_category as string;
-  const [variationAdded, setVariationAdded] = useState<boolean>(false);
+  const [variationAdded, setVariationAdded] = useState<boolean>(
+    product.is_product_varied
+  );
   const [colorPriceVariation, setColorPriceVariation] =
     useState<boolean>(false);
   const [sizePriceVariation, setSizePriceVariation] = useState<boolean>(false);
@@ -54,7 +56,8 @@ export default function AddProductForm() {
   const [imagePreview, setImagePreview] = useState<string[]>(
     product.image_urls
   );
-  const [images, setImages] = useState<File[] | null>(null);
+  const [images, setImages] = useState<File[]>([]);
+  const [imagesToBeDeleted, setImagesToBeDeleted] = useState<string[]>([]);
 
   //
   const [loading, setLoading] = useState<boolean>(false);
@@ -73,17 +76,34 @@ export default function AddProductForm() {
       setImagePreview([...imagePreview, ...fileArray]);
       //if images is not null, apped new image file otherwise setImages(files)
       const imageArray = Array.from(files);
-      images ? setImages([...images, ...imageArray]) : setImages(imageArray);
+      images.length > 0
+        ? setImages([...images, ...imageArray])
+        : setImages(imageArray);
     }
   };
 
   //image input remove
-  const handleImageInputRemove = (index: number) => {
+  const handleImageInputRemove = (image: string, index: number) => {
+    if (image.includes("https://")) {
+      const newImageUrls = product.image_urls.filter(
+        (imageUrl, i) => imageUrl !== image
+      );
+      setProduct({
+        ...product,
+        image_urls: newImageUrls,
+      });
+      setImagesToBeDeleted([...imagesToBeDeleted, image]);
+      // remove image from preview
+      const newImagePreview = imagePreview.filter((image, i) => i !== index);
+      setImagePreview(newImagePreview);
+      return;
+    }
     // remove image from preview
     const newImagePreview = imagePreview.filter((image, i) => i !== index);
     setImagePreview(newImagePreview);
     // remove image from images
     const newImages = images?.filter((image, i) => i !== index);
+    setImages(newImages);
   };
 
   //hanlde input
@@ -99,72 +119,93 @@ export default function AddProductForm() {
   // upload images
 
   const uploadImages = async () => {
-    if (!images) return;
+    if (images.length < 1) return;
+    let imageUrls: string[] = product.image_urls;
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    const user = session?.user;
+    const userId = user?.id;
+    const promises = images.map(async (image) => {
+      const imageName = image.name;
+      const filePath = `public/${userId + imageName}`;
+      const { error, data } = await supabase.storage
+        .from("product-images")
+        .upload(filePath, image);
+      if (error) {
+        throw error;
+      }
+      imageUrls.push(
+        `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-images/${data.path}`
+      );
+    });
+    setProduct({
+      ...product,
+      image_urls: imageUrls,
+    });
+    await Promise.all(promises);
+    return imageUrls;
+  };
+
+  const deleteImagesFromSupabase = async () => {
+    if (imagesToBeDeleted.length < 1) return;
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    const user = session?.user;
+    const userId = user?.id;
     let imageUrls: string[] = [];
-    if (images) {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      const user = session?.user;
-      const userId = user?.id;
-      const promises = images.map(async (image) => {
-        const imageName = image.name;
-        const filePath = `public/${userId + imageName}`;
-        const { error, data } = await supabase.storage
-          .from("product-images")
-          .upload(filePath, image);
-        if (error) {
-          throw error;
-        }
-        imageUrls.push(
-          `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-images/${data.path}`
-        );
-      });
-      setProduct({
-        ...product,
-        image_urls: imageUrls,
-      });
-      await Promise.all(promises);
-      return imageUrls;
-    }
+    imagesToBeDeleted.map(async (imageUrl) => {
+      const parts = imageUrl.split("/");
+      const fileName = parts[parts.length - 1];
+      imageUrls.push(fileName);
+    });
+    const { error } = await supabase.storage
+      .from("product-images")
+      .remove(imageUrls);
+    if (error) throw error;
+    return;
   };
 
   const handleAddProducts = async (e: React.FormEvent, publish: boolean) => {
     e.preventDefault();
     setLoading(true);
-    uploadImages().then(
-      //add product to database
-      async (imageUrls) => {
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
-        const user = session?.user;
-        const userId = user?.id;
-        const { error } = await supabase
-          .from("products")
-          .insert([
-            {
-              category: product.category,
-              sub_category: product.sub_category,
-              product_name: product.product_name,
-              product_description: product.product_description,
-              price: product.price,
-              product_variations: product.product_variations,
-              image_urls: imageUrls,
-              is_published: publish,
-            },
-          ])
-          .single();
-        if (error) {
+    deleteImagesFromSupabase().then(async () =>
+      uploadImages().then(
+        //add product to database
+        async (imageUrls) => {
+          const {
+            data: { session },
+          } = await supabase.auth.getSession();
+          const user = session?.user;
+          const userId = user?.id;
+          const { error } = await supabase
+            .from("products")
+            .update([
+              {
+                category: product.category,
+                sub_category: product.sub_category,
+                product_name: product.product_name,
+                product_description: product.product_description,
+                price: product.price,
+                product_variations: product.product_variations,
+                image_urls: imageUrls,
+                is_published: publish,
+              },
+            ])
+            .eq("id", product.id);
+          if (error) {
+            setLoading(false);
+            throw error;
+          }
+          await fetchProducts;
           setLoading(false);
-          throw error;
+          setSuccess(true);
+          setImagePreview([]);
+          setImages([]);
         }
-        await fetchProducts;
-        setLoading(false);
-        setSuccess(true);
-        setImagePreview([]);
-        setImages(null);
-      }
+      )
     );
   };
 
@@ -277,7 +318,7 @@ export default function AddProductForm() {
                         <div className="absolute top-2 right-2">
                           <Button
                             variant="icon"
-                            onClick={() => handleImageInputRemove(index)}
+                            onClick={() => handleImageInputRemove(image, index)}
                             className="w-10 h-10 rounded-full bg-dark-300 dark:bg-dark-400 hover:bg-red-500"
                           >
                             <DeleteIcon className="h-5 w-5 text-white opacity-80 hover:opacity-100 hover:animate-pulse hover:scale-125 " />
@@ -322,7 +363,7 @@ export default function AddProductForm() {
 
               <div className="flex flex-row items-center justify-between hover:animate-pulse">
                 <span className=" cursor-pointer text-sm flex justify-center font-normal text-dark/70 rtl:text-right dark:text-light/70">
-                  Publish the product?
+                  Product is published?
                 </span>
                 <SwitchToggle
                   state={product.is_published}

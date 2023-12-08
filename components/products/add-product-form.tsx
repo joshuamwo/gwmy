@@ -49,7 +49,7 @@ export default function AddProductForm() {
 
   //images
   const [imagePreview, setImagePreview] = useState<string[]>([]);
-  const [images, setImages] = useState<File[] | null>(null);
+  const [images, setImages] = useState<File[]>([]);
 
   //
   const [loading, setLoading] = useState<boolean>(false);
@@ -79,6 +79,7 @@ export default function AddProductForm() {
     setImagePreview(newImagePreview);
     // remove image from images
     const newImages = images?.filter((image, i) => i !== index);
+    setImages(newImages);
   };
 
   //hanlde input
@@ -96,7 +97,7 @@ export default function AddProductForm() {
   // upload images
 
   const uploadImages = async () => {
-    if (!images) return;
+    if (images.length < 1) return;
     let imageUrls: string[] = [];
     if (images) {
       const {
@@ -161,7 +162,7 @@ export default function AddProductForm() {
         setLoading(false);
         setSuccess(true);
         setImagePreview([]);
-        setImages(null);
+        setImages([]);
       }
     );
   };
