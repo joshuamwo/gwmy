@@ -25,7 +25,7 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
   const { openModal, closeModal } = useModalAction();
   const modalName1 = "EDITPRODUCTFORM";
   return (
-    <div>
+    <div className="shadow-lg p-2 md:p-4">
       <div className="group relative flex aspect-[3/2] w-full ">
         {/* <pre>{JSON.stringify(product.image_urls, null, 4)}</pre> */}
         <Image
