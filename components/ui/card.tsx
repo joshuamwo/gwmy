@@ -14,9 +14,12 @@ interface CardProps {
 }
 
 export default function Card({ product, isMyProductsPage }: CardProps) {
-  const src = product.image_urls[0]
-    ? product.image_urls[0]
-    : "/images/product-image-placeholder.jpeg";
+  const src =
+    product.image_urls !== null
+      ? product.image_urls[0]
+      : "/images/product-image-placeholder.jpeg";
+  // const src = "/images/product-image-placeholder.jpeg";
+  // console.log(product.image_urls);
 
   const [isGridCompact, setIsGridCompact] = useState(false);
   const { openModal, closeModal } = useModalAction();

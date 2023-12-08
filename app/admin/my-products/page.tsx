@@ -29,7 +29,7 @@ export default function MyProducts() {
   };
   useEffect(() => {
     fetchProducts();
-  }, [supabase]);
+  }, [supabase, products]);
 
   return (
     <div className="">

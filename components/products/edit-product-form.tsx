@@ -32,6 +32,8 @@ export default function AddProductForm() {
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
 
+  console.log("product", product);
+
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (success) setSuccess(false);
     setProduct({

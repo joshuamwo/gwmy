@@ -21,8 +21,24 @@ import ProductNameInput from "./product-name-input";
 import ProductDescriptionInput from "./product-description-input";
 import ProductVariations from "./product-variations";
 import SwitchToggle from "../ui/switch-toggle";
+import { useRecoilState } from "recoil";
+import { productState } from "@/recoil/atoms";
+import { Product } from "@/types";
 
 export default function AddProductForm() {
+  // Supabase
+  const { supabase } = useSupabase();
+  // global products	state
+  const [products, setProducts] = useRecoilState(productState);
+  const fetchProducts = async () => {
+    const { data, error } = await supabase.from("products").select("*");
+    if (error) console.log(error);
+    if (data) {
+      const products = data as Product[];
+      setProducts(products);
+    }
+  };
+
   const [product, setProduct] = useState<ProductInput>(productInputDefaults);
   const product_category = product.category as ProductCategoryType;
   const product_sub_category = product.sub_category as string;
@@ -81,9 +97,6 @@ export default function AddProductForm() {
     console.log(Object.keys(product.product_variations).length);
   }
 
-  // Supabase
-  const { supabase } = useSupabase();
-
   // upload images
 
   const uploadImages = async () => {
@@ -117,7 +130,7 @@ export default function AddProductForm() {
     }
   };
 
-  const handleAddProducts = async (e: React.FormEvent) => {
+  const handleAddProducts = async (e: React.FormEvent, publish: boolean) => {
     e.preventDefault();
     setLoading(true);
     uploadImages().then(
@@ -139,8 +152,7 @@ export default function AddProductForm() {
               price: product.price,
               product_variations: product.product_variations,
               image_urls: imageUrls,
-              owner: userId,
-              is_published: product.is_published,
+              is_published: publish,
             },
           ])
           .single();
@@ -148,11 +160,11 @@ export default function AddProductForm() {
           setLoading(false);
           throw error;
         }
+        await fetchProducts;
         setLoading(false);
         setSuccess(true);
         setImagePreview([]);
         setImages(null);
-        setProduct(productInputDefaults);
       }
     );
   };
@@ -311,8 +323,9 @@ export default function AddProductForm() {
               {/* submit button */}
               <Button
                 type="button"
+                variant="outline"
                 className="w-full text-sm tracking-[0.2px]"
-                onClick={(e) => handleAddProducts(e)}
+                onClick={(e) => handleAddProducts(e, false)}
                 disabled={
                   !product.product_name ||
                   !product.product_description ||
@@ -324,9 +337,29 @@ export default function AddProductForm() {
                 {loading ? (
                   <CircularProgress color="success" />
                 ) : success ? (
-                  "Product Added. Add Another? "
+                  "Draft Added"
                 ) : (
-                  "Submit"
+                  "Draft Product"
+                )}
+              </Button>
+              <Button
+                type="button"
+                className="w-full text-sm tracking-[0.2px]"
+                onClick={(e) => handleAddProducts(e, true)}
+                disabled={
+                  !product.product_name ||
+                  !product.product_description ||
+                  (!product.price && !product.is_product_varied) ||
+                  (!variationAdded && product.is_product_varied) ||
+                  loading
+                }
+              >
+                {loading ? (
+                  <CircularProgress color="success" />
+                ) : success ? (
+                  "Product Added"
+                ) : (
+                  "Add Product	and Publish"
                 )}
               </Button>
             </div>
