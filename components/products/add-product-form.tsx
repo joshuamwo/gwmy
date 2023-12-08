@@ -32,7 +32,7 @@ export default function AddProductForm() {
   const [products, setProducts] = useRecoilState(productState);
   const fetchProducts = async () => {
     const { data, error } = await supabase.from("products").select("*");
-    if (error) console.log(error);
+    if (error) throw error;
     if (data) {
       const products = data as Product[];
       setProducts(products);
@@ -84,7 +84,6 @@ export default function AddProductForm() {
   //hanlde input
   function handleInput(id: string, value: any) {
     // const { id, value } = args;
-    console.log(id, value);
     const updatedProduct: ProductInput = {
       ...product,
       [id]: value,
@@ -92,9 +91,6 @@ export default function AddProductForm() {
     };
     // Now, set the updated product using setProduct
     setProduct(updatedProduct);
-    // console.log(product.product_variations["color"]);
-    console.log(product.product_variations);
-    console.log(Object.keys(product.product_variations).length);
   }
 
   // upload images
@@ -153,6 +149,7 @@ export default function AddProductForm() {
               product_variations: product.product_variations,
               image_urls: imageUrls,
               is_published: publish,
+              is_product_varied: product.is_product_varied,
             },
           ])
           .single();
@@ -235,8 +232,6 @@ export default function AddProductForm() {
                       handleVariationsInput={handleInput}
                       variation_name={variation.type}
                       variations={product.product_variations}
-                      product={product}
-                      setProduct={setProduct}
                       setVariationAdded={setVariationAdded}
                     />
                   </div>
@@ -320,28 +315,22 @@ export default function AddProductForm() {
                   />
                 </label>
               </Button>
+
+              {/* Toggle published */}
+
+              <div className="flex flex-row items-center justify-between hover:animate-pulse">
+                <span className=" cursor-pointer text-sm flex justify-center font-normal text-dark/70 rtl:text-right dark:text-light/70">
+                  Publish the product?
+                </span>
+                <SwitchToggle
+                  state={product.is_published}
+                  setState={handleInput}
+                  stateName="is_published"
+                  className="scale-90"
+                />
+              </div>
               {/* submit button */}
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full text-sm tracking-[0.2px]"
-                onClick={(e) => handleAddProducts(e, false)}
-                disabled={
-                  !product.product_name ||
-                  !product.product_description ||
-                  (!product.price && !product.is_product_varied) ||
-                  (!variationAdded && product.is_product_varied) ||
-                  loading
-                }
-              >
-                {loading ? (
-                  <CircularProgress color="success" />
-                ) : success ? (
-                  "Draft Added"
-                ) : (
-                  "Draft Product"
-                )}
-              </Button>
+
               <Button
                 type="button"
                 className="w-full text-sm tracking-[0.2px]"
@@ -356,10 +345,14 @@ export default function AddProductForm() {
               >
                 {loading ? (
                   <CircularProgress color="success" />
-                ) : success ? (
-                  "Product Added"
+                ) : success && product.is_published ? (
+                  "Product Published"
+                ) : success && !product.is_published ? (
+                  "Draft Saved"
+                ) : product.is_published ? (
+                  "Publish Product"
                 ) : (
-                  "Add Product	and Publish"
+                  "Save as Draft"
                 )}
               </Button>
             </div>

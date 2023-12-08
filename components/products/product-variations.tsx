@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { ProductInput } from "@/types";
+import { ProductInput, Product } from "@/types";
 import { XIcon } from "../ui/x-icon";
 import Button from "../ui/button";
 import Input from "../forms/input";
@@ -11,8 +11,6 @@ interface Props {
   placeholder: string;
   variations: Record<string, ProductVariationType[]>;
   handleVariationsInput: (id: string, value: any) => void;
-  product: ProductInput;
-  setProduct: React.Dispatch<React.SetStateAction<ProductInput>>;
   setVariationAdded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -21,8 +19,6 @@ export default function ProductVariations({
   placeholder,
   variations,
   handleVariationsInput,
-  product,
-  setProduct,
   setVariationAdded,
 }: Props) {
   //handle product colors add	and remove
@@ -93,7 +89,7 @@ export default function ProductVariations({
         {" "}
         <Input
           id="product_variation"
-          label={`Add	${variation_name}`}
+          label={`Add	${variation_name} & Press ENTER`}
           className="w-full"
           inputClassName="bg-light dark:bg-dark-300 "
           onChange={(e) => setVariationTemp(e.target.value)}

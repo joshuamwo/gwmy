@@ -33,7 +33,7 @@ export interface Product {
   product_description: string;
   price: number;
   is_product_varied: boolean;
-  product_variations: Record<string, number>; // Change 'any' to the specific structure if known
+  product_variations: Record<string, ProductVariationType[]>; // Change 'any' to the specific structure if known
   is_price_varied: boolean;
   price_per_variations: Record<string, any>; // Change 'any' to the specific structure if known
   stock_quantity: number;
