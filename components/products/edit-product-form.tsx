@@ -171,7 +171,7 @@ export default function AddProductForm() {
     return;
   };
 
-  const handleAddProducts = async (e: React.FormEvent, publish: boolean) => {
+  const handleAddProducts = async (e: React.FormEvent) => {
     console.log(product);
     e.preventDefault();
     setLoading(true);
@@ -330,7 +330,7 @@ export default function AddProductForm() {
                         </div>
                         <img
                           src={image}
-                          className="object-cover"
+                          className="object-cover rounded"
                           style={{
                             width: "100%",
                             height: "15rem",

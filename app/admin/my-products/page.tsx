@@ -34,7 +34,7 @@ export default function MyProducts() {
   return (
     <div className="">
       <div className="p-5 md:p-8 flex-col">
-        <div className="sticky top-16 z-10 p-5 md:p-8 bg-light dark:bg-dark-200 shadow rounded mb-8 flex flex-col">
+        <div className="sticky top-16 z-10 p-5 md:p-8 bg-light dark:bg-dark-200 shadow-lg rounded mb-8 flex flex-col">
           <div className=" flex w-full flex-col  items-center md:flex-row">
             <div className="mb-4 md:mb-0 md:w-1/4 sm:block">
               <h1 className="text-lg font-semibold text-heading">

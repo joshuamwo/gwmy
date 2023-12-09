@@ -27,7 +27,7 @@ export default function InterfaceLayout({
 
   return (
     <>
-      <div className="flex flex-col min-h-screen w-full  bg-light-300 dark:bg-dark-100 ">
+      <div className="flex flex-col min-h-screen w-full  bg-light-300 dark:bg-dark-300 ">
         <Header
           sidebarIsOpen={sidebarIsOpen}
           sidebarToggle={sidebarToggle}

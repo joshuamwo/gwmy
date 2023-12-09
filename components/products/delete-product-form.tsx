@@ -64,12 +64,13 @@ export default function DeleteProductForm() {
   }
 
   return (
-    <Container className="relative bg-light dark:bg-dark-300 px-14 pb-12 pt-20">
-      <FormBgPattern className="hidden pointer-events-none xs:flex absolute bottom-0 left-0 text-light dark:text-dark-300 dark:opacity-60" />
+    <div className=" bg-light dark:bg-dark-300 px-14 pb-12 pt-20">
+      <FormBgPattern className="hidden xs:flex absolute bottom-0 left-0 text-light dark:text-dark-300 dark:opacity-60" />
 
-      <div className="flex flex-col gap-8">
+      <div className=" relative flex flex-col gap-8 ">
         <h2 className="text-lg font-medium tracking-[-0.3px] text-dark dark:text-light lg:text-xl">
-          Are you sure you want to delete {product.product_name}?{" "}
+          Are you sure you want to{" "}
+          <span className="text-red-500"> delete {product.product_name}? </span>
         </h2>
 
         {/* button */}
@@ -88,6 +89,6 @@ export default function DeleteProductForm() {
           </Button>
         </div>
       </div>
-    </Container>
+    </div>
   );
 }

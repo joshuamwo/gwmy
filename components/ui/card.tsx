@@ -25,15 +25,15 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
   const { openModal, closeModal } = useModalAction();
   const modalName1 = "EDITPRODUCTFORM";
   return (
-    <div className="shadow-lg p-2 md:p-4">
-      <div className="group relative flex aspect-[3/2] w-full ">
+    <div className="shadow-lg p-2 md:p-4 bg-light-200 dark:bg-dark-200 rounded">
+      <div className="group relative flex aspect-[3/2] w-full  ">
         {/* <pre>{JSON.stringify(product.image_urls, null, 4)}</pre> */}
         <Image
           alt={product.product_name}
           src={src}
           fill
           quality={100}
-          className="bg-light-500 object-cover dark:bg-dark-400"
+          className="bg-light-500 object-cover dark:bg-dark-400 rounded"
           sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 50vw,
               33vw"
