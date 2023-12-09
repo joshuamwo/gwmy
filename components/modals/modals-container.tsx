@@ -9,6 +9,7 @@ import { useModalState } from "./modal-controller";
 import { useModalAction } from "./modal-controller";
 import AddProductForm from "../products/add-product-form";
 import EditProductForm from "../products/edit-product-form";
+import DeleteProductForm from "../products/delete-product-form";
 
 const AuthForm = dynamic(() => import("@/components/auth/auth-form"));
 
@@ -28,6 +29,9 @@ function renderModalContent(view: string) {
       break;
     case "EDITPRODUCTFORM":
       return <EditProductForm />;
+      break;
+    case "DELETEPRODUCTFORM":
+      return <DeleteProductForm />;
       break;
   }
 }

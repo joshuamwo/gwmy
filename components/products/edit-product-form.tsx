@@ -24,6 +24,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { productState } from "@/recoil/atoms";
 import { Product } from "@/types";
 import { useModalState } from "../modals/modal-controller";
+import fetchProducts from "@/utils/fetch-products";
 
 export default function AddProductForm() {
   // Supabase
@@ -31,14 +32,6 @@ export default function AddProductForm() {
   // global products	state
   const [products, setProducts] = useRecoilState(productState);
   const productsGlobalState = useRecoilValue(productState);
-  const fetchProducts = async () => {
-    const { data, error } = await supabase.from("products").select("*");
-    if (error) throw error;
-    if (data) {
-      const products = data as Product[];
-      setProducts(products);
-    }
-  };
 
   const { data } = useModalState();
   const productData = data as Product;
@@ -116,6 +109,16 @@ export default function AddProductForm() {
     setProduct(updatedProduct);
   }
 
+  //fetch products
+  async function fetchProducts() {
+    const { data, error } = await supabase.from("products").select("*");
+    if (error) throw error;
+    if (data) {
+      const products = data as Product[];
+      setProducts(products);
+    }
+  }
+
   // upload images
 
   const uploadImages = async () => {
@@ -155,15 +158,15 @@ export default function AddProductForm() {
     } = await supabase.auth.getSession();
     const user = session?.user;
     const userId = user?.id;
-    let imageUrls: string[] = [];
+    let fileNames: string[] = [];
     imagesToBeDeleted.map(async (imageUrl) => {
       const parts = imageUrl.split("/");
       const fileName = parts[parts.length - 1];
-      imageUrls.push(fileName);
+      fileNames.push(fileName);
     });
     const { error } = await supabase.storage
       .from("product-images")
-      .remove(imageUrls);
+      .remove(fileNames);
     if (error) throw error;
     return;
   };
@@ -216,7 +219,7 @@ export default function AddProductForm() {
         <div className="w-full shrink-0 text-left md:w-[380px]">
           <div className="flex flex-col pb-5 text-center lg:pb-9 xl:pb-10 xl:pt-2">
             <h2 className="text-lg font-medium tracking-[-0.3px] text-dark dark:text-light lg:text-xl">
-              Add Product
+              Edit Product
             </h2>
           </div>
           <div>
@@ -373,6 +376,7 @@ export default function AddProductForm() {
                 />
               </div>
               <Button
+                isLoading={loading}
                 type="button"
                 className="w-full text-sm tracking-[0.2px]"
                 onClick={(e) => handleAddProducts(e, true)}
@@ -384,13 +388,7 @@ export default function AddProductForm() {
                   loading
                 }
               >
-                {loading ? (
-                  <CircularProgress color="success" />
-                ) : success ? (
-                  "Product Updated"
-                ) : (
-                  "Update Product"
-                )}
+                {loading ? "" : success ? "Product Updated" : "Update Product"}
               </Button>
             </div>
           )}

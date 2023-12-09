@@ -333,6 +333,7 @@ export default function AddProductForm() {
               {/* submit button */}
 
               <Button
+                isLoading={loading}
                 type="button"
                 className="w-full text-sm tracking-[0.2px]"
                 onClick={(e) => handleAddProducts(e, true)}
@@ -344,17 +345,15 @@ export default function AddProductForm() {
                   loading
                 }
               >
-                {loading ? (
-                  <CircularProgress color="success" />
-                ) : success && product.is_published ? (
-                  "Product Published"
-                ) : success && !product.is_published ? (
-                  "Draft Saved"
-                ) : product.is_published ? (
-                  "Publish Product"
-                ) : (
-                  "Save as Draft"
-                )}
+                {loading
+                  ? ""
+                  : success && product.is_published
+                  ? "Product Published"
+                  : success && !product.is_published
+                  ? "Draft Saved"
+                  : product.is_published
+                  ? "Publish Product"
+                  : "Save as Draft"}
               </Button>
             </div>
           )}

@@ -19,7 +19,7 @@ const variantClasses = {
     "min-h-[32px] rounded py-3 px-4 md:px-5 bg-brand text-white hover:bg-brand-dark focus:bg-brand-dark",
   icon: "transition-colors duration-200 text-dark-800 hover:text-dark-900 dark:hover:text-light-600",
   solidDanger:
-    "min-h-[32px] h-12 sm:h-10 rounded py-3 px-4 md:px-5 bg-red-500 text-white hover:bg-red-600 focus:bg-red-600",
+    "min-h-[32px] rounded py-3 px-4 md:px-5 bg-red-500 text-white hover:bg-red-600 focus:bg-red-600",
 };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -49,7 +49,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       type={type}
       {...props}
     >
-      {isLoading && <SpinnerIcon className="h-auto w-5 animate-spin" />}
+      {isLoading && <SpinnerIcon className=" w-5 h-auto animate-spin" />}
+
       {children}
     </button>
   )

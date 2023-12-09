@@ -92,7 +92,7 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
           </button>
           {isMyProductsPage && (
             <button
-              // onClick={goToDetailsPage}
+              onClick={() => openModal("DELETEPRODUCTFORM", product)}
               className={classnames(
                 "relative z-[11] text-center font-medium text-light",
                 isGridCompact ? "text-xs" : "text-13px"
