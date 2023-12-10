@@ -33,6 +33,7 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
           alt={product.product_name}
           src={src}
           fill
+          priority={true}
           quality={100}
           className="bg-light-500 object-cover dark:bg-dark-400 rounded "
           sizes="(max-width: 768px) 100vw,
@@ -123,8 +124,8 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
         <div className="-mt-[1px] flex flex-col truncate ltr:mr-auto ltr:pl-2.5 rtl:ml-auto rtl:pr-2.5 rtl:text-right">
           <h3 className="mb-0.5 truncate font-medium text-dark-100 dark:text-light">
             {product.product_name}
-						</h3>
-						<span className="text-xs ">{ product.product_description}</span>
+          </h3>
+          <span className="text-xs ">{product.product_description}</span>
         </div>
         <div className="flex flex-shrink-0 flex-col items-end pl-2.5 mr-0.5">
           <span className="rounded-2xl bg-light-400 shadow-inner px-1.5 py-0.5 text-13px font-semibold uppercase text-brand dark:bg-dark-300 dark:text-brand-dark">
