@@ -24,16 +24,17 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
   const [isGridCompact, setIsGridCompact] = useState(false);
   const { openModal, closeModal } = useModalAction();
   const modalName1 = "EDITPRODUCTFORM";
+  const modalName2 = "PRODUCTVIEWMODAL";
   return (
     <div className="shadow-lg p-2 md:p-4 bg-light-200 dark:bg-dark-200 rounded">
-      <div className="group relative flex aspect-[3/2] w-full  ">
+      <div className="group relative flex aspect-[4/5] w-full  ">
         {/* <pre>{JSON.stringify(product.image_urls, null, 4)}</pre> */}
         <Image
           alt={product.product_name}
           src={src}
           fill
           quality={100}
-          className="bg-light-500 object-cover dark:bg-dark-400 rounded"
+          className="bg-light-500 object-cover dark:bg-dark-400 rounded "
           sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 50vw,
               33vw"
@@ -45,7 +46,7 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
         >
           <button
             className={classnames(
-              "text-center font-medium text-light",
+              "text-center font-medium text-light text-xs md:text-[13] ",
               isGridCompact ? "text-xs" : "text-13px"
             )}
             onClick={() => openModal(modalName1, product)}
@@ -58,7 +59,9 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
             >
               {isMyProductsPage ? (
                 <EditIcon
-                  className={classnames(isGridCompact ? "h-5 w-5" : "h-6 w-6")}
+                  className={classnames(
+                    isGridCompact ? "h-4 w-4 md:w-5 md:h-5 " : "h-6 w-6"
+                  )}
                 />
               ) : (
                 <PreviewIcon
@@ -69,7 +72,7 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
             {isMyProductsPage ? "Edit" : "Preview"}
           </button>
           <button
-            // onClick={goToDetailsPage}
+            onClick={() => openModal(modalName2, product)}
             className={classnames(
               "relative z-[11] text-center font-medium text-light",
               isGridCompact ? "text-xs" : "text-13px"
@@ -116,14 +119,15 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
           )}
         </div>
       </div>
-      <div className="flex items-start justify-between pt-3.5">
+      <div className="flex items-start justify-between pt-3.5 px-1 ">
         <div className="-mt-[1px] flex flex-col truncate ltr:mr-auto ltr:pl-2.5 rtl:ml-auto rtl:pr-2.5 rtl:text-right">
           <h3 className="mb-0.5 truncate font-medium text-dark-100 dark:text-light">
             {product.product_name}
-          </h3>
+						</h3>
+						<span className="text-xs ">{ product.product_description}</span>
         </div>
-        <div className="flex flex-shrink-0 flex-col items-end pl-2.5">
-          <span className="rounded-2xl bg-light-500 px-1.5 py-0.5 text-13px font-semibold uppercase text-brand dark:bg-dark-300 dark:text-brand-dark">
+        <div className="flex flex-shrink-0 flex-col items-end pl-2.5 mr-0.5">
+          <span className="rounded-2xl bg-light-400 shadow-inner px-1.5 py-0.5 text-13px font-semibold uppercase text-brand dark:bg-dark-300 dark:text-brand-dark">
             Ksh. {product.price}
           </span>
         </div>

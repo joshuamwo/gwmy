@@ -1,10 +1,10 @@
 import { useRecoilValue } from "recoil";
-import { productState } from "@/recoil/atoms";
+import { myProductsState } from "@/recoil/atoms";
 import React from "react";
 import Card from "../ui/card";
 
 export default function MyProductsList() {
-  const products = useRecoilValue(productState);
+  const products = useRecoilValue(myProductsState);
 
   return (
     <div className="w-full px-4 pb-9 pt-5 md:px-6 md:pb-10 md:pt-6 lg:px-7 lg:pb-12 3xl:px-8">
