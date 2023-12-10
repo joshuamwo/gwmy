@@ -7,20 +7,24 @@ import { useSupabase } from "@/context/supabase-context";
 import { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import MyProductsList from "@/components/sections/my-products-list";
-import { useRecoilState } from "recoil";
-import { productState } from "@/recoil/atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { myProductsState, userState } from "@/recoil/atoms";
 import { Product } from "@/types";
 
 export default function MyProducts() {
   const { openModal } = useModalAction();
   const { supabase } = useSupabase();
   const router = useRouter();
+  const user = useRecoilValue(userState);
 
-  const [products, setProducts] = useRecoilState(productState);
+  const [products, setProducts] = useRecoilState(myProductsState);
 
   //fetch products
   const fetchProducts = async () => {
-    const { data, error } = await supabase.from("products").select("*");
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("owner", user?.id);
     if (error) console.log(error);
     if (data) {
       const products = data as Product[];
@@ -29,7 +33,7 @@ export default function MyProducts() {
   };
   useEffect(() => {
     fetchProducts();
-  }, [supabase, products]);
+  }, [supabase]);
 
   return (
     <div className="">

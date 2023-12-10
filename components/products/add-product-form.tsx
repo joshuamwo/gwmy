@@ -127,7 +127,7 @@ export default function AddProductForm() {
     }
   };
 
-  const handleAddProducts = async (e: React.FormEvent, publish: boolean) => {
+  const handleAddProducts = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     uploadImages().then(
@@ -149,7 +149,7 @@ export default function AddProductForm() {
               price: product.price,
               product_variations: product.product_variations,
               image_urls: imageUrls,
-              is_published: publish,
+              is_published: product.is_published,
               is_product_varied: product.is_product_varied,
             },
           ])
@@ -336,7 +336,7 @@ export default function AddProductForm() {
                 isLoading={loading}
                 type="button"
                 className="w-full text-sm tracking-[0.2px]"
-                onClick={(e) => handleAddProducts(e, true)}
+                onClick={(e) => handleAddProducts(e)}
                 disabled={
                   !product.product_name ||
                   !product.product_description ||
