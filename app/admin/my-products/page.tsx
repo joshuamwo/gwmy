@@ -4,7 +4,7 @@ import Search from "@/components/search";
 import { PlusIcon } from "@/components/icons/plus-icon";
 import { useModalAction } from "@/components/modals/modal-controller";
 import { useSupabase } from "@/context/supabase-context";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import MyProductsList from "@/components/sections/my-products-list";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -31,9 +31,10 @@ export default function MyProducts() {
       setProducts(products);
     }
   };
+
   useEffect(() => {
     fetchProducts();
-  }, [supabase]);
+  }, []);
 
   return (
     <div className="">

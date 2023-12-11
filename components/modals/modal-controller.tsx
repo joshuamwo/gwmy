@@ -26,8 +26,9 @@ export type MODAL_VIEWS =
   | "SUCCESS"
   | "ERROR"
   | "PAYMENT"
-	| "EDITPRODUCTFORM"
-	| "DELETEPRODUCTFORM";
+  | "EDITPRODUCTFORM"
+  | "DELETEPRODUCTFORM"
+  | "PRODUCTVIEWMODAL";
 
 const ModalContext = createContext<ModalState>(initialState);
 const ModalActionContext = createContext<Dispatch<Action> | undefined>(

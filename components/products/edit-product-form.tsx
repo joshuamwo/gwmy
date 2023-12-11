@@ -21,17 +21,16 @@ import ProductDescriptionInput from "./product-description-input";
 import ProductVariations from "./product-variations";
 import SwitchToggle from "../ui/switch-toggle";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { productState } from "@/recoil/atoms";
+import { myProductsState, productState, userState } from "@/recoil/atoms";
 import { Product } from "@/types";
 import { useModalState } from "../modals/modal-controller";
-import fetchProducts from "@/utils/fetch-products";
 
 export default function AddProductForm() {
   // Supabase
   const { supabase } = useSupabase();
   // global products	state
-  const [products, setProducts] = useRecoilState(productState);
-  const productsGlobalState = useRecoilValue(productState);
+  const [products, setProducts] = useRecoilState(myProductsState);
+  const productsGlobalState = useRecoilValue(myProductsState);
 
   const { data } = useModalState();
   const productData = data as Product;
@@ -109,21 +108,24 @@ export default function AddProductForm() {
     setProduct(updatedProduct);
   }
 
-  //fetch products
-  async function fetchProducts() {
-    const { data, error } = await supabase.from("products").select("*");
-    if (error) throw error;
-    if (data) {
-      const products = data as Product[];
-      setProducts(products);
-    }
-  }
+  //update products state
+  const updateProductsState = async () => {
+    const updatedProductState: Product[] = products.map((product) => {
+      if (product.id === productData.id) {
+        // Return updated product if the IDs match
+        return productData;
+      }
+      // Return the original product if no match
+      return product;
+    });
 
+    setProducts(updatedProductState);
+  };
   // upload images
 
   const uploadImages = async () => {
     if (images.length < 1) return;
-    let imageUrls: string[] = product.image_urls;
+    let imageUrls: string[] = [...product.image_urls];
 
     const {
       data: { session },
@@ -171,10 +173,14 @@ export default function AddProductForm() {
     return;
   };
 
-  const handleAddProducts = async (e: React.FormEvent) => {
-    console.log(product);
+  const handleUpdateProducts = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    if (!product.is_product_varied)
+      setProduct({
+        ...product,
+        product_variations: {},
+      });
     deleteImagesFromSupabase().then(async () =>
       uploadImages().then(
         //add product to database
@@ -186,28 +192,17 @@ export default function AddProductForm() {
           const userId = user?.id;
           const { error } = await supabase
             .from("products")
-            .update([
-              {
-                category: product.category,
-                sub_category: product.sub_category,
-                product_name: product.product_name,
-                product_description: product.product_description,
-                price: product.price,
-                product_variations: product.product_variations,
-                image_urls: imageUrls,
-                is_published: product.is_published,
-              },
-            ])
+            .update(product)
             .eq("id", product.id);
           if (error) {
             setLoading(false);
             throw error;
           }
-          await fetchProducts;
-          setLoading(false);
-          setSuccess(true);
-          setImagePreview([]);
-          setImages([]);
+          updateProductsState().then(() => {
+            setLoading(false);
+            setSuccess(true);
+            setImages([]);
+          });
         }
       )
     );
@@ -380,7 +375,7 @@ export default function AddProductForm() {
                 isLoading={loading}
                 type="button"
                 className="w-full text-sm tracking-[0.2px]"
-                onClick={(e) => handleAddProducts(e)}
+                onClick={(e) => handleUpdateProducts(e)}
                 disabled={
                   !product.product_name ||
                   !product.product_description ||

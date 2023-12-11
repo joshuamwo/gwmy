@@ -44,13 +44,12 @@ export function SupabaseProvider({ children }: { children: React.ReactNode }) {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(() => {
       getUser();
-      router.refresh();
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [supabase, router]);
+  }, [supabase]);
 
   return (
     <SupabseContext.Provider value={{ supabase }}>

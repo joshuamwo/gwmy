@@ -121,7 +121,7 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
         </div>
       </div>
       <div className="flex items-start justify-between pt-3.5 px-1 ">
-        <div className="-mt-[1px] flex flex-col truncate ltr:mr-auto ltr:pl-2.5 rtl:ml-auto rtl:pr-2.5 rtl:text-right">
+        <div className="-mt-[1px] flex flex-col truncate mr-auto">
           <h3 className="mb-0.5 truncate font-medium text-dark-100 dark:text-light">
             {product.product_name}
           </h3>

@@ -10,6 +10,7 @@ import { useModalAction } from "./modal-controller";
 import AddProductForm from "../products/add-product-form";
 import EditProductForm from "../products/edit-product-form";
 import DeleteProductForm from "../products/delete-product-form";
+import ProductViewModal from "../products/product-view-modal";
 
 const AuthForm = dynamic(() => import("@/components/auth/auth-form"));
 
@@ -33,6 +34,9 @@ function renderModalContent(view: string) {
     case "DELETEPRODUCTFORM":
       return <DeleteProductForm />;
       break;
+    case "PRODUCTVIEWMODAL":
+      return <ProductViewModal />;
+      break;
   }
 }
 
@@ -42,14 +46,6 @@ export function ModalContainer() {
   const { view, isOpen } = useModalState();
   const { closeModal } = useModalAction();
 
-  // close modal when route change
-  let pathname: string = "";
-  const newPathname = usePathname();
-
-  // useEffect(() => {
-  //   // pathname = newPathname;
-  //   closeModal();
-  // }, [newPathname, closeModal]);
 
   return (
     <Transition show={isOpen} as={Fragment}>

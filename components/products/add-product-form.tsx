@@ -21,21 +21,25 @@ import ProductNameInput from "./product-name-input";
 import ProductDescriptionInput from "./product-description-input";
 import ProductVariations from "./product-variations";
 import SwitchToggle from "../ui/switch-toggle";
-import { useRecoilState } from "recoil";
-import { productState } from "@/recoil/atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { myProductsState, userState } from "@/recoil/atoms";
 import { Product } from "@/types";
 
 export default function AddProductForm() {
   // Supabase
   const { supabase } = useSupabase();
   // global products	state
-  const [products, setProducts] = useRecoilState(productState);
+  const [myProducts, setMyProducts] = useRecoilState(myProductsState);
+  const user = useRecoilValue(userState);
   const fetchProducts = async () => {
-    const { data, error } = await supabase.from("products").select("*");
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("owner", user?.id);
     if (error) throw error;
     if (data) {
       const products = data as Product[];
-      setProducts(products);
+      setMyProducts(products);
     }
   };
 
@@ -158,7 +162,7 @@ export default function AddProductForm() {
           setLoading(false);
           throw error;
         }
-        await fetchProducts;
+        await fetchProducts();
         setLoading(false);
         setSuccess(true);
         setImagePreview([]);
