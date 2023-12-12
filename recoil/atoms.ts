@@ -18,3 +18,8 @@ export const myProductsState: RecoilState<Product[]> = atom<Product[]>({
   key: "myProductsState",
   default: [],
 });
+
+export const getUserDoneState: RecoilState<boolean> = atom<boolean>({
+		key: "getUserDoneState",
+		default: false,
+})

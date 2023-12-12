@@ -1,8 +1,10 @@
 import { useRecoilValue } from "recoil";
-import { userState } from "@/recoil/atoms";
+import { getUserDoneState, userState } from "@/recoil/atoms";
 import CustomerSidebar from "./customer-sidebar";
 import { classnames } from "@/utils/classnames";
 import AdminSidebar from "./admin-sidebar";
+import { useIsMounted } from "@/lib/hooks/use-is-mounted";
+import { useRecoilState } from "recoil";
 
 interface SidebarProps {
   sidebarIsOpen: boolean;
@@ -14,6 +16,8 @@ export default function Sidebar({
   className = "hidden sm:flex fixed bottom-0 z-20 pt-[82px]",
 }: SidebarProps) {
   const user = useRecoilValue(userState);
+  const isMounted = useIsMounted();
+  const getUserDone = useRecoilValue(getUserDoneState);
 
   return (
     <aside
@@ -23,11 +27,16 @@ export default function Sidebar({
         className
       )}
     >
-      {user?.user_type !== "alpha" ? (
-        <CustomerSidebar sidebarIsOpen={sidebarIsOpen} classname={className} />
-      ) : (
-        <AdminSidebar sidebarIsOpen={sidebarIsOpen} classname={className} />
-      )}
+      {isMounted &&
+        getUserDone &&
+        (user?.user_type !== "alpha" ? (
+          <CustomerSidebar
+            sidebarIsOpen={sidebarIsOpen}
+            classname={className}
+          />
+        ) : (
+          <AdminSidebar sidebarIsOpen={sidebarIsOpen} classname={className} />
+        ))}
     </aside>
   );
 }

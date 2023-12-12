@@ -3,7 +3,7 @@ import { createContext, useEffect, useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
 import { useRecoilState } from "recoil";
-import { userState } from "@/recoil/atoms";
+import { getUserDoneState, userState } from "@/recoil/atoms";
 import { UserStateType } from "@/types";
 
 type SupabaseContextType = {
@@ -18,6 +18,8 @@ const UserContext = createContext<UserStateType | undefined>(undefined);
 export function SupabaseProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const provider = "google";
+  const [getUserDone, setGetUserDone] =
+    useRecoilState(getUserDoneState);
 
   const [supabase] = useState(() =>
     createBrowserClient(
@@ -34,8 +36,10 @@ export function SupabaseProvider({ children }: { children: React.ReactNode }) {
     const { data, error } = await supabase.from("profiles").select("*");
     if (!error) {
       setUser(data[0]);
+      setGetUserDone(true);
     } else {
       setUser(null);
+      setGetUserDone(true);
     }
   }
 
