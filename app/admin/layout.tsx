@@ -14,15 +14,15 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const isMounted = useIsMounted();
 
+
   useEffect(() => {
-    if (!isMounted) return;
     if (!user) {
       router.push("/");
       openModal("AUTHFORM");
     } else if (user.user_type !== "alpha") {
       router.push("/");
     }
-  }, []);
+  });
 
   return <>{user && user.user_type == "alpha" && children}</>;
 }

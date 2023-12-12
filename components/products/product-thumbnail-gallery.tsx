@@ -39,7 +39,7 @@ export default function ProductThumbnailGallery({
         <Swiper
           id="productGallery"
           speed={400}
-          loop={true}
+          allowTouchMove={false}
           thumbs={{
             swiper:
               thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
@@ -61,8 +61,7 @@ export default function ProductThumbnailGallery({
                 src={item ? item : placeholder}
                 alt={`Product gallery ${item}`}
                 className="object-cover"
-                quality={75}
-                sizes="(max-width:795px)"
+                sizes="(max-width:795px), (max-height:480px)"
               />
             </SwiperSlide>
           ))}

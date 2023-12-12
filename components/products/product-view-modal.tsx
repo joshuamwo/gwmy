@@ -19,7 +19,7 @@ export default function ProductViewModal() {
       {/* content */}
       <div className="flex flex-col p-4  md:p-6 lg:flex-row lg:space-x-7 xl:space-x-8 xl:p-8 3xl:space-x-10">
         {/* image gallery */}
-        <div className="mb-4 w-full shrink-0 items-center justify-center overflow-hidden md:mb-6 lg:mb-auto lg:max-w-[480px] xl:flex xl:max-w-[570px] 2xl:max-w-[650px] 3xl:max-w-[795px]">
+        <div className="mb-4 w-full shrink-0 items-center justify-center overflow-hidden md:mb-6 lg:mb-auto  lg:max-w-[480px] xl:max-w-[570px] 2xl:max-w-[650px] 3xl:max-w-[795px]">
           <ProductThumbnailGallery gallery={product.image_urls} />
         </div>
 
