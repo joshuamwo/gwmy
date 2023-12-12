@@ -9,7 +9,7 @@ import { useModalAction } from "../modals/modal-controller";
 import { useSupabase } from "@/context/supabase-context";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { productState } from "@/recoil/atoms";
+import { productsState } from "@/recoil/atoms";
 
 export default function DeleteProductForm() {
   //get the product from the modal state
@@ -17,7 +17,7 @@ export default function DeleteProductForm() {
   const product = data as Product;
   const { closeModal } = useModalAction();
   const [loading, setLoading] = useState(false);
-  const [products, setProducts] = useRecoilState(productState);
+  const [products, setProducts] = useRecoilState(productsState);
 
   const { supabase } = useSupabase();
 

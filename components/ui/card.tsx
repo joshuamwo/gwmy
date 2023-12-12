@@ -7,6 +7,7 @@ import { PreviewIcon } from "./preview-icon";
 import { EditIcon } from "./edit-icon";
 import { useModalAction } from "../modals/modal-controller";
 import { DeleteIcon } from "../icons/delete-icon";
+import Link from "next/link";
 
 interface CardProps {
   product: Product;
@@ -85,12 +86,18 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
                 isGridCompact ? "h-11 w-11" : "h-[50px] w-[50px]"
               )}
             >
-              <DetailsIcon
-                className={classnames(
-                  "fill-white",
-                  isGridCompact ? "h-4 w-4" : "h-5 w-5"
-                )}
-              />
+              {isMyProductsPage ? (
+                <PreviewIcon
+                  className={classnames(isGridCompact ? "h-5 w-5" : "h-6 w-6")}
+                />
+              ) : (
+                <DetailsIcon
+                  className={classnames(
+                    "fill-white",
+                    isGridCompact ? "h-4 w-4" : "h-5 w-5"
+                  )}
+                />
+              )}
             </div>
             {isMyProductsPage ? "Preview" : "Details"}
           </button>
@@ -121,11 +128,15 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
         </div>
       </div>
       <div className="flex items-start justify-between pt-3.5 px-1 ">
-        <div className="-mt-[1px] flex flex-col truncate mr-auto">
-          <h3 className="mb-0.5 truncate font-medium text-dark-100 dark:text-light">
-            {product.product_name}
-          </h3>
-          <span className="text-xs ">{product.product_description}</span>
+        <div className="-mt-[1px] truncate mr-auto group cursor-pointer">
+          <Link href={`/product/${product.id}`} className="flex flex-col ">
+            <span className="mb-0.5 truncate font-medium group-hover:text-brand">
+              {product.product_name}
+            </span>
+            <span className="text-xs group-hover:text-brand">
+              {product.product_description}
+            </span>
+          </Link>
         </div>
         <div className="flex flex-shrink-0 flex-col items-end pl-2.5 mr-0.5">
           <span className="rounded-2xl bg-light-400 shadow-inner px-1.5 py-0.5 text-13px font-semibold uppercase text-brand dark:bg-dark-300 dark:text-brand-dark">

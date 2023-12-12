@@ -8,8 +8,8 @@ export const userState: RecoilState<UserStateType> = atom<UserStateType>({
   default: null,
 });
 
-export const productState: RecoilState<Product[]> = atom<Product[]>({
-  key: "ProductState",
+export const productsState: RecoilState<Product[]> = atom<Product[]>({
+  key: "ProductsState",
   default: [],
 });
 

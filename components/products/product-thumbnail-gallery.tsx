@@ -39,6 +39,7 @@ export default function ProductThumbnailGallery({
         <Swiper
           id="productGallery"
           speed={400}
+          loop={true}
           thumbs={{
             swiper:
               thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
@@ -53,13 +54,15 @@ export default function ProductThumbnailGallery({
           {gallery?.map((item: string) => (
             <SwiperSlide
               key={`product-gallery-${item}`}
-              className="relative flex aspect-[4/5] items-center justify-center bg-light-200 dark:bg-dark-200"
+              className="relative flex aspect-[16/9] lg:aspect-[4/5] items-center justify-center bg-light-200 dark:bg-dark-200"
             >
               <Image
                 fill
                 src={item ? item : placeholder}
                 alt={`Product gallery ${item}`}
                 className="object-cover"
+                quality={75}
+                sizes="(max-width:795px)"
               />
             </SwiperSlide>
           ))}
@@ -93,13 +96,14 @@ export default function ProductThumbnailGallery({
           {gallery?.map((item: any) => (
             <SwiperSlide
               key={`product-thumb-gallery-${item}`}
-              className="relative flex aspect-[5/4] cursor-pointer items-center justify-center border border-light-500 transition hover:opacity-75 dark:border-dark-500"
+              className="relative flex gap-2 aspect-[5/4] cursor-pointer items-center justify-center border border-light-500 transition hover:opacity-75 dark:border-dark-500"
             >
               <Image
                 fill
                 src={item ?? placeholder}
                 alt={`Product thumb gallery ${item}`}
                 className="object-cover"
+                sizes="(max-width:200px)"
               />
             </SwiperSlide>
           ))}

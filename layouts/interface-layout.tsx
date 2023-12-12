@@ -5,7 +5,7 @@ import Header from "@/components/sections/header";
 import Sidebar from "@/components/sections/sidebar";
 import { useState } from "react";
 import { ModalContainer } from "@/components/modals/modals-container";
-import { userState } from "@/recoil/atoms";
+import { getUserDoneState, userState } from "@/recoil/atoms";
 import { useRecoilValue } from "recoil";
 
 const BottomNavigation = dynamic(
@@ -24,31 +24,34 @@ export default function InterfaceLayout({
 
   const user = useRecoilValue(userState);
   const isUserLoggedIn: boolean = !user?.id === undefined;
+  const getUserDone = useRecoilValue(getUserDoneState);
 
   return (
-    <>
-      <div className="flex flex-col min-h-screen w-full  bg-light-300 dark:bg-dark-300 ">
-        <Header
-          sidebarIsOpen={sidebarIsOpen}
-          sidebarToggle={sidebarToggle}
-          isUserLoggedIn={isUserLoggedIn}
-        />
-        <div className="flex flex-1">
-          <Sidebar sidebarIsOpen={sidebarIsOpen} />
-          <main
-            style={{}}
-            className={`flex w-full flex-col ${
-              sidebarIsOpen
-                ? "main-content-sidebar-open"
-                : "main-content-sidebar-closed"
-            }`}
-          >
-            {children}
-          </main>
+    getUserDone && (
+      <>
+        <div className="flex flex-col min-h-screen w-full  bg-light-300 dark:bg-dark-300 ">
+          <Header
+            sidebarIsOpen={sidebarIsOpen}
+            sidebarToggle={sidebarToggle}
+            isUserLoggedIn={isUserLoggedIn}
+          />
+          <div className="flex flex-1">
+            <Sidebar sidebarIsOpen={sidebarIsOpen} />
+            <main
+              style={{}}
+              className={`flex w-full flex-col ${
+                sidebarIsOpen
+                  ? "main-content-sidebar-open"
+                  : "main-content-sidebar-closed"
+              }`}
+            >
+              {children}
+            </main>
+          </div>
+          <BottomNavigation />
         </div>
-        <BottomNavigation />
-      </div>
-      <ModalContainer />
-    </>
+        <ModalContainer />
+      </>
+    )
   );
 }

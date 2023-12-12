@@ -26,7 +26,7 @@ export interface ProductInput {
 }
 
 export interface Product {
-  id: number;
+  id: string;
   category: string;
   sub_category: string;
   product_name: string;
