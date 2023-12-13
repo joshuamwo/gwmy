@@ -1,7 +1,7 @@
 export const productCategories = ["Luku", "Music", "Event"];
 
 export const productSubCategories = {
-  Luku: ["Head Wear", "Tops", "Pants"],
+  Luku: ["Head Wear", "Tops", "Pants", "Full	Body"],
   Music: ["Single", "Album"],
   Event: ["Concert", "Confrence"],
 };

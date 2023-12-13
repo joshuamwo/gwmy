@@ -24,13 +24,13 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { myProductsState, productsState, userState } from "@/recoil/atoms";
 import { Product } from "@/types";
 import { useModalState } from "../modals/modal-controller";
+import { randomUUID } from "crypto";
 
 export default function AddProductForm() {
   // Supabase
   const { supabase } = useSupabase();
   // global products	state
   const [products, setProducts] = useRecoilState(myProductsState);
-  const productsGlobalState = useRecoilValue(myProductsState);
 
   const { data } = useModalState();
   const productData = data as Product;
@@ -80,10 +80,8 @@ export default function AddProductForm() {
       const newImageUrls = product.image_urls.filter(
         (imageUrl, i) => imageUrl !== image
       );
-      setProduct({
-        ...product,
-        image_urls: newImageUrls,
-      });
+      handleInput("image_urls", newImageUrls);
+      console.log(product.image_urls);
       setImagesToBeDeleted([...imagesToBeDeleted, image]);
       // remove image from preview
       const newImagePreview = imagePreview.filter((image, i) => i !== index);
@@ -110,50 +108,49 @@ export default function AddProductForm() {
 
   //update products state
   const updateProductsState = async () => {
-    const updatedProductState: Product[] = products.map((product) => {
-      if (product.id === productData.id) {
+    const updatedProductState: Product[] = products.map((item) => {
+      if (item.id === product.id) {
         // Return updated product if the IDs match
-        return productData;
+        return product;
+      } else {
+        // Return the original product if no match
+        return item;
       }
-      // Return the original product if no match
-      return product;
     });
-
     setProducts(updatedProductState);
   };
   // upload images
 
   const uploadImages = async () => {
-    if (images.length < 1) return;
+    if (images.length < 1) return [...product.image_urls];
     let imageUrls: string[] = [...product.image_urls];
-
+    const randomUUID = self.crypto.randomUUID();
     const {
       data: { session },
     } = await supabase.auth.getSession();
     const user = session?.user;
     const userId = user?.id;
     const promises = images.map(async (image) => {
-      const imageName = image.name;
-      const filePath = `public/${userId + imageName}`;
+      const filePath = `public/${userId + randomUUID}`;
       const { error, data } = await supabase.storage
         .from("product-images")
         .upload(filePath, image);
       if (error) {
         throw error;
       }
-      imageUrls.push(
-        `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-images/${data.path}`
-      );
-    });
-    setProduct({
-      ...product,
-      image_urls: imageUrls,
+      if (data) {
+        imageUrls.push(
+          `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-images/${data.path}`
+        );
+      }
     });
     await Promise.all(promises);
     return imageUrls;
   };
 
   const deleteImagesFromSupabase = async () => {
+    console.log(imagesToBeDeleted);
+
     if (imagesToBeDeleted.length < 1) return;
     const {
       data: { session },
@@ -163,7 +160,7 @@ export default function AddProductForm() {
     let fileNames: string[] = [];
     imagesToBeDeleted.map(async (imageUrl) => {
       const parts = imageUrl.split("/");
-      const fileName = parts[parts.length - 1];
+      const fileName = `public/${parts[parts.length - 1]}`;
       fileNames.push(fileName);
     });
     const { error } = await supabase.storage
@@ -176,28 +173,32 @@ export default function AddProductForm() {
   const handleUpdateProducts = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    if (!product.is_product_varied)
-      setProduct({
-        ...product,
-        product_variations: {},
-      });
+    if (!product.is_product_varied) {
+      handleInput("product_variations", {});
+    }
     deleteImagesFromSupabase().then(async () =>
       uploadImages().then(
         //add product to database
         async (imageUrls) => {
-          const {
-            data: { session },
-          } = await supabase.auth.getSession();
-          const user = session?.user;
-          const userId = user?.id;
           const { error } = await supabase
             .from("products")
-            .update(product)
+            .update({
+              category: product.category,
+              sub_category: product.sub_category,
+              product_name: product.product_name,
+              product_description: product.product_description,
+              price: product.price,
+              product_variations: product.product_variations,
+              image_urls: imageUrls,
+              is_published: product.is_published,
+              is_product_varied: product.is_product_varied,
+            })
             .eq("id", product.id);
           if (error) {
             setLoading(false);
             throw error;
           }
+          handleInput("image_urls", imageUrls);
           updateProductsState().then(() => {
             setLoading(false);
             setSuccess(true);
@@ -365,10 +366,11 @@ export default function AddProductForm() {
                   Product is published?
                 </span>
                 <SwitchToggle
-                  state={product.is_published}
+                  state={product.image_urls[0] ? product.is_published : false}
                   setState={handleInput}
                   stateName="is_published"
                   className="scale-90"
+                  disabled={product.image_urls[0] ? false : true}
                 />
               </div>
               <Button

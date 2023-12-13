@@ -8,6 +8,7 @@ import { EditIcon } from "./edit-icon";
 import { useModalAction } from "../modals/modal-controller";
 import { DeleteIcon } from "../icons/delete-icon";
 import Link from "next/link";
+import placeholder from "@/public/images/placeholders/product.svg";
 
 interface CardProps {
   product: Product;
@@ -15,12 +16,8 @@ interface CardProps {
 }
 
 export default function Card({ product, isMyProductsPage }: CardProps) {
-  const src =
-    product.image_urls !== null
-      ? product.image_urls[0]
-      : "/images/product-image-placeholder.jpeg";
+  const src = product.image_urls[0] ? product.image_urls[0] : placeholder;
   // const src = "/images/product-image-placeholder.jpeg";
-  // console.log(product.image_urls);
 
   const [isGridCompact, setIsGridCompact] = useState(false);
   const { openModal, closeModal } = useModalAction();
@@ -30,6 +27,7 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
     <div className="shadow-lg p-2 md:p-4 bg-light-200 dark:bg-dark-200 rounded">
       <div className="group relative flex aspect-[4/5] w-full  ">
         {/* <pre>{JSON.stringify(product.image_urls, null, 4)}</pre> */}
+
         <Image
           alt={product.product_name}
           src={src}
@@ -43,15 +41,19 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
         />
         {/* overlay */}
         <div
-          // onClick={() => openModal("PRODUCT_DETAILS", { slug })}
           className="absolute top-0 left-0 flex h-full w-full cursor-pointer items-center justify-center gap-9 bg-dark/60 p-4 opacity-0 backdrop-blur-sm transition-all group-hover:gap-5 group-hover:opacity-100 dark:bg-dark/70"
+          onClick={() => !isMyProductsPage && openModal(modalName2, product)}
         >
           <button
             className={classnames(
               "text-center font-medium text-light text-xs md:text-[13] ",
               isGridCompact ? "text-xs" : "text-13px"
             )}
-            onClick={() => openModal(modalName1, product)}
+            onClick={() =>
+              isMyProductsPage
+                ? openModal(modalName1, product)
+                : openModal(modalName2, product)
+            }
           >
             <div
               className={classnames(
@@ -73,34 +75,39 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
             </div>
             {isMyProductsPage ? "Edit" : "Preview"}
           </button>
-          <button
-            onClick={() => openModal(modalName2, product)}
-            className={classnames(
-              "relative z-[11] text-center font-medium text-light",
-              isGridCompact ? "text-xs" : "text-13px"
-            )}
-          >
-            <div
+
+          {isMyProductsPage && (
+            <button
+              onClick={() => openModal(modalName2, product)}
               className={classnames(
-                "mb-2 flex items-center justify-center rounded-full bg-dark-800 text-light backdrop-blur-sm transition-all hover:bg-brand",
-                isGridCompact ? "h-11 w-11" : "h-[50px] w-[50px]"
+                "relative z-[11] text-center font-medium text-light",
+                isGridCompact ? "text-xs" : "text-13px"
               )}
             >
-              {isMyProductsPage ? (
-                <PreviewIcon
-                  className={classnames(isGridCompact ? "h-5 w-5" : "h-6 w-6")}
-                />
-              ) : (
-                <DetailsIcon
-                  className={classnames(
-                    "fill-white",
-                    isGridCompact ? "h-4 w-4" : "h-5 w-5"
-                  )}
-                />
-              )}
-            </div>
-            {isMyProductsPage ? "Preview" : "Details"}
-          </button>
+              <div
+                className={classnames(
+                  "mb-2 flex items-center justify-center rounded-full bg-dark-800 text-light backdrop-blur-sm transition-all hover:bg-brand",
+                  isGridCompact ? "h-11 w-11" : "h-[50px] w-[50px]"
+                )}
+              >
+                {isMyProductsPage ? (
+                  <PreviewIcon
+                    className={classnames(
+                      isGridCompact ? "h-5 w-5" : "h-6 w-6"
+                    )}
+                  />
+                ) : (
+                  <DetailsIcon
+                    className={classnames(
+                      "fill-white",
+                      isGridCompact ? "h-4 w-4" : "h-5 w-5"
+                    )}
+                  />
+                )}
+              </div>
+              {isMyProductsPage ? "Preview" : "Details"}
+            </button>
+          )}
           {isMyProductsPage && (
             <button
               onClick={() => openModal("DELETEPRODUCTFORM", product)}

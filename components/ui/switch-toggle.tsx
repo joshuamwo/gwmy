@@ -6,6 +6,7 @@ interface SwitchToggleState {
   state: boolean;
   setState: (id: string, state: boolean) => void;
   className?: string;
+  disabled?: boolean;
 }
 
 export default function SwitchToggle({
@@ -13,6 +14,7 @@ export default function SwitchToggle({
   setState,
   stateName,
   className,
+  disabled = false,
 }: SwitchToggleState) {
   const [enabled, setEnabled] = useState(state);
   function handleSwitchToggle(e: boolean) {
@@ -23,6 +25,7 @@ export default function SwitchToggle({
   return (
     <div className={className}>
       <Switch
+        disabled={disabled}
         checked={enabled}
         onChange={(e) => handleSwitchToggle(e)}
         className={`${enabled ? "bg-brand" : "bg-dark-500"}

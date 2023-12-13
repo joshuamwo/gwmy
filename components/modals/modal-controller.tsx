@@ -1,5 +1,7 @@
 import { createContext, useContext, useReducer } from "react";
 import { Dispatch } from "react";
+import { useRecoilState } from "recoil";
+import { modalIsOpenState } from "@/recoil/atoms";
 
 interface ModalState {
   view: string | undefined;
@@ -81,6 +83,7 @@ export const useModalState = () => {
 
 export function useModalAction() {
   const dispatch = useContext(ModalActionContext);
+  const [modalIsOpen, setModalIsOpen] = useRecoilState(modalIsOpenState);
 
   if (dispatch === undefined) {
     throw new Error(
@@ -91,10 +94,13 @@ export function useModalAction() {
   return {
     openModal(view: MODAL_VIEWS, payload?: any) {
       dispatch({ type: "open", view, payload });
+      setModalIsOpen(true);
     },
 
     closeModal() {
       dispatch({ type: "close" });
+      setModalIsOpen(false);
+      console.log(modalIsOpen);
     },
   };
 }
