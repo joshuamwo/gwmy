@@ -103,6 +103,7 @@ export default function AddProductForm() {
   const uploadImages = async () => {
     if (images.length < 1) return;
     let imageUrls: string[] = [];
+    const randomUUID = self.crypto.randomUUID();
     if (images) {
       const {
         data: { session },
@@ -111,7 +112,7 @@ export default function AddProductForm() {
       const userId = user?.id;
       const promises = images.map(async (image) => {
         const imageName = image.name;
-        const filePath = `public/${userId + imageName}`;
+        const filePath = `public/${userId + randomUUID}`;
         const { error, data } = await supabase.storage
           .from("product-images")
           .upload(filePath, image);
