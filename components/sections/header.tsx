@@ -5,6 +5,7 @@ import ThemeSwitcher from "@/components/ui/theme-switcher";
 import { usePathname } from "next/navigation";
 import CartButton from "@/components/ui/cart-button";
 import ProfileMenu from "../menus/profile-menu";
+import { Span } from "next/dist/trace";
 
 interface HeaderProps {
   sidebarIsOpen: boolean;
@@ -27,8 +28,29 @@ export default function Header({
           onClick={() => sidebarToggle()}
           sidebarIsOpen={sidebarIsOpen}
         />
-        <Link href="/">
-          <h1 className="font-bold">GWMY</h1>
+        <Link href="/" className="flex gap-1">
+          {/* <h1 className="font-bold">GWMY</h1> */}
+          {["G", "W", "M", "Y"].map((letter) => (
+            <div className="group">
+              <h1 className=" bg-brand hover:bg-dark-400 transition-all duration-500 p-1 w-8 justify-center flex rounded">
+                {letter}
+              </h1>
+              {/* tooltip */}
+              <div className=" hidden  mt-1 w-8 absolute p-1 rounded bg-brand text-center group-hover:flex group-hover:animate-bounce  flex-col ">
+                {letter === "G"
+                  ? ["O", "D"].map((letter) => <span>{letter}</span>)
+                  : letter === "W"
+                  ? ["W", "A", "N", "T", "S"].map((letter) => (
+                      <span>{letter}</span>
+                    ))
+                  : letter === "M"
+                  ? ["E"].map((letter) => <span>{letter}</span>)
+                  : ["Y", "O", "U", "N", "G"].map((letter) => (
+                      <span>{letter}</span>
+                    ))}
+              </div>
+            </div>
+          ))}
         </Link>
       </div>
       <div className="relative flex items-center gap-5 pr-0.5 xs:gap-6 sm:gap-7">

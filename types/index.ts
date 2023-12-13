@@ -56,7 +56,7 @@ export interface Product {
 //can take null	or Product
 export type ProductList = Product[] | null;
 
-export type ProductCategoryType = "Luku" | "Music" | "Event";
+export type ProductCategoryType = "Wardrobe" | "Music" | "Event";
 
 export interface ProductVariationType {
   variation: string;

@@ -1,13 +1,13 @@
-export const productCategories = ["Luku", "Music", "Event"];
+export const productCategories = ["Wardrobe", "Music", "Event"];
 
 export const productSubCategories = {
-  Luku: ["Head Wear", "Tops", "Pants", "Full	Body"],
+  Wardrobe: ["Head Wear", "Tops", "Pants", "Full	Body"],
   Music: ["Single", "Album"],
   Event: ["Concert", "Confrence"],
 };
 
 export const productVariationTypes = {
-  Luku: [
+  Wardrobe: [
     {
       type: "color",
       placeholder: "Eg. Red, Blue, Green",

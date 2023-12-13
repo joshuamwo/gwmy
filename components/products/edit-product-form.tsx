@@ -230,7 +230,7 @@ export default function AddProductForm() {
 
           {/* dynamic inputs */}
 
-          {product_category === "Luku" && (
+          {product_category === "Wardrobe" && (
             <div className="flex flex-col gap-4">
               <ProductNameInput
                 product_name={product.product_name}

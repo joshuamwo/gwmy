@@ -23,7 +23,7 @@ export default function ProductCategorySelector({
   }
 
   return (
-    <div className="flex flex-row w-full gap-4 justify-between h-32">
+    <div className="flex flex-row w-full gap-4 justify-between h-44">
       <AutocompleteDropdown
         options={productCategories}
         selectedOption={product_category}
