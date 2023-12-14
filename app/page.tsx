@@ -10,7 +10,7 @@ import { useRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import MyProductsList from "@/components/sections/my-products-list";
 import { Product } from "@/types";
-import AllPublishedProductsList from "@/components/products/all-published-products-list";
+import AllPublishedProductsList from "@/components/product/all-published-products-list";
 
 export default function App() {
   const { supabase } = useSupabase();

@@ -7,10 +7,10 @@ import { CloseIcon } from "../icons/close-icon";
 import dynamic from "next/dynamic";
 import { useModalState } from "./modal-controller";
 import { useModalAction } from "./modal-controller";
-import AddProductForm from "../products/add-product-form";
-import EditProductForm from "../products/edit-product-form";
-import DeleteProductForm from "../products/delete-product-form";
-import ProductViewModal from "../products/product-view-modal";
+import AddProductForm from "../product/add-product-form";
+import EditProductForm from "../product/edit-product-form";
+import DeleteProductForm from "../product/delete-product-form";
+import ProductViewModal from "../product/product-view-modal";
 
 const AuthForm = dynamic(() => import("@/components/auth/auth-form"));
 
@@ -45,7 +45,6 @@ export function ModalContainer() {
 
   const { view, isOpen } = useModalState();
   const { closeModal } = useModalAction();
-
 
   return (
     <Transition show={isOpen} as={Fragment}>
