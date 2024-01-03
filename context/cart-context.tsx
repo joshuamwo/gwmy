@@ -1,38 +1,26 @@
 import { useContext, createContext, useState } from "react";
+import { CartItem, Variant, Item } from "@/types";
 
 interface CartContext {
   cart: CartItem[];
   getItemQuantity: (id: string) => number;
   increaseItemQuantity: (item: Item) => void;
-  // decreseItemQuantity: (item: CartItem) => void;
-  // removeFromCart: (item: CartItem) => void;
+  decreseItemQuantity: (item: Item) => void;
+  removeFromCart: (item: Item) => void;
 }
-
-interface CartItem {
-  id: string;
-  quantity: number;
-  variants: Variant[];
-}
-
-interface Item {
-  id: string;
-  quantity: number;
-  variant: Variant;
-}
-
-type Variant = {
-  name: string;
-  quantity: number;
-};
 
 const CartContext = createContext<CartContext | undefined>(undefined);
 
 // use cart
 export function useCart() {
-  return useContext(CartContext);
+  const cartcontext = useContext(CartContext);
+  if (cartcontext === undefined) {
+    throw new Error("useCart must be used inside CartProvider");
+  }
+  return cartcontext;
 }
 
-function CartProvider({ children }: { children: React.ReactNode }) {
+export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState([] as CartItem[]);
 
   function getItemQuantity(id: string) {
@@ -89,14 +77,67 @@ function CartProvider({ children }: { children: React.ReactNode }) {
     });
   }
 
+  function decreseItemQuantity(cartItem: Item) {
+    setCart((cartItems) => {
+      // find matching item by id where quantity == 1
+      const itemIsOne = cartItems.find(
+        (item) => item.id === cartItem.id && cartItem.quantity == 1
+      );
+
+      //  exists?
+      if (itemIsOne) {
+        // remove it
+        return cartItems.filter((item) => item.id !== cartItem.id);
+      }
+
+      //else decrese item quantity and decrese the variation quantity
+      return cartItems.map((item) => {
+        if (item.id === cartItem.id) {
+          // find matching item where variant is one
+          const variantIsOne = item.variants.find(
+            (variant) => variant.name && variant.quantity === 1
+          );
+
+          const newVariants: Variant[] = variantIsOne
+            ? item.variants.filter(
+                (variant) => variant.name !== cartItem.variant.name
+              )
+            : item.variants.map((variant) => {
+                if (variant.name === cartItem.variant.name) {
+                  return {
+                    ...variant,
+                    quantity: variant.quantity - 1,
+                  };
+                }
+                return variant;
+              });
+
+          return {
+            ...item,
+            quantity: item.quantity - 1,
+            variants: newVariants,
+          };
+        }
+
+        return item;
+      });
+    });
+  }
+
+  function removeFromCart(cartItem: Item) {
+    setCart((cartItems) => {
+      return cartItems.filter((item) => item.id !== cartItem.id);
+    });
+  }
+
   return (
     <CartContext.Provider
       value={{
         cart,
         getItemQuantity,
         increaseItemQuantity,
-        // decreseItemQuantity,
-        // removeFromCart,
+        decreseItemQuantity,
+        removeFromCart,
       }}
     >
       {children}

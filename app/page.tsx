@@ -16,7 +16,6 @@ export default function App() {
   const { supabase } = useSupabase();
   const { openModal, closeModal } = useModalAction();
   const router = useRouter();
-  const [user, setUser] = useRecoilState(userState);
 
   const [products, setProducts] = useRecoilState(productsState);
 

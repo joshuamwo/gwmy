@@ -1,7 +1,10 @@
 import { classnames } from "@/utils/classnames";
 import Button from "../ui/button";
 import { Product } from "@/types";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useCart } from "@/context/cart-context";
+import { Item } from "@/types";
+import { userContext } from "@/context/supabase-context";
 
 interface AddToCartProps {
   className?: string;
@@ -15,11 +18,32 @@ export default function AddToCart({
   toastClassName,
 }: AddToCartProps) {
   const [cartingSuccess, setCartingSuccess] = useState(false);
+  const [addToCartLoader, setAddToCartLoader] = useState(false);
+
+  const cart = useCart();
+	const user = userContext();
+	
+
+  function handleAddToCart() {
+    setAddToCartLoader(true);
+    const cartItem: Item = {
+      id: item.id,
+      quantity: 1,
+      variant: { name: "red", quantity: 1 },
+    };
+
+    cart.increaseItemQuantity(cartItem);
+    console.log(
+      `${item.product_name} quantity in cart: ${cart.getItemQuantity(item.id)}`
+    );
+    console.log(cart.cart);
+    setAddToCartLoader(false);
+  }
 
   return (
     <Button
-      // onClick={() => handleAddToCart()}
-      // isLoading={addToCartLoader}
+      onClick={() => handleAddToCart()}
+      isLoading={addToCartLoader}
       className={classnames(
         "relative",
         cartingSuccess

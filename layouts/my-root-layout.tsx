@@ -5,6 +5,7 @@ import InterfaceLayout from "./interface-layout";
 import { ThemeProvider } from "next-themes";
 import { SupabaseProvider } from "@/context/supabase-context";
 import { ModalProvider } from "@/components/modals/modal-controller";
+import { CartProvider } from "@/context/cart-context";
 
 export default function MyRootLayout({
   children,
@@ -15,9 +16,11 @@ export default function MyRootLayout({
     <RecoilRoot>
       <SupabaseProvider>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <ModalProvider>
-            <InterfaceLayout>{children}</InterfaceLayout>
-          </ModalProvider>
+          <CartProvider>
+            <ModalProvider>
+              <InterfaceLayout>{children}</InterfaceLayout>
+            </ModalProvider>
+          </CartProvider>
         </ThemeProvider>
       </SupabaseProvider>
     </RecoilRoot>

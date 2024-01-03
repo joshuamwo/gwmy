@@ -18,8 +18,7 @@ const UserContext = createContext<UserStateType | undefined>(undefined);
 export function SupabaseProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const provider = "google";
-  const [getUserDone, setGetUserDone] =
-    useRecoilState(getUserDoneState);
+  const [getUserDone, setGetUserDone] = useRecoilState(getUserDoneState);
 
   const [supabase] = useState(() =>
     createBrowserClient(
@@ -29,7 +28,7 @@ export function SupabaseProvider({ children }: { children: React.ReactNode }) {
   );
 
   //set user state
-  const [user, setUser] = useRecoilState(userState);
+  const [user, setUser] = useState();
 
   //function to	get user
   async function getUser() {
@@ -38,7 +37,7 @@ export function SupabaseProvider({ children }: { children: React.ReactNode }) {
       setUser(data[0]);
       setGetUserDone(true);
     } else {
-      setUser(null);
+      setUser(undefined);
       setGetUserDone(true);
     }
   }
@@ -72,10 +71,10 @@ export const useSupabase = () => {
   return context;
 };
 
-// export const userContext = () => {
-//   const context = useContext(UserContext);
-//   if (context === undefined) {
-//     throw new Error("userContext must be used within a UserContext");
-//   }
-//   return context;
-// };
+export const userContext = () => {
+  const context = useContext(UserContext);
+  if (context === undefined) {
+    throw new Error("userContext must be used within a UserContext");
+  }
+  return context;
+};

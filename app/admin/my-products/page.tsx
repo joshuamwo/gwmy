@@ -13,7 +13,9 @@ import { Product } from "@/types";
 
 export default function MyProducts() {
   const { openModal } = useModalAction();
-  const { supabase } = useSupabase();
+	const { supabase } = useSupabase();
+	
+	
   const router = useRouter();
   const user = useRecoilValue(userState);
 

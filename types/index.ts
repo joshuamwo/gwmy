@@ -62,3 +62,20 @@ export interface ProductVariationType {
   variation: string;
   price: number | null;
 }
+
+export interface CartItem {
+  id: string;
+  quantity: number;
+  variants: Variant[];
+}
+
+export interface Item {
+  id: string;
+  quantity: number;
+  variant: Variant;
+}
+
+export type Variant = {
+  name: string;
+  quantity: number;
+};
