@@ -3,11 +3,15 @@ import { Product } from "@/types";
 import ProductThumbnailGallery from "./product-thumbnail-gallery";
 import ShareItem from "../ui/share-item";
 import AddToCart from "./add-to-cart";
+import ColorSelector from "../ui/color-selector";
+import { useState } from "react";
 
 export default function ProductViewModal() {
   const { data } = useModalState();
   const product = data as Product;
   const productUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/product/${product.id}`;
+
+  const [selectedColor, serSelectedColor] = useState();
 
   return (
     <div className="flex max-w-full flex-col bg-light text-left dark:bg-dark-250 xs:max-w-[430px] sm:max-w-[550px] md:max-w-[600px] lg:max-w-[960px] xl:max-w-[1200px] 2xl:max-w-[1266px] 3xl:max-w-[1460px]">
@@ -36,6 +40,8 @@ export default function ProductViewModal() {
               <ShareItem itemUrl="productUrl" />
             </div>
           </div>
+
+          <ColorSelector  />
           <div className="flex flex-col-reverse items-center xs:flex-row xs:gap-2.5 xs:pb-4 md:flex-nowrap md:gap-3.5 lg:gap-4 3xl:pb-14">
             <AddToCart
               item={product}
