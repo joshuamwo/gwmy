@@ -66,7 +66,13 @@ export default function ProductThumbnailGallery({
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="absolute top-2/4 z-10 flex w-full items-center justify-between px-2.5 xl:px-4">
+        <div
+          className={
+            gallery.length > 1
+              ? "absolute top-2/4 z-10 flex w-full items-center justify-between px-2.5 xl:px-4"
+              : "hidden"
+          }
+        >
           <div
             ref={prevRef}
             className="flex h-8 w-8 -translate-y-1/2 transform cursor-pointer items-center justify-center rounded-full border border-light-400 bg-light text-dark/90 shadow-xl transition duration-300 hover:bg-light-200 hover:text-brand-dark focus:outline-none rtl:rotate-180 xl:h-9 xl:w-9"
@@ -91,6 +97,7 @@ export default function ProductThumbnailGallery({
           onSwiper={setThumbsSwiper}
           observeParents={true}
           watchSlidesProgress={true}
+          hidden={gallery.length < 2}
         >
           {gallery?.map((item: any) => (
             <SwiperSlide

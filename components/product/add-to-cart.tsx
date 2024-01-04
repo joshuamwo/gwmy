@@ -10,6 +10,8 @@ interface AddToCartProps {
   className?: string;
   item: any;
   toastClassName?: string;
+  selectedColor: string;
+  selectedSize: string;
 }
 
 export default function AddToCart({
@@ -21,8 +23,7 @@ export default function AddToCart({
   const [addToCartLoader, setAddToCartLoader] = useState(false);
 
   const cart = useCart();
-	const user = userContext();
-	
+  const user = userContext();
 
   function handleAddToCart() {
     setAddToCartLoader(true);

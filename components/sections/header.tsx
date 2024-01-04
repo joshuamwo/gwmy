@@ -31,22 +31,22 @@ export default function Header({
         <Link href="/" className="flex gap-1">
           {/* <h1 className="font-bold">GWMY</h1> */}
           {["G", "W", "M", "Y"].map((letter) => (
-            <div className="group">
+            <div className="group" key={letter}>
               <h1 className=" bg-brand hover:bg-dark-400 transition-all duration-500 p-1 w-8 justify-center flex rounded">
                 {letter}
               </h1>
               {/* tooltip */}
               <div className=" hidden  mt-1 w-8 absolute p-1 rounded bg-brand text-center group-hover:flex group-hover:animate-bounce  flex-col ">
                 {letter === "G"
-                  ? ["O", "D"].map((letter) => <span>{letter}</span>)
+                  ? ["O", "D"].map((letter) => <span key={letter}>{letter}</span>)
                   : letter === "W"
                   ? ["W", "A", "N", "T", "S"].map((letter) => (
-                      <span>{letter}</span>
+                      <span key={letter}>{letter}</span>
                     ))
                   : letter === "M"
-                  ? ["E"].map((letter) => <span>{letter}</span>)
+                  ? ["E"].map((letter) => <span key={letter}>{letter}</span>)
                   : ["Y", "O", "U", "N", "G"].map((letter) => (
-                      <span>{letter}</span>
+                      <span key={letter}>{letter}</span>
                     ))}
               </div>
             </div>

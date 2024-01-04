@@ -33,24 +33,26 @@ export interface Product {
   product_description: string;
   price: number;
   is_product_varied: boolean;
-  product_variations: Record<string, ProductVariationType[]>; // Change 'any' to the specific structure if known
+  colors: [];
+  sizes: [];
+  product_variations: Record<string, ProductVariationType[]>;
   is_price_varied: boolean;
-  price_per_variations: Record<string, any>; // Change 'any' to the specific structure if known
+  price_per_variations: Record<string, any>;
   stock_quantity: number;
   meta_title: string;
   meta_description: string;
-  keywords: Record<string, any>; // Change 'any' to the specific structure if known
+  keywords: Record<string, any>;
   discount_percentage: number;
   weight: number;
-  dimensions: Record<string, any>; // Change 'any' to the specific structure if known
+  dimensions: Record<string, any>;
   shipping_class: string;
   created_at: Date;
   updated_at: Date;
   average_rating: number;
   total_reviews: number;
   is_published: boolean;
-  owner: string; // Assuming 'owner' is a string representation of user ID (UUID)
-  image_urls: string[]; // Array of image URLs
+  owner: string;
+  image_urls: string[];
 }
 
 //can take null	or Product
