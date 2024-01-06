@@ -1,10 +1,11 @@
 import { useContext, createContext, useState } from "react";
 import { CartItem, Variant, Item } from "@/types";
+import { useEffect } from "react";
 
 interface CartContext {
   cart: CartItem[];
   getItemQuantity: (id: string) => number;
-  increaseItemQuantity: (item: Item) => void;
+  increaseItemQuantity: (item: CartItem) => void;
   decreseItemQuantity: (item: Item) => void;
   removeFromCart: (item: Item) => void;
 }
@@ -21,107 +22,81 @@ export function useCart() {
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [cart, setCart] = useState([] as CartItem[]);
+  const localCart = localStorage.getItem("cart");
+  const initialCart = localCart ? JSON.parse(localCart) : [];
+  const [cart, setCart] = useState(initialCart as CartItem[]);
 
-  function getItemQuantity(id: string) {
-    return cart.find((item) => item.id === id)?.quantity || 0;
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
+  function getItemQuantity(itemId: string) {
+    return (
+      cart.find((cartItem) => cartItem.cartItemId === itemId)?.quantity ?? 0
+    );
   }
 
-  function increaseItemQuantity(cartItem: Item) {
-    setCart((items) => {
-      const cartItemExists = items.find((item) => item.id === cartItem.id);
+  function increaseItemQuantity(item: CartItem) {
+    setCart((cartItems) => {
+      const cartItemExists = cartItems.find(
+        (cartItem) => cartItem.cartItemId === item.cartItemId
+      );
 
-      if (!cartItemExists) {
-        const newItem: CartItem = {
-          id: cartItem.id,
-          quantity: cartItem.quantity,
-          variants: [cartItem.variant],
-        };
-
-        return [...items, newItem];
-      }
-
-      return items.map((item) => {
-        if (item.id === cartItem.id) {
-          const existingVariant = item.variants.find(
-            (variant) => variant.name === cartItem.variant.name
-          );
-
-          if (!existingVariant) {
+      if (cartItemExists) {
+        return cartItems.map((cartItem) => {
+          if (cartItem.cartItemId == item.cartItemId) {
             return {
-              ...item,
-              quantity: item.quantity + cartItem.quantity,
-              variants: [
-                ...item.variants,
-                { name: cartItem.variant.name, quantity: 1 },
-              ],
+              ...cartItem,
+              quantity: cartItem.quantity + item.quantity,
             };
           }
-
-          return {
-            ...item,
-            quantity: item.quantity + cartItem.quantity,
-            variants: item.variants.map((variant) =>
-              variant.name === cartItem.variant.name
-                ? {
-                    name: variant.name,
-                    quantity: variant.quantity + cartItem.quantity,
-                  }
-                : variant
-            ),
-          };
-        }
-
-        return item;
-      });
+          return cartItem;
+        });
+      }
+      return [...cartItems, item];
     });
   }
 
   function decreseItemQuantity(cartItem: Item) {
-    setCart((cartItems) => {
-      // find matching item by id where quantity == 1
-      const itemIsOne = cartItems.find(
-        (item) => item.id === cartItem.id && cartItem.quantity == 1
-      );
-
-      //  exists?
-      if (itemIsOne) {
-        // remove it
-        return cartItems.filter((item) => item.id !== cartItem.id);
-      }
-
-      //else decrese item quantity and decrese the variation quantity
-      return cartItems.map((item) => {
-        if (item.id === cartItem.id) {
-          // find matching item where variant is one
-          const variantIsOne = item.variants.find(
-            (variant) => variant.name && variant.quantity === 1
-          );
-
-          const newVariants: Variant[] = variantIsOne
-            ? item.variants.filter(
-                (variant) => variant.name !== cartItem.variant.name
-              )
-            : item.variants.map((variant) => {
-                if (variant.name === cartItem.variant.name) {
-                  return {
-                    ...variant,
-                    quantity: variant.quantity - 1,
-                  };
-                }
-                return variant;
-              });
-
-          return {
-            ...item,
-            quantity: item.quantity - 1,
-            variants: newVariants,
-          };
-        }
-
-        return item;
-      });
-    });
+    // setCart((cartItems) => {
+    //   // find matching item by id where quantity == 1
+    //   const itemIsOne = cartItems.find(
+    //     (item) => item.id === cartItem.id && cartItem.quantity == 1
+    //   );
+    //   //  exists?
+    //   if (itemIsOne) {
+    //     // remove it
+    //     return cartItems.filter((item) => item.id !== cartItem.id);
+    //   }
+    //   //else decrese item quantity and decrese the variation quantity
+    //   return cartItems.map((item) => {
+    //     if (item.id === cartItem.id) {
+    //       // find matching item where variant is one
+    //       const variantIsOne = item.variants.find(
+    //         (variant) => variant.name && variant.quantity === 1
+    //       );
+    //       const newVariants: Variant[] = variantIsOne
+    //         ? item.variants.filter(
+    //             (variant) => variant.name !== cartItem.variant.name
+    //           )
+    //         : item.variants.map((variant) => {
+    //             if (variant.name === cartItem.variant.name) {
+    //               return {
+    //                 ...variant,
+    //                 quantity: variant.quantity - 1,
+    //               };
+    //             }
+    //             return variant;
+    //           });
+    //       return {
+    //         ...item,
+    //         quantity: item.quantity - 1,
+    //         variants: newVariants,
+    //       };
+    //     }
+    //     return item;
+    //   });
+    // });
   }
 
   function removeFromCart(cartItem: Item) {

@@ -66,9 +66,11 @@ export interface ProductVariationType {
 }
 
 export interface CartItem {
+  cartItemId: string;
   id: string;
   quantity: number;
-  variants: Variant[];
+  color: string;
+  size: string;
 }
 
 export interface Item {
@@ -80,4 +82,10 @@ export interface Item {
 export type Variant = {
   name: string;
   quantity: number;
+};
+
+export type ProductVariation = {
+  color: string;
+  size: string;
+  quantity: string;
 };

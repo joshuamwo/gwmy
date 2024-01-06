@@ -48,6 +48,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       )}
       type={type}
       {...props}
+      disabled={disabled}
     >
       {isLoading && <SpinnerIcon className=" w-5 h-auto animate-spin" />}
 

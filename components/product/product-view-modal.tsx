@@ -70,6 +70,7 @@ export default function ProductViewModal() {
 
           <div className="flex flex-col-reverse items-center xs:flex-row xs:gap-2.5 xs:pb-4 md:flex-nowrap md:gap-3.5 lg:gap-4 3xl:pb-14">
             <AddToCart
+              disabled={selectedColor === "" || selectedSize === ""}
               item={product}
               selectedColor={selectedColor}
               selectedSize={selectedSize}

@@ -3,7 +3,7 @@ import Button from "../ui/button";
 import { Product } from "@/types";
 import { useContext, useState } from "react";
 import { useCart } from "@/context/cart-context";
-import { Item } from "@/types";
+import { CartItem } from "@/types";
 import { userContext } from "@/context/supabase-context";
 
 interface AddToCartProps {
@@ -12,12 +12,16 @@ interface AddToCartProps {
   toastClassName?: string;
   selectedColor: string;
   selectedSize: string;
+  disabled?: boolean;
 }
 
 export default function AddToCart({
   className,
   item,
+  selectedColor,
+  selectedSize,
   toastClassName,
+  disabled,
 }: AddToCartProps) {
   const [cartingSuccess, setCartingSuccess] = useState(false);
   const [addToCartLoader, setAddToCartLoader] = useState(false);
@@ -27,15 +31,19 @@ export default function AddToCart({
 
   function handleAddToCart() {
     setAddToCartLoader(true);
-    const cartItem: Item = {
+    const cartItem: CartItem = {
+      cartItemId: item.id + selectedColor + selectedSize,
       id: item.id,
       quantity: 1,
-      variant: { name: "red", quantity: 1 },
+      color: selectedColor,
+      size: selectedSize,
     };
 
     cart.increaseItemQuantity(cartItem);
     console.log(
-      `${item.product_name} quantity in cart: ${cart.getItemQuantity(item.id)}`
+      `${item.product_name} quantity in cart: ${cart.getItemQuantity(
+        cartItem.cartItemId
+      )}`
     );
     console.log(cart.cart);
     setAddToCartLoader(false);
@@ -43,6 +51,7 @@ export default function AddToCart({
 
   return (
     <Button
+      disabled={disabled}
       onClick={() => handleAddToCart()}
       isLoading={addToCartLoader}
       className={classnames(

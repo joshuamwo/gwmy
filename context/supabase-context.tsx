@@ -28,7 +28,7 @@ export function SupabaseProvider({ children }: { children: React.ReactNode }) {
   );
 
   //set user state
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
 
   //function to	get user
   async function getUser() {
@@ -37,7 +37,7 @@ export function SupabaseProvider({ children }: { children: React.ReactNode }) {
       setUser(data[0]);
       setGetUserDone(true);
     } else {
-      setUser(undefined);
+      setUser(null);
       setGetUserDone(true);
     }
   }
@@ -73,8 +73,5 @@ export const useSupabase = () => {
 
 export const userContext = () => {
   const context = useContext(UserContext);
-  if (context === undefined) {
-    throw new Error("userContext must be used within a UserContext");
-  }
   return context;
 };
