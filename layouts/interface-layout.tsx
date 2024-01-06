@@ -7,6 +7,7 @@ import { useState } from "react";
 import { ModalContainer } from "@/components/modals/modals-container";
 import { getUserDoneState, userState } from "@/recoil/atoms";
 import { useRecoilValue } from "recoil";
+import { Toaster } from "react-hot-toast";
 
 const BottomNavigation = dynamic(
   () => import("@/components/sections/bottom-navigation")
@@ -35,6 +36,7 @@ export default function InterfaceLayout({
             sidebarToggle={sidebarToggle}
             isUserLoggedIn={isUserLoggedIn}
           />
+          <Toaster position="top-center" reverseOrder={false} />
           <div className="flex flex-1">
             <Sidebar sidebarIsOpen={sidebarIsOpen} />
             <main

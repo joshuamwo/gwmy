@@ -6,6 +6,7 @@ import AddToCart from "./add-to-cart";
 import ColorSelector from "../ui/color-selector";
 import { useState } from "react";
 import SizeSelector from "../ui/size-selector";
+import QuantityInput from "../ui/quantityInput";
 
 export default function ProductViewModal() {
   const { data } = useModalState();
@@ -14,6 +15,7 @@ export default function ProductViewModal() {
 
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
+  const [quantity, setQuantity] = useState(1);
 
   function handleColorSelect(color: any) {
     setSelectedColor(color);
@@ -62,6 +64,11 @@ export default function ProductViewModal() {
                 selectedSize={selectedSize}
               />
             </div>
+
+            {/* quantity input */}
+            <div className="my-7">
+              <QuantityInput quantity={quantity} setQuantity={setQuantity} />
+            </div>
             {/* share item */}
             <div className="border-t border-light-500 pt-5 dark:border-dark-500">
               <ShareItem itemUrl={productUrl} />
@@ -71,11 +78,12 @@ export default function ProductViewModal() {
           <div className="flex flex-col-reverse items-center xs:flex-row xs:gap-2.5 xs:pb-4 md:flex-nowrap md:gap-3.5 lg:gap-4 3xl:pb-14">
             <AddToCart
               disabled={selectedColor === "" || selectedSize === ""}
-              item={product}
+								item={product}
+								quantity={quantity}
               selectedColor={selectedColor}
               selectedSize={selectedSize}
               className="mt-2.5 w-full flex-1 xs:mt-0"
-              toastClassName="-mt-10 xs:mt-0"
+              toastClassName="-mt-10 xs:mt-0 dark:bg-dark-300 dark:text-light-600  "
             />
           </div>
         </div>

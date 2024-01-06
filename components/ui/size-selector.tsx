@@ -15,7 +15,7 @@ export default function SizeSelector({
         Choose a Size
       </h4>
 
-      <div className="flex items-center mt-4 space-x-3">
+      <div className="grid gap-2 items-center mt-4 grid-cols-3">
         {sizes &&
           sizes.map((size) => (
             <div
@@ -32,8 +32,8 @@ export default function SizeSelector({
               <span
                 className={
                   size === selectedSize
-                    ? "h-7 w-9 flex rounded  justify-center items-center font-medium  ring-2 ring-gray-700 dark:ring-gray-300 border border-black border-opacity-10"
-                    : "h-7 w-9 flex rounded justify-center items-center font-medium border border-black border-opacity-10"
+                    ? " w-full h-10 flex rounded  justify-center items-center font-medium  ring-2 ring-gray-700 dark:ring-gray-300 border border-black border-opacity-10"
+                    : " w-full h-10 flex rounded justify-center items-center font-medium border border-dark-300 dark:border-dark-400 border-opacity-10"
                 }
               >
                 {size}

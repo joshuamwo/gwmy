@@ -22,12 +22,16 @@ export function useCart() {
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const localCart = localStorage.getItem("cart");
-  const initialCart = localCart ? JSON.parse(localCart) : [];
-  const [cart, setCart] = useState(initialCart as CartItem[]);
+  const [cart, setCart] = useState([] as CartItem[]);
 
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
+    const localCart = window.localStorage.getItem("cart");
+    const initialCart = localCart ? JSON.parse(localCart) : [];
+    setCart(initialCart);
+		}, []);
+	
+  useEffect(() => {
+    window.localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
   function getItemQuantity(itemId: string) {

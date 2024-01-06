@@ -38,7 +38,7 @@ export default function ColorSelector({
                 className={
                   selectedColor === color
                     ? "h-4 w-4  dark:ring-gray-500 rounded-full border border-black border-opacity-10"
-                    : "h-4 w-4  rounded-full border border-dark-300 border-opacity-10 opacity-40"
+                    : "h-4 w-4  rounded-full border bo rder-dark-300 border-opacity-10 opacity-40"
                 }
               ></span>
               <span>{color}</span>

@@ -5,10 +5,12 @@ import { useContext, useState } from "react";
 import { useCart } from "@/context/cart-context";
 import { CartItem } from "@/types";
 import { userContext } from "@/context/supabase-context";
+import toast from "react-hot-toast";
 
 interface AddToCartProps {
   className?: string;
   item: any;
+  quantity: number;
   toastClassName?: string;
   selectedColor: string;
   selectedSize: string;
@@ -18,6 +20,7 @@ interface AddToCartProps {
 export default function AddToCart({
   className,
   item,
+  quantity,
   selectedColor,
   selectedSize,
   toastClassName,
@@ -34,19 +37,27 @@ export default function AddToCart({
     const cartItem: CartItem = {
       cartItemId: item.id + selectedColor + selectedSize,
       id: item.id,
-      quantity: 1,
+      quantity: quantity,
       color: selectedColor,
       size: selectedSize,
     };
 
     cart.increaseItemQuantity(cartItem);
-    console.log(
-      `${item.product_name} quantity in cart: ${cart.getItemQuantity(
-        cartItem.cartItemId
-      )}`
-    );
-    console.log(cart.cart);
-    setAddToCartLoader(false);
+    setTimeout(() => {
+      setAddToCartLoader(false);
+      successfullCarting();
+    }, 650);
+  }
+
+  function successfullCarting() {
+    setCartingSuccess(true);
+    toast.success("Item added to cart", {
+      className: toastClassName,
+    });
+
+    setTimeout(() => {
+      setCartingSuccess(false);
+    }, 800);
   }
 
   return (
@@ -63,7 +74,7 @@ export default function AddToCart({
       )}
     >
       Add to Bag Ksh.{item.price}
-      {/* <svg
+      <svg
         viewBox="0 0 37 37"
         xmlns="http://www.w3.org/2000/svg"
         className="absolute top-auto bottom-auto right-3 h-auto w-5 xs:right-4 xs:w-6"
@@ -86,7 +97,7 @@ export default function AddToCart({
           d="M11.6 20L15.9 24.2 26.4 13.8"
           className="tick path"
         />
-      </svg> */}
+      </svg>
     </Button>
   );
 }
