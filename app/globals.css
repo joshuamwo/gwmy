@@ -121,3 +121,20 @@ input[type="number"] {
 z-1000 {
   z-index: 1000;
 }
+
+/* cart tick animated icon styles */
+.circle {
+  opacity: 0;
+  stroke-dasharray: 130;
+  stroke-dashoffset: 130;
+  transition: all 0.7s;
+}
+.tick {
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  transition: stroke-dashoffset 0.7s 0.3s ease-out;
+}
+.is-carting .path {
+  opacity: 1;
+  stroke-dashoffset: 0;
+}

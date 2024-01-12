@@ -42,11 +42,19 @@ export default function AddToCart({
       size: selectedSize,
     };
 
-    cart.increaseItemQuantity(cartItem);
-    setTimeout(() => {
-      setAddToCartLoader(false);
-      successfullCarting();
-    }, 650);
+    try {
+      cart.increaseItemQuantity(cartItem);
+      setTimeout(() => {
+        setAddToCartLoader(false);
+        successfullCarting();
+      }, 650);
+    } catch (error) {
+      cart.increaseItemQuantity(cartItem);
+      setTimeout(() => {
+        setAddToCartLoader(false);
+        unsuccessfullCarting();
+      }, 650);
+    }
   }
 
   function successfullCarting() {
@@ -58,6 +66,12 @@ export default function AddToCart({
     setTimeout(() => {
       setCartingSuccess(false);
     }, 800);
+  }
+
+  function unsuccessfullCarting() {
+    toast.error("Carting Failed. Please try again!", {
+      className: toastClassName,
+    });
   }
 
   return (
@@ -77,7 +91,7 @@ export default function AddToCart({
       <svg
         viewBox="0 0 37 37"
         xmlns="http://www.w3.org/2000/svg"
-        className="absolute top-auto bottom-auto right-3 h-auto w-5 xs:right-4 xs:w-6"
+        className="right-3 h-auto w-5 xs:right-4 xs:w-6 "
       >
         <path
           fill="none"

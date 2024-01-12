@@ -78,12 +78,12 @@ export default function ProductViewModal() {
           <div className="flex flex-col-reverse items-center xs:flex-row xs:gap-2.5 xs:pb-4 md:flex-nowrap md:gap-3.5 lg:gap-4 3xl:pb-14">
             <AddToCart
               disabled={selectedColor === "" || selectedSize === ""}
-								item={product}
-								quantity={quantity}
+              item={product}
+              quantity={quantity}
               selectedColor={selectedColor}
               selectedSize={selectedSize}
               className="mt-2.5 w-full flex-1 xs:mt-0"
-              toastClassName="-mt-10 xs:mt-0 dark:bg-dark-300 dark:text-light-600  "
+              toastClassName="dark:bg-dark-300 dark:text-light-600  "
             />
           </div>
         </div>
