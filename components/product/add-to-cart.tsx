@@ -33,7 +33,6 @@ export default function AddToCart({
   const user = userContext();
 
   function handleAddToCart() {
-    setAddToCartLoader(true);
     const cartItem: CartItem = {
       cartItemId: item.id + selectedColor + selectedSize,
       id: item.id,
@@ -43,6 +42,7 @@ export default function AddToCart({
     };
 
     try {
+      setAddToCartLoader(true);
       cart.increaseItemQuantity(cartItem);
       setTimeout(() => {
         setAddToCartLoader(false);
