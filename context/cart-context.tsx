@@ -1,14 +1,7 @@
 import { useContext, createContext, useState } from "react";
 import { CartItem, Variant, Item } from "@/types";
 import { useEffect } from "react";
-
-interface CartContext {
-  cart: CartItem[];
-  getItemQuantity: (id: string) => number;
-  increaseItemQuantity: (item: CartItem) => void;
-  decreseItemQuantity: (item: Item) => void;
-  removeFromCart: (item: Item) => void;
-}
+import { CartContext } from "@/types";
 
 const CartContext = createContext<CartContext | undefined>(undefined);
 
@@ -28,11 +21,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const localCart = window.localStorage.getItem("cart");
     const initialCart = localCart ? JSON.parse(localCart) : [];
     setCart(initialCart);
-		}, []);
-	
+  }, []);
+
   useEffect(() => {
     window.localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
+
+  function getCartTotal() {
+    return cart.reduce((total, item) => total + item.quantity, 0);
+  }
 
   function getItemQuantity(itemId: string) {
     return (
@@ -117,6 +114,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         increaseItemQuantity,
         decreseItemQuantity,
         removeFromCart,
+        getCartTotal,
       }}
     >
       {children}

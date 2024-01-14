@@ -1,3 +1,5 @@
+import { Interface } from "readline";
+
 export interface RegisterInput {
   email: string;
   password: string;
@@ -89,3 +91,21 @@ export type ProductVariation = {
   size: string;
   quantity: string;
 };
+
+// cart context
+
+export interface CartContext {
+  cart: CartItem[];
+  getItemQuantity: (id: string) => number;
+  increaseItemQuantity: (item: CartItem) => void;
+  decreseItemQuantity: (item: Item) => void;
+  removeFromCart: (item: Item) => void;
+  getCartTotal: () => number;
+}
+
+export type DrawerType = "MOBILE_MENU" | "CART_VIEW";
+
+export interface Drawer {
+  drawerType: DrawerType;
+  isOpen: boolean;
+}

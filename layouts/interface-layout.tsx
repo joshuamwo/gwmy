@@ -8,6 +8,7 @@ import { ModalContainer } from "@/components/modals/modals-container";
 import { getUserDoneState, userState } from "@/recoil/atoms";
 import { useRecoilValue } from "recoil";
 import { Toaster } from "react-hot-toast";
+import DrawersContainer from "@/components/drawer/drawer-container";
 
 const BottomNavigation = dynamic(
   () => import("@/components/sections/bottom-navigation")
@@ -53,6 +54,7 @@ export default function InterfaceLayout({
           <BottomNavigation />
         </div>
         <ModalContainer />
+        <DrawersContainer />
       </>
     )
   );

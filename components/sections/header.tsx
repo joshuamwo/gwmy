@@ -6,6 +6,10 @@ import { usePathname } from "next/navigation";
 import CartButton from "@/components/ui/cart-button";
 import ProfileMenu from "../menus/profile-menu";
 import { Span } from "next/dist/trace";
+import { useIsMounted } from "@/lib/hooks/use-is-mounted";
+import { useCart } from "@/context/cart-context";
+import { useDrawer } from "../drawer/drawer-context";
+import { useEffect } from "react";
 
 interface HeaderProps {
   sidebarIsOpen: boolean;
@@ -19,6 +23,20 @@ export default function Header({
   isUserLoggedIn,
 }: HeaderProps) {
   const pathname = usePathname();
+  const drawer = useDrawer();
+  const { getCartTotal } = useCart();
+
+  function handleOpenCart() {
+    drawer.openDrawer("CART_VIEW");
+  }
+
+  // keeping count of items in the cart
+  let cartCount: number = 0;
+  const cart = useCart();
+
+  useEffect(() => {
+    cartCount = cart.getCartTotal();
+  }, [cart]);
 
   return (
     <div className="app-header sticky top-0 z-30 flex h-16 w-full  items-center justify-between  bg-light py-1 px-4 left-0  dark:bg-dark-200 sm:h-[70px] sm:px-6">
@@ -38,7 +56,9 @@ export default function Header({
               {/* tooltip */}
               <div className=" hidden  mt-1 w-8 absolute p-1 rounded bg-brand text-center group-hover:flex group-hover:animate-bounce  flex-col ">
                 {letter === "G"
-                  ? ["O", "D"].map((letter) => <span key={letter}>{letter}</span>)
+                  ? ["O", "D"].map((letter) => (
+                      <span key={letter}>{letter}</span>
+                    ))
                   : letter === "W"
                   ? ["W", "A", "N", "T", "S"].map((letter) => (
                       <span key={letter}>{letter}</span>
@@ -56,7 +76,14 @@ export default function Header({
       <div className="relative flex items-center gap-5 pr-0.5 xs:gap-6 sm:gap-7">
         <SearchButton className="hidden sm:flex" />
         <ThemeSwitcher />
-        {pathname !== "/checkout" && <CartButton className="hidden sm:flex" />}
+        {pathname !== "/checkout" && (
+          <CartButton
+            className="hidden sm:flex"
+            isMounted={useIsMounted()}
+            cartCount={getCartTotal()}
+            onClick={handleOpenCart}
+          />
+        )}
 
         <ProfileMenu />
       </div>

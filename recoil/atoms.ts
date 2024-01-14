@@ -2,6 +2,7 @@ import { atom } from "recoil";
 import { UserStateType } from "@/types";
 import { RecoilState } from "recoil";
 import { Product } from "@/types";
+import { Drawer } from "@/types";
 
 export const userState: RecoilState<UserStateType> = atom<UserStateType>({
   key: "userState",
@@ -26,4 +27,12 @@ export const getUserDoneState: RecoilState<boolean> = atom<boolean>({
 export const modalIsOpenState: RecoilState<boolean> = atom<boolean>({
   key: "modalIsOpenState",
   default: false,
+});
+
+export const drawerState: RecoilState<Drawer> = atom<Drawer>({
+	key: "draweState",
+	default: {
+		drawerType: "CART_VIEW",
+			isOpen: false,
+		}
 });
