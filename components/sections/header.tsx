@@ -79,7 +79,6 @@ export default function Header({
         {pathname !== "/checkout" && (
           <CartButton
             className="hidden sm:flex"
-            isMounted={useIsMounted()}
             cartCount={getCartTotal()}
             onClick={handleOpenCart}
           />

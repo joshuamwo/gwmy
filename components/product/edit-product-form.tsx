@@ -10,7 +10,7 @@ import Image from "next/image";
 import { ImageCourosel, ImageSlide } from "../ui/image-courosel";
 import "@splidejs/react-splide/css";
 import { DeleteIcon } from "../icons/delete-icon";
-import { CircularProgress, LinearProgress } from "@mui/material";
+
 import ProductCategorySelector from "./product-category-selector";
 import {
   productInputDefaults,
@@ -324,7 +324,7 @@ export default function AddProductForm() {
                             <DeleteIcon className="h-5 w-5 text-white opacity-80 hover:opacity-100 hover:animate-pulse hover:scale-125 " />
                           </Button>
                         </div>
-                        <img
+                        <Image
                           src={image}
                           className="object-cover rounded"
                           style={{

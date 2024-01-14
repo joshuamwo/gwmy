@@ -16,8 +16,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const isMounted = useIsMounted();
   const getUserDone = useRecoilValue(getUserDoneState);
-	const modalIsOpen = useRecoilValue(modalIsOpenState);
-	
+  const modalIsOpen = useRecoilValue(modalIsOpenState);
 
   useEffect(() => {
     if (modalIsOpen) return;
@@ -28,7 +27,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     } else if (user.user_type !== "alpha") {
       router.push("/");
     }
-  }, [modalIsOpen]);
+  }, [modalIsOpen, getUserDone, openModal, router, user]);
 
   return <>{user && user.user_type == "alpha" && children}</>;
 }

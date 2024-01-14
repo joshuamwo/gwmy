@@ -18,9 +18,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState([] as CartItem[]);
 
   useEffect(() => {
-    const localCart = window.localStorage.getItem("cart");
-    const initialCart = localCart ? JSON.parse(localCart) : [];
-    setCart(initialCart);
+    try {
+      const localCart = localStorage.getItem("cart");
+      const initialCart = localCart ? JSON.parse(localCart) : [];
+      setCart(initialCart);
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   useEffect(() => {

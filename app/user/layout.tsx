@@ -20,7 +20,7 @@ export default function UserLayout({ children }: { children: ReactNode }) {
       router.push("/");
       openModal("AUTHFORM");
     }
-  }, [user]);
+  }, [user, isMounted]);
 
   return <>{user && children}</>;
 }

@@ -31,6 +31,7 @@ export default function QuantityInput({
           <input
             type="number"
             id="Quantity"
+            onChange={(e) => setQuantity(parseInt(e.target.value))}
             value={quantity}
             className="h-10 w-16 text-center border-dark-300 dark:border-dark-400 dark:bg-dark-250 dark:text-white sm:text-sm"
           />

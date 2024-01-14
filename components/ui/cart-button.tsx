@@ -1,19 +1,19 @@
 import Button from "@/components/ui/button";
 import { CartIcon } from "@/components/icons/cart-icon";
+import { useIsMounted } from "@/lib/hooks/use-is-mounted";
 
 interface CartButtonProps {
   className?: string;
-  isMounted: boolean;
   cartCount: number;
   onClick: any;
 }
 
 export default function CartButton({
   className,
-  isMounted,
   cartCount,
 		onClick
 }: CartButtonProps) {
+	const isMounted = useIsMounted()
   return (
     <Button
       variant="icon"
