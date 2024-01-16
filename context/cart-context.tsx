@@ -31,7 +31,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     window.localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  function getCartTotal() {
+  //get cart total price
+  function getCartTotalPrice() {
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  }
+
+  //get cart total count
+
+  function getCartTotalCount() {
     return cart.reduce((total, item) => total + item.quantity, 0);
   }
 
@@ -104,7 +111,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     // });
   }
 
-  function removeFromCart(cartItem: Item) {
+  function removeFromCart(cartItem: CartItem) {
     setCart((cartItems) => {
       return cartItems.filter((item) => item.id !== cartItem.id);
     });
@@ -118,7 +125,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         increaseItemQuantity,
         decreseItemQuantity,
         removeFromCart,
-        getCartTotal,
+        getCartTotalCount,
+        getCartTotalPrice,
       }}
     >
       {children}

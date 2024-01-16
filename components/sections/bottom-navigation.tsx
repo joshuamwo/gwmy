@@ -11,7 +11,7 @@ export default function BottomNavigation() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { getCartTotal } = useCart();
+  const { getCartTotalCount } = useCart();
 
   const drawer = useDrawer();
 
@@ -31,7 +31,7 @@ export default function BottomNavigation() {
       {pathname !== "/checkout" && (
         <CartButton
           className="mt-1.5"
-          cartCount={getCartTotal()}
+          cartCount={getCartTotalCount()}
           onClick={handleOpenCart}
         />
       )}

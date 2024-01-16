@@ -24,7 +24,7 @@ export default function Header({
 }: HeaderProps) {
   const pathname = usePathname();
   const drawer = useDrawer();
-  const { getCartTotal } = useCart();
+  const { getCartTotalCount } = useCart();
 
   function handleOpenCart() {
     drawer.openDrawer("CART_VIEW");
@@ -35,7 +35,7 @@ export default function Header({
   const cart = useCart();
 
   useEffect(() => {
-    cartCount = cart.getCartTotal();
+    cartCount = cart.getCartTotalCount();
   }, [cart]);
 
   return (
@@ -79,7 +79,7 @@ export default function Header({
         {pathname !== "/checkout" && (
           <CartButton
             className="hidden sm:flex"
-            cartCount={getCartTotal()}
+            cartCount={getCartTotalCount()}
             onClick={handleOpenCart}
           />
         )}

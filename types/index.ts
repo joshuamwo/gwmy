@@ -68,11 +68,14 @@ export interface ProductVariationType {
 }
 
 export interface CartItem {
-  cartItemId: string;
+	cartItemId: string;
+	name: string;
+	image: string;
   id: string;
   quantity: number;
   color: string;
   size: string;
+  price: number;
 }
 
 export interface Item {
@@ -99,8 +102,9 @@ export interface CartContext {
   getItemQuantity: (id: string) => number;
   increaseItemQuantity: (item: CartItem) => void;
   decreseItemQuantity: (item: Item) => void;
-  removeFromCart: (item: Item) => void;
-  getCartTotal: () => number;
+  removeFromCart: (item: CartItem) => void;
+  getCartTotalCount: () => number;
+  getCartTotalPrice: () => number;
 }
 
 export type DrawerType = "MOBILE_MENU" | "CART_VIEW";

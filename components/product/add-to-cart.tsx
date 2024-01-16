@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 
 interface AddToCartProps {
   className?: string;
-  item: any;
+  item: Product;
   quantity: number;
   toastClassName?: string;
   selectedColor: string;
@@ -39,6 +39,9 @@ export default function AddToCart({
       quantity: quantity,
       color: selectedColor,
       size: selectedSize,
+      price: item.price,
+      image: item.image_urls[0],
+      name: item.product_name,
     };
 
     try {
