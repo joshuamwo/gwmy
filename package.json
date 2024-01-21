@@ -28,6 +28,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
+    "react-phone-number-input": "^3.3.9",
     "react-share": "^5.0.3",
     "recoil": "^0.7.7",
     "swiper": "^11.0.5"

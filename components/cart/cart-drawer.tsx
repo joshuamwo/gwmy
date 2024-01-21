@@ -19,13 +19,14 @@ export default function CartDrawer() {
   const isEmpty = getCartTotalCount() === 0;
   const totalPrice = getCartTotalPrice();
 
-  function handleCheckout() {
+  function handleCheckout(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
     setLoading(true);
 
     try {
       setTimeout(() => {
         setLoading(false);
-        router.push("/checkput");
+        router.push("/checkout");
         closeDrawer();
       }, 600);
     } catch (error) {
@@ -49,7 +50,11 @@ export default function CartDrawer() {
         </div>
       </div>
       <Scrollbar className="cart-scrollbar w-full flex-1 py-6 px-6 sm:px-7">
-        {!isEmpty ? <CartItemList cart={cart} removeFromCart={removeFromCart}  /> : <CartEmpty />}
+        {!isEmpty ? (
+          <CartItemList cart={cart} removeFromCart={removeFromCart} />
+        ) : (
+          <CartEmpty />
+        )}
       </Scrollbar>
       <div className="border-t border-light-300 px-5 py-6 dark:border-dark-500 sm:px-7 sm:pb-8 sm:pt-7">
         <div className="flex justify-between text-sm font-medium text-dark dark:text-light">
@@ -60,7 +65,7 @@ export default function CartDrawer() {
           <Button
             disabled={isEmpty}
             isLoading={loading}
-            onClick={() => handleCheckout()}
+            onClick={(e) => handleCheckout(e)}
             className="w-full text-sm md:h-[52px]"
           >
             Proceed To Checkout
