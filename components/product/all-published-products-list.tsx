@@ -1,9 +1,17 @@
 import { useRecoilValue } from "recoil";
 import { productsState } from "@/recoil/atoms";
-import React from "react";
+import React, { Suspense } from "react";
 import Card from "../ui/card";
+import ProductCardUiLoader from "../ui/ui-preloaders/product-card-ui-loader";
+import rangeMap from "@/lib/range-map";
 
-export default function AllPublishedProductsList() {
+type publishedProductsProps = {
+  limit?: number;
+};
+
+export default function AllPublishedProductsList({
+  limit = 15,
+}: publishedProductsProps) {
   const products = useRecoilValue(productsState);
 
   return (
@@ -17,7 +25,9 @@ export default function AllPublishedProductsList() {
                 isMyProductsPage={false}
               />
             ))
-          : ""}
+          : rangeMap(limit, (i) => (
+              <ProductCardUiLoader key={i} uniqueKey={`product-${i}`} />
+            ))}
       </div>
     </div>
   );
