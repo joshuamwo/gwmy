@@ -5,7 +5,7 @@ import Button from "../ui/button";
 import Password from "../forms/password";
 import { FormEvent, useEffect, useState } from "react";
 import { FormBgPattern } from "../auth/form-bg-pattern";
-import { useSupabase } from "@/context/supabase-context";
+import { useSupabase, userContext } from "@/context/supabase-context";
 import Image from "next/image";
 import { ImageCourosel, ImageSlide } from "../ui/image-courosel";
 import "@splidejs/react-splide/css";
@@ -22,15 +22,17 @@ import ProductDescriptionInput from "./product-description-input";
 import ProductVariations from "./product-variations";
 import SwitchToggle from "../ui/switch-toggle";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { myProductsState, userState } from "@/recoil/atoms";
+import { myProductsState } from "@/recoil/atoms";
 import { Product } from "@/types";
+import resizeImage from "@/lib/resize-image";
+import toast from "react-hot-toast";
 
 export default function AddProductForm() {
   // Supabase
   const { supabase } = useSupabase();
   // global products	state
   const [myProducts, setMyProducts] = useRecoilState(myProductsState);
-  const user = useRecoilValue(userState);
+  const user = userContext();
   const fetchProducts = async () => {
     const { data, error } = await supabase
       .from("products")
@@ -79,6 +81,11 @@ export default function AddProductForm() {
   //image input remove
   const handleImageInputRemove = (index: number) => {
     // remove image from preview
+    if (imagePreview.length === 1) {
+      setImagePreview([]);
+      setImages([]);
+      return;
+    }
     const newImagePreview = imagePreview.filter((image, i) => i !== index);
     setImagePreview(newImagePreview);
     // remove image from images
@@ -88,50 +95,74 @@ export default function AddProductForm() {
 
   //hanlde input
   function handleInput(id: string, value: any) {
-    // const { id, value } = args;
-    const updatedProduct: ProductInput = {
-      ...product,
+    setProduct((items) => ({
+      ...items,
       [id]: value,
-      // Other properties you want to update or keep unchanged
-    };
-    // Now, set the updated product using setProduct
-    setProduct(updatedProduct);
+    }));
+    return;
   }
 
   // upload images
-
   const uploadImages = async () => {
+    // Exit if there are no images to process
     if (images.length < 1) return;
-    let imageUrls: string[] = [];
-    const randomUUID = self.crypto.randomUUID();
-    if (images) {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      const user = session?.user;
-      const userId = user?.id;
-      const promises = images.map(async (image) => {
-        const imageName = image.name;
-        const filePath = `public/${userId + randomUUID}`;
-        const { error, data } = await supabase.storage
-          .from("product-images")
-          .upload(filePath, image);
-        if (error) {
-          throw error;
-        }
-        imageUrls.push(
-          `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-images/${data.path}`
-        );
-      });
-      setProduct({
-        ...product,
-        image_urls: imageUrls,
-      });
-      await Promise.all(promises);
-      return imageUrls;
-    }
-  };
 
+    // This will hold the URLs of the uploaded images
+    let imageUrls: string[] = [];
+
+    // Get the current user's session to retrieve the user's ID
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    // User's ID is used as part of the file path for better organization of images in storage
+    const userId = session?.user?.id;
+
+    // Define the prefix for the file path where images will be stored
+    const filePathPrefix = `public/${userId}`;
+
+    // Resize each image to ensure consistency and possibly reduce upload time
+    const resizedImagesPromises: Promise<Blob>[] = images.map((image) =>
+      resizeImage(image, 795, 480)
+    );
+
+    // Wait for all the images to be resized
+    const resizedImagesBlobs: Blob[] = await Promise.all(resizedImagesPromises);
+
+    // Convert each resized image blob to a File
+    const resizedImages: File[] = resizedImagesBlobs.map((blob, index) => {
+      // Generate a unique name for each image using UUID
+      const fileName = `resized_${self.crypto.randomUUID()}.png`;
+      return new File([blob], fileName, { type: "image/png" });
+    });
+
+    // Upload each image to the storage
+    const promises = resizedImages.map(async (image) => {
+      const filePath = `${filePathPrefix}/${image.name}`;
+      const { error, data } = await supabase.storage
+        .from("product-images")
+        .upload(filePath, image);
+      if (error) {
+        throw error;
+      }
+      // Store the URL of the uploaded image for later use
+      imageUrls.push(
+        `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-images/${data.path}`
+      );
+    });
+
+    // Wait for all the images to be uploaded
+    await Promise.all(promises);
+
+    // Update the product with the URLs of the uploaded images
+    setProduct({
+      ...product,
+      image_urls: imageUrls,
+    });
+
+    // Return the URLs of the uploaded images
+    return imageUrls;
+  };
   const handleAddProducts = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -155,19 +186,22 @@ export default function AddProductForm() {
               product_variations: product.product_variations,
               image_urls: imageUrls,
               is_published: product.is_published,
-              is_product_varied: product.is_product_varied,
+              colors: product.colors,
+              sizes: product.sizes,
             },
           ])
           .single();
         if (error) {
           setLoading(false);
-          throw error;
+          toast.error("Product add failed! Try again later");
         }
         await fetchProducts();
         setLoading(false);
         setSuccess(true);
         setImagePreview([]);
         setImages([]);
+        setProduct(productInputDefaults);
+        setTimeout(() => setSuccess(false), 3000);
       }
     );
   };
@@ -207,57 +241,20 @@ export default function AddProductForm() {
               <span className=" cursor-pointer pb-2.5 flex justify-center font-normal text-dark/70 rtl:text-right dark:text-light/70">
                 Pricing and Variations
               </span>
-              <div className="flex flex-row items-center justify-between hover:animate-pulse">
-                <span className=" cursor-pointer text-sm flex justify-center font-normal text-dark/70 rtl:text-right dark:text-light/70">
-                  Product has different colors or sizes?
-                </span>
-                <SwitchToggle
-                  state={product.is_product_varied}
-                  setState={handleInput}
-                  stateName="is_product_varied"
-                  className="scale-90"
-                />
-              </div>
-              {/* <div className="flex flex-row items-center justify-between hover:animate-pulse">
-                <span className=" cursor-pointer text-sm flex justify-center font-normal text-dark/70 rtl:text-right dark:text-light/70">
-                  Sizes are priced differently?
-                </span>
-                <SwitchToggle
-                  state={sizePriceVariation}
-                  setState={(id, state) => setSizePriceVariation(state)}
-                  stateName="sizePriceVariation"
-                  className="scale-90"
-                />
-              </div> */}
 
-              {product.is_product_varied &&
-                productVariationTypes[product_category].map((variation) => (
-                  <div key={variation.type}>
-                    <ProductVariations
-                      placeholder={variation.placeholder}
-                      handleVariationsInput={handleInput}
-                      variation_name={variation.type}
-                      variations={product.product_variations}
-                      setVariationAdded={setVariationAdded}
-                    />
-                  </div>
-                ))}
-              {/* {product.is_product_varied &&
-                sizePriceVariation &&
-                productVariationTypes[product_category].map((variation) => (
-                  <div>
-                    <ProductVariations
-                      key={variation.type}
-                      placeholder={variation.placeholder}
-                      handleVariationsInput={handleInput}
-                      variation_name={variation.type}
-                      variations={product.product_variations}
-                      product={product}
-                      setProduct={setProduct}
-                      setVariationAdded={setVariationAdded}
-                    />
-                  </div>
-                ))} */}
+              {productVariationTypes[product_category].map((variation) => (
+                <div key={variation.type}>
+                  <ProductVariations
+                    placeholder={variation.placeholder}
+                    variation_name={variation.type}
+                    variations={{
+                      colors: product.colors,
+                      sizes: product.sizes,
+                    }}
+                    handleInput={handleInput}
+                  />
+                </div>
+              ))}
 
               <Input
                 id="price_per_variation"
@@ -278,7 +275,7 @@ export default function AddProductForm() {
                     {imagePreview.map((image, index) => (
                       <ImageSlide key={index}>
                         {/* delete image */}
-                        <div className="absolute top-2 right-2">
+                        <div className="absolute top-2 right-2 z-50">
                           <Button
                             variant="icon"
                             onClick={() => handleImageInputRemove(index)}
@@ -287,16 +284,17 @@ export default function AddProductForm() {
                             <DeleteIcon className="h-5 w-5 text-white opacity-80 hover:opacity-100 hover:animate-pulse hover:scale-125 " />
                           </Button>
                         </div>
-                        <Image
-                          src={image}
-                          className="object-cover"
-                          style={{
-                            width: "100%",
-                            height: "15rem",
-                            objectFit: "cover",
-                          }}
-                          alt={`image ${index}`}
-                        />
+                        <div className="w-full h-60">
+                          <Image
+                            src={image}
+                            className="object-cover"
+                            fill
+                            style={{
+                              objectFit: "cover",
+                            }}
+                            alt={`image ${index}`}
+                          />
+                        </div>
                       </ImageSlide>
                     ))}
                   </ImageCourosel>
@@ -345,8 +343,12 @@ export default function AddProductForm() {
                 disabled={
                   !product.product_name ||
                   !product.product_description ||
-                  (!product.price && !product.is_product_varied) ||
-                  (!variationAdded && product.is_product_varied) ||
+                  !product.category ||
+                  !product.sub_category ||
+                  !product.price ||
+                  !product.colors ||
+                  !product.sizes ||
+                  !images ||
                   loading
                 }
               >

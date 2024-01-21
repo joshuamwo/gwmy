@@ -6,38 +6,45 @@ import Button from "../ui/button";
 import { Container } from "@mui/material";
 import { Product } from "@/types";
 import { useModalAction } from "../modals/modal-controller";
-import { useSupabase } from "@/context/supabase-context";
+import { useSupabase, userContext } from "@/context/supabase-context";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { productsState } from "@/recoil/atoms";
+import { myProductsState, productsState } from "@/recoil/atoms";
+import toast from "react-hot-toast";
 
 export default function DeleteProductForm() {
+  const user = userContext();
   //get the product from the modal state
   const { data } = useModalState();
   const product = data as Product;
   const { closeModal } = useModalAction();
   const [loading, setLoading] = useState(false);
-  const [products, setProducts] = useRecoilState(productsState);
+  const [myProducts, setMyProducts] = useRecoilState(myProductsState);
 
   const { supabase } = useSupabase();
 
-  async function fetchProducts() {
-    const { data, error } = await supabase.from("products").select("*");
-    if (error) throw error;
+  const fetchProducts = async () => {
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("owner", user?.id);
+    if (error) console.log(error);
     if (data) {
       const products = data as Product[];
-      setProducts(products);
+      setMyProducts(products);
     }
-  }
+  };
 
   async function deleteImages() {
+    if (!product.image_urls) return;
     //delete images
     let fileNames: string[] = [];
-    product.image_urls.forEach((url) => {
-      const parts = url.split("/");
-      const fileName = parts[parts.length - 1];
-      fileNames.push(fileName);
-    });
+    product.image_urls &&
+      product.image_urls.forEach((url) => {
+        const parts = url.split("/");
+        const fileName = parts[parts.length - 1];
+        fileNames.push(fileName);
+      });
 
     const { error } = await supabase.storage
       .from("product-images")
@@ -54,12 +61,14 @@ export default function DeleteProductForm() {
         .delete()
         .eq("id", product.id);
 
-      if (error) throw error;
+      if (error) toast.error("Delete product failed! Try again later.");
 
-      await fetchProducts();
-      setLoading(false);
-      closeModal();
-      return;
+      fetchProducts().then(() => {
+        setLoading(false);
+        toast.success("Product deleted!");
+        closeModal();
+        return;
+      });
     });
   }
 

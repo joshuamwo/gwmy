@@ -16,7 +16,10 @@ interface CardProps {
 }
 
 export default function Card({ product, isMyProductsPage }: CardProps) {
-  const src = product.image_urls[0] ? product.image_urls[0] : placeholder;
+  const src =
+    product.image_urls && product.image_urls[0]
+      ? product.image_urls[0]
+      : placeholder;
   // const src = "/images/product-image-placeholder.jpeg";
 
   const [isGridCompact, setIsGridCompact] = useState(false);

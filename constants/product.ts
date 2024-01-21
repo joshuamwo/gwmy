@@ -9,11 +9,11 @@ export const productSubCategories = {
 export const productVariationTypes = {
   Wardrobe: [
     {
-      type: "color",
+      type: "colors",
       placeholder: "Eg. Red, Blue, Green",
     },
     {
-      type: "size",
+      type: "sizes",
       placeholder: "Eg. S, M, L, XL",
     },
   ],
@@ -31,6 +31,8 @@ export const productInputDefaults = {
   image_urls: [],
   is_published: false,
   is_product_varied: false,
+  colors: [],
+  sizes: [],
 };
 
 const colors = [

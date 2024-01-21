@@ -24,7 +24,8 @@ export interface ProductInput {
   product_description: string;
   image_urls?: string[];
   is_published: boolean;
-  is_product_varied: boolean;
+  colors: string[];
+  sizes: string[];
 }
 
 export interface Product {
@@ -68,9 +69,9 @@ export interface ProductVariationType {
 }
 
 export interface CartItem {
-	cartItemId: string;
-	name: string;
-	image: string;
+  cartItemId: string;
+  name: string;
+  image: string;
   id: string;
   quantity: number;
   color: string;
