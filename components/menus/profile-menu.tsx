@@ -1,13 +1,12 @@
 "use	client";
 
 import ProfileButton from "../ui/profile-button";
-import { userState } from "@/recoil/atoms";
 import { useRecoilState } from "@/recoil/recoil";
 import { useModalAction } from "../modals/modal-controller";
 import { Menu } from "@/components/ui/dropdown";
 import { Fragment, useState } from "react";
 import { Avatar } from "@mui/material";
-import { useSupabase } from "@/context/supabase-context";
+import { useSupabase, userContext } from "@/context/supabase-context";
 import { useRouter } from "next/navigation";
 import { Transition } from "@/components/ui/transition";
 import ActiveLink from "../ui/active-link";
@@ -23,7 +22,7 @@ const AuthorizedMenuItems = [
   },
 ];
 
-function AuthorizedMenu({ user, setUser }: any) {
+function AuthorizedMenu({ user }: any) {
   const [loading, setLoading] = useState(false);
   const { supabase } = useSupabase();
   const router = useRouter();
@@ -40,7 +39,6 @@ function AuthorizedMenu({ user, setUser }: any) {
       await supabase.auth
         .signOut()
         .then((res) => {
-          setUser(null);
           setLoading(false);
           router.refresh();
         })
@@ -98,7 +96,7 @@ function AuthorizedMenu({ user, setUser }: any) {
 
 export default function ProfileMenu() {
   const { openModal } = useModalAction();
-  const [user, setUser] = useRecoilState(userState);
+  const user = userContext();
 
   function handleProfileMenuClick() {
     user ? " " : openModal("AUTHFORM");
@@ -107,7 +105,7 @@ export default function ProfileMenu() {
   return (
     //if user is logged in
     user ? (
-      <AuthorizedMenu user={user} setUser={setUser} />
+      <AuthorizedMenu user={user} />
     ) : (
       <ProfileButton handleClick={handleProfileMenuClick} />
     )

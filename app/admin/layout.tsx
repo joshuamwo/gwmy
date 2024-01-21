@@ -3,15 +3,14 @@
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 import { useModalAction } from "@/components/modals/modal-controller";
-import { UserStateType } from "@/types";
 import { useRecoilValue } from "recoil";
-import { userState } from "@/recoil/atoms";
 import { useIsMounted } from "@/lib/hooks/use-is-mounted";
 import { getUserDoneState } from "@/recoil/atoms";
 import { modalIsOpenState } from "@/recoil/atoms";
+import { userContext } from "@/context/supabase-context";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
-  const user = useRecoilValue<UserStateType | null>(userState);
+  const user = userContext();
   const { openModal } = useModalAction();
   const router = useRouter();
   const isMounted = useIsMounted();

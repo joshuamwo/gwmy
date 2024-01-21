@@ -3,7 +3,7 @@ import { createContext, useEffect, useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
 import { useRecoilState } from "recoil";
-import { getUserDoneState, userState } from "@/recoil/atoms";
+import { getUserDoneState } from "@/recoil/atoms";
 import { UserStateType } from "@/types";
 
 type SupabaseContextType = {
@@ -32,9 +32,10 @@ export function SupabaseProvider({ children }: { children: React.ReactNode }) {
 
   //function to	get user
   async function getUser() {
-    const { data, error } = await supabase.from("profiles").select("*");
+			const { data, error } = await supabase.from("profiles").select("*");
     if (!error) {
-      setUser(data[0]);
+					setUser(data[0]);
+					console.log(user)
       setGetUserDone(true);
     } else {
       setUser(null);

@@ -21,7 +21,7 @@ import ProductDescriptionInput from "./product-description-input";
 import ProductVariations from "./product-variations";
 import SwitchToggle from "../ui/switch-toggle";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { myProductsState, productsState, userState } from "@/recoil/atoms";
+import { myProductsState, productsState } from "@/recoil/atoms";
 import { Product } from "@/types";
 import { useModalState } from "../modals/modal-controller";
 import { randomUUID } from "crypto";

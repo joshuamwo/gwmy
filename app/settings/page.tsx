@@ -1,10 +1,9 @@
 "use client";
 
-import { useRecoilValue } from "recoil";
-import { userState } from "@/recoil/atoms";
+import { userContext } from "@/context/supabase-context";
 
 export default function Setting() {
-  const user = useRecoilValue(userState);
+  const user = userContext();
 
   return <div>{user && <pre>{`Hello ${user.full_name} `}</pre>}</div>;
 }

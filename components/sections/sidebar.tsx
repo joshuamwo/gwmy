@@ -1,10 +1,11 @@
 import { useRecoilValue } from "recoil";
-import { getUserDoneState, userState } from "@/recoil/atoms";
+import { getUserDoneState } from "@/recoil/atoms";
 import CustomerSidebar from "./customer-sidebar";
 import { classnames } from "@/utils/classnames";
 import AdminSidebar from "./admin-sidebar";
 import { useIsMounted } from "@/lib/hooks/use-is-mounted";
 import { useRecoilState } from "recoil";
+import { userContext } from "@/context/supabase-context";
 
 interface SidebarProps {
   sidebarIsOpen: boolean;
@@ -15,7 +16,7 @@ export default function Sidebar({
   sidebarIsOpen,
   className = "hidden sm:flex fixed bottom-0 z-20 pt-[82px]",
 }: SidebarProps) {
-  const user = useRecoilValue(userState);
+  const user = userContext();
   const isMounted = useIsMounted();
   const getUserDone = useRecoilValue(getUserDoneState);
 

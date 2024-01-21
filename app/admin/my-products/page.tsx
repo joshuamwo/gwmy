@@ -3,21 +3,19 @@ import Button from "@/components/ui/button";
 import Search from "@/components/search";
 import { PlusIcon } from "@/components/icons/plus-icon";
 import { useModalAction } from "@/components/modals/modal-controller";
-import { useSupabase } from "@/context/supabase-context";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useSupabase, userContext } from "@/context/supabase-context";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import MyProductsList from "@/components/sections/my-products-list";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { myProductsState, userState } from "@/recoil/atoms";
+import { useRecoilState } from "recoil";
+import { myProductsState } from "@/recoil/atoms";
 import { Product } from "@/types";
 
 export default function MyProducts() {
   const { openModal } = useModalAction();
-	const { supabase } = useSupabase();
-	
-	
-  const router = useRouter();
-  const user = useRecoilValue(userState);
+  const { supabase } = useSupabase();
+
+  const user = userContext();
 
   const [products, setProducts] = useRecoilState(myProductsState);
 

@@ -5,10 +5,11 @@ import Header from "@/components/sections/header";
 import Sidebar from "@/components/sections/sidebar";
 import { useState } from "react";
 import { ModalContainer } from "@/components/modals/modals-container";
-import { getUserDoneState, userState } from "@/recoil/atoms";
+import { getUserDoneState } from "@/recoil/atoms";
 import { useRecoilValue } from "recoil";
 import { Toaster } from "react-hot-toast";
 import DrawersContainer from "@/components/drawer/drawer-container";
+import { userContext } from "@/context/supabase-context";
 
 const BottomNavigation = dynamic(
   () => import("@/components/sections/bottom-navigation")
@@ -24,7 +25,7 @@ export default function InterfaceLayout({
     setSidebarIsOpen(!sidebarIsOpen);
   };
 
-  const user = useRecoilValue(userState);
+  const user = userContext()
   const isUserLoggedIn: boolean = !user?.id === undefined;
   const getUserDone = useRecoilValue(getUserDoneState);
 

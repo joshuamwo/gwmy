@@ -4,7 +4,7 @@ import Button from "@/components/ui/button";
 import { useSupabase } from "@/context/supabase-context";
 import { useModalAction } from "@/components/modals/modal-controller";
 import { useRecoilValue } from "recoil";
-import { productsState, userState } from "@/recoil/atoms";
+import { productsState } from "@/recoil/atoms";
 import { useRouter } from "next/navigation";
 import { useRecoilState } from "recoil";
 import { useEffect, useState } from "react";
