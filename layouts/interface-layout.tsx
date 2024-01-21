@@ -29,33 +29,31 @@ export default function InterfaceLayout({
   const getUserDone = useRecoilValue(getUserDoneState);
 
   return (
-    getUserDone && (
-      <>
-        <div className="flex flex-col min-h-screen w-full  bg-light-300 dark:bg-dark-300 ">
-          <Header
-            sidebarIsOpen={sidebarIsOpen}
-            sidebarToggle={sidebarToggle}
-            isUserLoggedIn={isUserLoggedIn}
-          />
-          <Toaster position="top-center" reverseOrder={false} />
-          <div className="flex flex-1">
-            <Sidebar sidebarIsOpen={sidebarIsOpen} />
-            <main
-              style={{}}
-              className={`flex w-full flex-col ${
-                sidebarIsOpen
-                  ? "main-content-sidebar-open"
-                  : "main-content-sidebar-closed"
-              }`}
-            >
-              {children}
-            </main>
-          </div>
-          <BottomNavigation />
+    <>
+      <div className="flex flex-col min-h-screen w-full  bg-light-300 dark:bg-dark-300 ">
+        <Header
+          sidebarIsOpen={sidebarIsOpen}
+          sidebarToggle={sidebarToggle}
+          isUserLoggedIn={isUserLoggedIn}
+        />
+        <Toaster position="top-center" reverseOrder={false} />
+        <div className="flex flex-1">
+          <Sidebar sidebarIsOpen={sidebarIsOpen} />
+          <main
+            style={{}}
+            className={`flex w-full flex-col ${
+              sidebarIsOpen
+                ? "main-content-sidebar-open"
+                : "main-content-sidebar-closed"
+            }`}
+          >
+            {children}
+          </main>
         </div>
-        <ModalContainer />
-        <DrawersContainer />
-      </>
-    )
+        <BottomNavigation />
+      </div>
+      <ModalContainer />
+      <DrawersContainer />
+    </>
   );
 }
