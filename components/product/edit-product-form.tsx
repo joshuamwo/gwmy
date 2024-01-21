@@ -267,7 +267,7 @@ export default function AddProductForm() {
                 />
               </div> */}
 
-              {product.is_product_varied &&
+              {/* {product.is_product_varied &&
                 productVariationTypes[product_category].map((variation) => (
                   <div key={variation.type}>
                     <ProductVariations
@@ -278,7 +278,7 @@ export default function AddProductForm() {
                       setVariationAdded={setVariationAdded}
                     />
                   </div>
-                ))}
+                ))} */}
               {/* {product.is_product_varied &&
                 sizePriceVariation &&
                 productVariationTypes[product_category].map((variation) => (
