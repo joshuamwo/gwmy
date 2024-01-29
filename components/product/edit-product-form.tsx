@@ -1,5 +1,5 @@
 import { useModalAction } from "../modals/modal-controller";
-import { RegisterInput, ProductCategoryType } from "@/types";
+import { ProductType, RegisterInput } from "@/types";
 import Input from "../forms/input";
 import Button from "../ui/button";
 import Password from "../forms/password";
@@ -8,7 +8,7 @@ import { FormBgPattern } from "../auth/form-bg-pattern";
 import { useSupabase } from "@/context/supabase-context";
 import Image from "next/image";
 import { ImageCourosel, ImageSlide } from "../ui/image-courosel";
-import "@splidejs/react-splide/css";
+import "@splidejs/react-splide/css";       
 import { DeleteIcon } from "../icons/delete-icon";
 
 import ProductCategorySelector from "./product-category-selector";
@@ -35,7 +35,7 @@ export default function AddProductForm() {
   const { data } = useModalState();
   const productData = data as Product;
   const [product, setProduct] = useState<Product>(productData);
-  const product_category = product.category as ProductCategoryType;
+  const product_category = product.category as ProductType;
   const product_sub_category = product.sub_category as string;
   const [variationAdded, setVariationAdded] = useState<boolean>(
     product.is_product_varied
@@ -230,7 +230,7 @@ export default function AddProductForm() {
 
           {/* dynamic inputs */}
 
-          {product_category === "Wardrobe" && (
+          {product_category === "Fashion" && (
             <div className="flex flex-col gap-4">
               <ProductNameInput
                 product_name={product.product_name}

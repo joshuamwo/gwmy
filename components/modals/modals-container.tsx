@@ -11,6 +11,7 @@ import AddProductForm from "../product/add-product-form";
 import EditProductForm from "../product/edit-product-form";
 import DeleteProductForm from "../product/delete-product-form";
 import ProductViewModal from "../product/product-view-modal";
+import { ProductType } from "@/types";
 
 const AuthForm = dynamic(() => import("@/components/auth/auth-form"));
 
@@ -20,13 +21,13 @@ const AuthForm = dynamic(() => import("@/components/auth/auth-form"));
 //   modalToggle: (action: ModalToggleProps) => void;
 // }
 
-function renderModalContent(view: string) {
+function renderModalContent(view: string, data: { productType: ProductType, productSubType: string}) {
   switch (view) {
     case "AUTHFORM":
       return <AuthForm />;
       break;
     case "ADDPRODUCTFORM":
-      return <AddProductForm />;
+      return <AddProductForm data={data} />;
       break;
     case "EDITPRODUCTFORM":
       return <EditProductForm />;
@@ -43,7 +44,7 @@ function renderModalContent(view: string) {
 export function ModalContainer() {
   const router = useRouter();
 
-  const { view, isOpen } = useModalState();
+  const { view, isOpen, data } = useModalState();
   const { closeModal } = useModalAction();
 
   return (
@@ -93,7 +94,7 @@ export function ModalContainer() {
                   <CloseIcon className="h-4 w-4 focus-visible:outline-none lg:h-[18px] lg:w-[18px] 3xl:h-5 3xl:w-5" />
                 </button>
                 <div className="h-full w-full">
-                  {view && renderModalContent(view)}
+                  {view && renderModalContent(view, data)}
                 </div>
               </div>
             </div>

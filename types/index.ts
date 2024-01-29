@@ -16,6 +16,19 @@ export type UserStateType = {
 } | null;
 
 export interface ProductInput {
+  category: ProductType;
+  sub_category: string;
+  product_name: string;
+  price: number;
+  product_variations: {};
+  product_description: string;
+  image_urls?: string[];
+  is_published: boolean;
+  colors: string[];
+  sizes: string[];
+}
+
+export interface FashionProductInput {
   category: string;
   sub_category: string;
   product_name: string;
@@ -58,10 +71,39 @@ export interface Product {
   image_urls: string[];
 }
 
+export interface FashionProduct {
+  id: string;
+  category: string;
+  sub_category: string;
+  product_name: string;
+  product_description: string;
+  price: number;
+  colors: [];
+  sizes: [];
+  is_price_varied: boolean;
+  product_variations: Record<string, ProductVariationType[]>;
+  price_per_variations: Record<string, any>;
+  stock_quantity: number;
+  meta_title: string;
+  meta_description: string;
+  keywords: Record<string, any>;
+  discount_percentage: number;
+  weight: number;
+  dimensions: Record<string, any>;
+  shipping_class: string;
+  created_at: Date;
+  updated_at: Date;
+  average_rating: number;
+  total_reviews: number;
+  is_published: boolean;
+  owner: string;
+  image_urls: string[];
+}
+
 //can take null	or Product
 export type ProductList = Product[] | null;
 
-export type ProductCategoryType = "Wardrobe" | "Music" | "Event";
+export type ProductType = "Fashion" | "Music" | "Event";
 
 export interface ProductVariationType {
   variation: string;

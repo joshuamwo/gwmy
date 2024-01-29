@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { UserStateType } from "@/types";
+import { FashionProduct, UserStateType } from "@/types";
 import { RecoilState } from "recoil";
 import { Product } from "@/types";
 import { Drawer } from "@/types";
@@ -15,6 +15,11 @@ export const productsState: RecoilState<Product[]> = atom<Product[]>({
 });
 
 export const myProductsState: RecoilState<Product[]> = atom<Product[]>({
+  key: "myProductsState",
+  default: [],
+});
+
+export const myFashionProductsState: RecoilState<FashionProduct[]> = atom<FashionProduct[]>({
   key: "myProductsState",
   default: [],
 });

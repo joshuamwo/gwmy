@@ -1,9 +1,9 @@
 import AutocompleteDropdown from "../ui/autocomplete-dropdown";
 import { productCategories, productSubCategories } from "@/constants/product";
-import { ProductInput, ProductCategoryType } from "@/types";
+import { ProductInput, ProductType } from "@/types";
 
 interface Props {
-  product_category: ProductCategoryType;
+  product_category: ProductType;
   product_sub_category: string;
   handleCategoryChange: (id: string, value: string) => void;
   handleSubCategoryChange: (id: string, value: string) => void;

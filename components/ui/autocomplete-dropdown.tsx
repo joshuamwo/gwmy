@@ -7,7 +7,7 @@ interface propsType {
   options: Array<string>;
   selectedOption: string | undefined;
   setSelectedOption: React.Dispatch<React.SetStateAction<any>>;
-  label: string;
+  label?: string;
   className?: string;
 }
 

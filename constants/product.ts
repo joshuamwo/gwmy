@@ -1,13 +1,22 @@
-export const productCategories = ["Wardrobe", "Music", "Event"];
+import { ProductType } from "@/types";
 
-export const productSubCategories = {
-  Wardrobe: ["Head Wear", "Tops", "Pants", "Full	Body"],
-  Music: ["Single", "Album"],
+export const productCategories: ProductType[] = ["Fashion", "Music", "Event"];
+
+export const productSubCategories: Record<ProductType, string[]> = {
+  Fashion: ["Head Wear", "Tops", "Pants", "Full	Body"],
+  Music: ["Track", "Album"],
+  Event: ["Concert", "Confrence"],
+};
+
+export const productTypes: ProductType[] = ["Fashion", "Music", "Event"];
+export const productSubTypes: Record<ProductType, string[]> = {
+  Fashion: ["Clothes", "Shoes"],
+  Music: ["Track", "Album"],
   Event: ["Concert", "Confrence"],
 };
 
 export const productVariationTypes = {
-  Wardrobe: [
+  Fashion: [
     {
       type: "colors",
       placeholder: "Eg. Red, Blue, Green",
