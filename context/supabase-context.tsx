@@ -32,10 +32,9 @@ export function SupabaseProvider({ children }: { children: React.ReactNode }) {
 
   //function to	get user
   async function getUser() {
-			const { data, error } = await supabase.from("profiles").select("*");
+    const { data, error } = await supabase.from("profiles").select("*");
     if (!error) {
-					setUser(data[0]);
-					console.log(user)
+      setUser(data[0]);
       setGetUserDone(true);
     } else {
       setUser(null);

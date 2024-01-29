@@ -7,19 +7,17 @@ import { t } from "@/utils/text";
 import ImageArrayInput from "../forms/ImageArrayInput";
 import AutocompleteDropdown from "../ui/autocomplete-dropdown";
 import Button from "../ui/button";
+import TrackInput from "../forms/TrackInput";
 
 interface AddMusicFormProps {
   type: string;
 }
-
-const MusicProductDefaults = {};
 
 export default function AddMusicForm({ type }: AddMusicFormProps) {
   const [product, setProduct] = useState<MusicProductInput>({});
   const [isSingle, setIsSingle] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
-
 
   let disabled: boolean =
     !product.name ||
@@ -39,15 +37,16 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
       };
       return newProduct;
     });
-
   }
 
   //send music to api
-  function handleAddMusic() {}
+  async function handleAddMusic() {
+    // fetch()
+  }
 
   return (
     <div className="flex flex-col gap-4">
-      {/* single | part of an album toggle - disbled when adding albums */}
+      {/* single | part of an album toggle - unavailable for albums */}
       {type === "Track" && (
         <SwitchToggle
           state={isSingle}
@@ -69,6 +68,7 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
       <Input
         id="music-product-price"
         label="Price"
+        type="number"
         onChange={(e) => handleInput("price", e.target.value)}
         value={product.price}
       />
@@ -92,13 +92,17 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
         inputType="text"
       />
 
-      {/* select album drop down  */}
-      <AutocompleteDropdown
-        options={["1", "2", "3"]}
-        selectedOption={product.album}
-        setSelectedOption={(value) => handleInput("album", value)}
-        label="Album"
-      />
+      {/* select album drop down - unavailable for single tracks & albums  */}
+
+      {isSingle ||
+        (type === "Tracks" && (
+          <AutocompleteDropdown
+            options={["1", "2", "3"]}
+            selectedOption={product.album}
+            setSelectedOption={(value) => handleInput("album", value)}
+            label="Album"
+          />
+        ))}
 
       {/* artists note */}
       <Input
@@ -118,8 +122,8 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
         inputType="text"
       />
 
-				{/* release date */}
-				{/* TODO */}
+      {/* release date */}
+      {/* TODO */}
 
       {/* genre */}
       <Input
@@ -131,15 +135,27 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
       {/* cover upload */}
 
       <ImageArrayInput
+        key="cover-image-input"
         images={product.cover ? [product.cover] : []}
         setImages={(images) => handleInput("cover", images[0])}
         multiple={false}
+        label="Cover"
       />
 
-      {/* publish toggle */}
-      {isSingle && (
+      {/* track */}
+
+      {type === "Track" && (
+        <TrackInput
+          key="music-file-input"
+          trackFile={product.track}
+          handleInput={(file) => handleInput("track", file)}
+        />
+      )}
+
+      {/* publish toggle - unavailable for albums */}
+      {type === "Track" && (
         <SwitchToggle
-          state={isSingle}
+          state={product.is_published ?? false}
           setState={setIsSingle}
           label={t("publish_toggle_label")}
         />

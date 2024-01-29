@@ -9,12 +9,14 @@ interface ImageInputProps {
   images: File[];
   setImages: (images: File[]) => void;
   multiple: boolean;
+  label?: string;
 }
 
 export default function ImageArrayInput({
   images,
   setImages,
   multiple,
+  label,
 }: ImageInputProps) {
   //image preview
   const [imagePreview, setImagePreview] = useState<string[]>([]);
@@ -81,7 +83,6 @@ export default function ImageArrayInput({
                   </div>
                 )}
                 <div className="w-full h-60 flex justify-center items-center mb-4">
-                  
                   <Image
                     src={image}
                     className="object-cover"
@@ -105,11 +106,11 @@ export default function ImageArrayInput({
       >
         <label htmlFor="product-images-upload" className="w-full ">
           {multiple && imagePreview.length == 0
-            ? "Upload Images"
+            ? `Upload ${label ?? "Images"}`
             : multiple && imagePreview.length > 0
             ? "Add Images"
             : !multiple && imagePreview.length == 0
-            ? "Upload Image"
+            ? `Upload ${label ?? "Image"}`
             : "Replace Image"}
           <input
             type="file"
