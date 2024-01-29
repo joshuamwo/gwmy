@@ -20,7 +20,7 @@ export const myProductsState: RecoilState<Product[]> = atom<Product[]>({
 });
 
 export const myFashionProductsState: RecoilState<FashionProduct[]> = atom<FashionProduct[]>({
-  key: "myProductsState",
+  key: "myFashionProductsState",
   default: [],
 });
 

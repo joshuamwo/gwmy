@@ -22,7 +22,7 @@ export default function ProductNameInput({
         inputClassName="bg-light dark:bg-dark-300 "
         onChange={(e) => handleNameChange(e)}
         required
-        placeholder="Product Name"
+        placeholder="Name"
         value={product_name}
       />
     </div>

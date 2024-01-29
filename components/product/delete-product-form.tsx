@@ -3,7 +3,6 @@
 import { useModalState } from "../modals/modal-controller";
 import { FormBgPattern } from "../auth/form-bg-pattern";
 import Button from "../ui/button";
-import { Container } from "@mui/material";
 import { Product } from "@/types";
 import { useModalAction } from "../modals/modal-controller";
 import { useSupabase, userContext } from "@/context/supabase-context";

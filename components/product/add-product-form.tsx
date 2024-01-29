@@ -4,6 +4,7 @@ import { FormBgPattern } from "../auth/form-bg-pattern";
 import "@splidejs/react-splide/css";
 import AddFashionForm from "./add-fashion-form";
 import ProductTypeSelector from "./product-type-selector";
+import AddMusicForm from "./add-music-form";
 
 interface addProductFormProps {
   data: {
@@ -39,6 +40,7 @@ export default function AddProductForm({ data }: addProductFormProps) {
           {/* input forms per product type */}
 
           {productType === "Fashion" && <AddFashionForm />}
+          {productType === "Music" && <AddMusicForm type={productSubType} />}
         </div>
       </div>
     </form>

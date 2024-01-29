@@ -24,7 +24,7 @@ export default function ProductTypeSelector({
   }
 
   return (
-    <div className="flex flex-row w-full gap-4 justify-between h-44">
+    <div className="flex flex-row w-full gap-4 justify-between my-4">
       <AutocompleteDropdown
         options={productTypes}
         selectedOption={productType}

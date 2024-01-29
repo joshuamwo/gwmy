@@ -11,7 +11,7 @@ interface propsType {
   className?: string;
 }
 
-export default function AutoCompleteDropDown ({
+export default function AutoCompleteDropDown({
   options,
   selectedOption,
   setSelectedOption,

@@ -100,6 +100,47 @@ export interface FashionProduct {
   image_urls: string[];
 }
 
+export interface MusicProduct {
+  id: string;
+  type: string;
+  name: string;
+  artist: string;
+  price: number;
+  other_artists: string[];
+  album: string;
+  cover: string;
+  artists_note: string;
+  producers: string;
+  release_date: Date;
+  genre: string;
+  meta_title: string;
+  meta_description: string;
+  keywords: Record<string, any>;
+  discount_percentage: number;
+  created_at: Date;
+  updated_at: Date;
+  average_rating: number;
+  total_reviews: number;
+  is_published: boolean;
+  owner: string;
+}
+
+export interface MusicProductInput {
+  type?: string | undefined;
+  name?: string | undefined;
+  artist?: string | undefined;
+  price?: number | undefined;
+  other_artists?: string[] | undefined;
+  album?: string | undefined;
+  cover?: File | undefined;
+  artists_note?: string | undefined;
+  producers?: string[] | undefined;
+  release_date?: Date | undefined;
+  genre?: string | undefined;
+  is_published?: boolean | undefined;
+  track?: File;
+}
+
 //can take null	or Product
 export type ProductList = Product[] | null;
 

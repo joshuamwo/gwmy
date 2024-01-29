@@ -15,16 +15,17 @@ import { myFashionProductsState, myProductsState } from "@/recoil/atoms";
 import { useState } from "react";
 import resizeImage from "@/lib/resize-image";
 import toast from "react-hot-toast";
+import ImageArrayInput from "../forms/ImageArrayInput";
 
-interface AddFashionFormProps {
-}
+interface AddFashionFormProps {}
 
 export default function AddFashionForm({}: AddFashionFormProps) {
-
   // Supabase
   const { supabase } = useSupabase();
   // global products	state
-  const [myFashionProducts, setMyFashionProducts] = useRecoilState(myFashionProductsState);
+  const [myFashionProducts, setMyFashionProducts] = useRecoilState(
+    myFashionProductsState
+  );
   const user = userContext();
   const fetchProducts = async () => {
     const { data, error } = await supabase
@@ -51,7 +52,8 @@ export default function AddFashionForm({}: AddFashionFormProps) {
     sizes: [],
   };
 
-  const [product, setProduct] = useState<FashionProductInput>(productInputDefaults);
+  const [product, setProduct] =
+    useState<FashionProductInput>(productInputDefaults);
 
   //images
   const [imagePreview, setImagePreview] = useState<string[]>([]);
@@ -247,71 +249,21 @@ export default function AddFashionForm({}: AddFashionFormProps) {
         placeholder="KES."
       />
 
-      {/* image preview */}
-      {imagePreview.length !== 0 && (
-        <div className="w-full !mt-5">
-          <ImageCourosel>
-            {imagePreview.map((image, index) => (
-              <ImageSlide key={index}>
-                {/* delete image */}
-                <div className="absolute top-2 right-2 z-50">
-                  <Button
-                    variant="icon"
-                    onClick={() => handleImageInputRemove(index)}
-                    className="w-10 h-10 rounded-full bg-dark-300 dark:bg-dark-400 hover:bg-red-500"
-                  >
-                    <DeleteIcon className="h-5 w-5 text-white opacity-80 hover:opacity-100 hover:animate-pulse hover:scale-125 " />
-                  </Button>
-                </div>
-                <div className="w-full h-60">
-                  <Image
-                    src={image}
-                    className="object-cover"
-                    fill
-                    style={{
-                      objectFit: "cover",
-                    }}
-                    alt={`image ${index}`}
-                  />
-                </div>
-              </ImageSlide>
-            ))}
-          </ImageCourosel>
-        </div>
-      )}
-      {/* Add images */}
-      <Button
-        type="button"
-        className="w-full text-sm  tracking-[0.2px]"
-        variant="outline"
-      >
-        <label htmlFor="product-images-upload" className="w-full ">
-          {imagePreview.length == 0 ? "Upload Images" : "Add Images"}
-          <input
-            type="file"
-            id="product-images-upload"
-            className="w-full opacity-0 "
-            onChange={(e) => handleImageInput(e)}
-            multiple
-            hidden
-            accept="image/*"
-          />
-        </label>
-      </Button>
+      {/* image input & preview */}
+
+      <ImageArrayInput
+        images={images}
+        setImages={(images) => setImages(images)}
+        multiple
+      />
 
       {/* Toggle published */}
+      <SwitchToggle
+        state={product.is_published}
+        setState={(state) => handleInput("is_published", state)}
+        label="Publish the product?"
+      />
 
-      <div className="flex flex-row items-center justify-between hover:animate-pulse">
-        <span className=" cursor-pointer text-sm flex justify-center font-normal text-dark/70 rtl:text-right dark:text-light/70">
-          Publish the product?
-        </span>
-        <SwitchToggle
-          state={product.is_published}
-          setState={handleInput}
-          stateName="is_published"
-          className="scale-90"
-        />
-      </div>
       {/* submit button */}
 
       <Button
