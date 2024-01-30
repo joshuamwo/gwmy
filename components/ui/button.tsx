@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import { classnames } from "@/utils/classnames";
 import { SpinnerIcon } from "@/components/icons/spinner-icon";
+import { useFormStatus } from "react-dom";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
@@ -33,7 +34,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       type = "button",
       ...props
     },
-    ref
+    ref,
   ) => (
     <button
       ref={ref}
@@ -44,17 +45,17 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           : "pointer-events-auto cursor-pointer",
         disabled ? "opacity-70" : "opacity-100",
         variantClasses[variant],
-        className
+        className,
       )}
       type={type}
       {...props}
       disabled={disabled}
     >
-      {isLoading && <SpinnerIcon className=" w-5 h-auto animate-spin" />}
+      {isLoading && <SpinnerIcon className=" h-auto w-5 animate-spin" />}
 
       {children}
     </button>
-  )
+  ),
 );
 
 Button.displayName = "Button";

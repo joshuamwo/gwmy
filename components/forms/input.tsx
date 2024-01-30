@@ -25,13 +25,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       required,
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
       <div className={className}>
         <label className="block text-13px">
           {label && (
-            <span className="block cursor-pointer pb-2.5 font-normal text-dark/70 rtl:text-right dark:text-light/70">
+            <span className="block cursor-pointer  pb-2.5  font-normal text-dark/70 rtl:text-right dark:text-light/70">
               {label}
             </span>
           )}
@@ -41,7 +41,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               required={required}
               className={classnames(
                 " w-full appearance-none rounded border border-light-500 bg-transparent  text-13px text-dark ring-[0.5px] ring-light-500 placeholder:text-dark-900 focus:border-brand focus:ring-[0.5px] focus:ring-brand dark:border-dark-600 dark:text-light dark:ring-dark-600 dark:placeholder:text-dark-700 dark:focus:border-brand dark:focus:ring-brand  ",
-                inputClassName
+                inputClassName,
               )}
             />
           ) : (
@@ -53,7 +53,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               {...props}
               className={classnames(
                 " h-9 w-full appearance-none rounded border border-light-500 bg-transparent  text-13px text-dark ring-[0.5px] ring-light-500 placeholder:text-dark-900 focus:border-brand focus:ring-[0.5px] focus:ring-brand dark:border-dark-600 dark:text-light dark:ring-dark-600 dark:placeholder:text-dark-700 dark:focus:border-brand dark:focus:ring-brand md:h-10",
-                inputClassName
+                inputClassName,
               )}
             />
           )}
@@ -65,7 +65,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Input.displayName = "Input";

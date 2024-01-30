@@ -12,6 +12,8 @@ interface Props {
   handleInput: (value: any) => void;
   array: any[];
   inputType: React.HTMLInputTypeAttribute;
+  name?: string;
+  formInputId?: string;
 }
 
 export default function ArrayInput({
@@ -20,13 +22,18 @@ export default function ArrayInput({
   handleInput,
   array,
   inputType,
+  name,
+  formInputId,
 }: Props) {
-  const [input, setInput] = useState<any>();
+  const [input, setInput] = useState<string>();
 
   function handleAddElement(e: React.KeyboardEvent<HTMLInputElement>) {
     if (!input) return;
     if (e.key === "Enter") {
-      const newArray = [...array, input];
+      // array is submtted as one string with comma separated
+      // values so string elements cannot have commas
+      const filteredInput = input.replaceAll(",", "");
+      const newArray = [...array, filteredInput];
       setInput("");
       handleInput(newArray);
     }
@@ -40,9 +47,10 @@ export default function ArrayInput({
   }
 
   return (
-    <div className="gap-1 flex flex-col">
+    <div className="flex flex-col gap-1">
+      <input id={formInputId} type="hidden" name={name} value={array} />
       {label && (
-        <span className="block text-13px cursor-pointer pb-2.5 font-normal text-dark/70 rtl:text-right dark:text-light/70">
+        <span className="block cursor-pointer pb-2.5 text-13px font-normal text-dark/70 rtl:text-right dark:text-light/70">
           {label}
         </span>
       )}
@@ -51,7 +59,7 @@ export default function ArrayInput({
           array.map((variation, index) => (
             <span
               key={index}
-              className=" flex flex-row gap-1 h-[30px] shrink-0 !rounded-full border py-1.5 px-3.5 text-xs font-medium outline-none border-light-500 bg-light-400 text-dark-100 hover:bg-light-500 dark:border-dark-500 dark:bg-dark-400 dark:text-light-100 hover:dark:bg-dark-500 hover:dark:text-light"
+              className=" flex h-[30px] shrink-0 flex-row gap-1 !rounded-full border border-light-500 bg-light-400 px-3.5 py-1.5 text-xs font-medium text-dark-100 outline-none hover:bg-light-500 dark:border-dark-500 dark:bg-dark-400 dark:text-light-100 hover:dark:bg-dark-500 hover:dark:text-light"
             >
               <span>{variation}</span>
               {/* <span className="rounded-2xl text-13px font-semibold uppercase text-brand  dark:text-brand-dark">
@@ -59,10 +67,10 @@ export default function ArrayInput({
               </span> */}
               <Button
                 variant="icon"
-                className="hover:bg-light-900 dark:hover:bg-dark-400 scale-90 hover:scale-110 rounded-full group"
+                className="group scale-90 rounded-full hover:scale-110 hover:bg-light-900 dark:hover:bg-dark-400"
                 onClick={() => handleRemoveElement(index)}
               >
-                <XIcon className="w-4 h-4  group-hover:text-white" />
+                <XIcon className="h-4 w-4  group-hover:text-white" />
               </Button>
             </span>
           ))}
@@ -76,7 +84,6 @@ export default function ArrayInput({
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => handleAddElement(e)}
           value={input}
-          required
           placeholder={placeholder}
           type={inputType}
         />

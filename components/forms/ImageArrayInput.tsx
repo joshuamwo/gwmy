@@ -10,6 +10,8 @@ interface ImageInputProps {
   setImages: (images: File[]) => void;
   multiple: boolean;
   label?: string;
+  name?: string;
+  required?: boolean;
 }
 
 export default function ImageArrayInput({
@@ -17,6 +19,8 @@ export default function ImageArrayInput({
   setImages,
   multiple,
   label,
+  name,
+  required,
 }: ImageInputProps) {
   //image preview
   const [imagePreview, setImagePreview] = useState<string[]>([]);
@@ -101,10 +105,13 @@ export default function ImageArrayInput({
       {/* Add images */}
       <Button
         type="button"
-        className="w-full text-sm  tracking-[0.2px]"
+        className="w-full text-sm !p-0 h-12  tracking-[0.2px]"
         variant="outline"
       >
-        <label htmlFor="product-images-upload" className="w-full ">
+        <label
+          htmlFor="product-images-upload"
+          className="w-full relative h-full flex justify-center items-center "
+        >
           {multiple && imagePreview.length == 0
             ? `Upload ${label ?? "Images"}`
             : multiple && imagePreview.length > 0
@@ -115,11 +122,13 @@ export default function ImageArrayInput({
           <input
             type="file"
             id="product-images-upload"
-            className="w-full opacity-0 "
+            className="opacity-0 absolute left-0 right-0 h-full "
             onChange={(e) => handleImageInput(e)}
             multiple={multiple}
-            hidden
+            aria-hidden
             accept="image/*"
+            required={required}
+            name={name}
           />
         </label>
       </Button>

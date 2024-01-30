@@ -19,7 +19,7 @@ export default function AddProductForm({ data }: addProductFormProps) {
   const [productSubType, setProductSubType] = useState(data.productSubType);
 
   return (
-    <form className="bg-light px-6 pt-10 pb-8 dark:bg-dark-300 sm:px-8 lg:p-12">
+    <div className="bg-light px-6 pt-10 pb-8 dark:bg-dark-300 sm:px-8 lg:p-12">
       <FormBgPattern className="hidden xs:flex absolute bottom-0 left-0 text-light dark:text-dark-300 dark:opacity-60" />
       <div className="relative z-10 flex items-center">
         <div className="w-full shrink-0 text-left md:w-[380px]">
@@ -43,6 +43,6 @@ export default function AddProductForm({ data }: addProductFormProps) {
           {productType === "Music" && <AddMusicForm type={productSubType} />}
         </div>
       </div>
-    </form>
+    </div>
   );
 }

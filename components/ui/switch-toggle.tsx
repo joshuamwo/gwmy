@@ -9,6 +9,7 @@ interface SwitchToggleState {
   switchClassName?: string;
   disabled?: boolean;
   label?: string;
+  name?: string;
 }
 
 export default function SwitchToggle({
@@ -18,18 +19,18 @@ export default function SwitchToggle({
   switchClassName,
   disabled = false,
   label,
+  name,
 }: SwitchToggleState) {
- 
-
   return (
     <div
       className={classnames(
         className,
-        "flex flex-row items-center justify-between hover:animate-pulse"
+        "flex flex-row items-center justify-between hover:animate-pulse",
       )}
     >
+      <input type="hidden" value={JSON.stringify(state)} name={name} />
       {label && (
-        <span className=" cursor-pointer text-sm flex justify-center font-normal text-dark/70 rtl:text-right dark:text-light/70">
+        <span className=" flex cursor-pointer justify-center text-sm font-normal text-dark/70 rtl:text-right dark:text-light/70">
           {label}
         </span>
       )}
@@ -39,7 +40,7 @@ export default function SwitchToggle({
           checked={state}
           onChange={(e) => setState(e)}
           className={`${state ? "bg-brand" : "bg-dark-500"}
-          relative items-center  inline-flex h-5 w-10 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
+          relative inline-flex  h-5 w-10 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
         >
           <span className="sr-only">Use setting</span>
           <span
