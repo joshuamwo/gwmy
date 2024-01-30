@@ -8,7 +8,7 @@ import { FormBgPattern } from "../auth/form-bg-pattern";
 import { useSupabase } from "@/context/supabase-context";
 import Image from "next/image";
 import { ImageCourosel, ImageSlide } from "../ui/image-courosel";
-import "@splidejs/react-splide/css";       
+import "@splidejs/react-splide/css";
 import { DeleteIcon } from "../icons/delete-icon";
 
 import ProductCategorySelector from "./product-category-selector";
@@ -38,7 +38,7 @@ export default function AddProductForm() {
   const product_category = product.category as ProductType;
   const product_sub_category = product.sub_category as string;
   const [variationAdded, setVariationAdded] = useState<boolean>(
-    product.is_product_varied
+    product.is_product_varied,
   );
   const [colorPriceVariation, setColorPriceVariation] =
     useState<boolean>(false);
@@ -46,7 +46,7 @@ export default function AddProductForm() {
 
   //images
   const [imagePreview, setImagePreview] = useState<string[]>(
-    product.image_urls
+    product.image_urls,
   );
   const [images, setImages] = useState<File[]>([]);
   const [imagesToBeDeleted, setImagesToBeDeleted] = useState<string[]>([]);
@@ -62,7 +62,7 @@ export default function AddProductForm() {
     if (e.target.files) {
       const files = e.target.files;
       const fileArray = Array.from(files).map((file) =>
-        window.URL.createObjectURL(file)
+        window.URL.createObjectURL(file),
       );
 
       setImagePreview([...imagePreview, ...fileArray]);
@@ -78,7 +78,7 @@ export default function AddProductForm() {
   const handleImageInputRemove = (image: string, index: number) => {
     if (image.includes("https://")) {
       const newImageUrls = product.image_urls.filter(
-        (imageUrl, i) => imageUrl !== image
+        (imageUrl, i) => imageUrl !== image,
       );
       handleInput("image_urls", newImageUrls);
       console.log(product.image_urls);
@@ -140,7 +140,7 @@ export default function AddProductForm() {
       }
       if (data) {
         imageUrls.push(
-          `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-images/${data.path}`
+          `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-images/${data.path}`,
         );
       }
     });
@@ -204,14 +204,14 @@ export default function AddProductForm() {
             setSuccess(true);
             setImages([]);
           });
-        }
-      )
+        },
+      ),
     );
   };
 
   return (
-    <form className="bg-light px-6 pt-10 pb-8 dark:bg-dark-300 sm:px-8 lg:p-12">
-      <FormBgPattern className="hidden xs:flex absolute bottom-0 left-0 text-light dark:text-dark-300 dark:opacity-60" />
+    <form className="bg-light px-6 pb-8 pt-10 dark:bg-dark-300 sm:px-8 lg:p-12">
+      <FormBgPattern className="absolute bottom-0 left-0 hidden text-light dark:text-dark-300 dark:opacity-60 xs:flex" />
       <div className="relative z-10 flex items-center">
         <div className="w-full shrink-0 text-left md:w-[380px]">
           <div className="flex flex-col pb-5 text-center lg:pb-9 xl:pb-10 xl:pt-2">
@@ -241,17 +241,16 @@ export default function AddProductForm() {
                 handleInput={handleInput}
               />
               {/* Product Pricing and Variations */}
-              <span className=" cursor-pointer pb-2.5 flex justify-center font-normal text-dark/70 rtl:text-right dark:text-light/70">
+              <span className=" flex cursor-pointer justify-center pb-2.5 font-normal text-dark/70 rtl:text-right dark:text-light/70">
                 Pricing and Variations
               </span>
               <div className="flex flex-row items-center justify-between hover:animate-pulse">
-                <span className=" cursor-pointer text-sm flex justify-center font-normal text-dark/70 rtl:text-right dark:text-light/70">
+                <span className=" flex cursor-pointer justify-center text-sm font-normal text-dark/70 rtl:text-right dark:text-light/70">
                   Product has different colors or sizes?
                 </span>
                 <SwitchToggle
                   state={product.is_product_varied}
-                  setState={handleInput}
-                  stateName="is_product_varied"
+                  setState={(value) => handleInput("is_product_varied", value)}
                   className="scale-90"
                 />
               </div>
@@ -299,7 +298,7 @@ export default function AddProductForm() {
               <Input
                 id="price_per_variation"
                 label="Price"
-                className="w-full my-5"
+                className="my-5 w-full"
                 type="number"
                 inputClassName="bg-light dark:bg-dark-300"
                 onChange={(e) => handleInput("price", e.target.valueAsNumber)}
@@ -310,23 +309,23 @@ export default function AddProductForm() {
 
               {/* image preview */}
               {imagePreview.length !== 0 && (
-                <div className="w-full !mt-5">
+                <div className="!mt-5 w-full">
                   <ImageCourosel>
                     {imagePreview.map((image, index) => (
                       <ImageSlide key={index}>
                         {/* delete image */}
-                        <div className="absolute top-2 right-2">
+                        <div className="absolute right-2 top-2">
                           <Button
                             variant="icon"
                             onClick={() => handleImageInputRemove(image, index)}
-                            className="w-10 h-10 rounded-full bg-dark-300 dark:bg-dark-400 hover:bg-red-500"
+                            className="h-10 w-10 rounded-full bg-dark-300 hover:bg-red-500 dark:bg-dark-400"
                           >
-                            <DeleteIcon className="h-5 w-5 text-white opacity-80 hover:opacity-100 hover:animate-pulse hover:scale-125 " />
+                            <DeleteIcon className="h-5 w-5 text-white opacity-80 hover:scale-125 hover:animate-pulse hover:opacity-100 " />
                           </Button>
                         </div>
                         <Image
                           src={image}
-                          className="object-cover rounded"
+                          className="rounded object-cover"
                           style={{
                             width: "100%",
                             height: "15rem",
@@ -362,13 +361,12 @@ export default function AddProductForm() {
               {/* Toggle published */}
 
               <div className="flex flex-row items-center justify-between hover:animate-pulse">
-                <span className=" cursor-pointer text-sm flex justify-center font-normal text-dark/70 rtl:text-right dark:text-light/70">
+                <span className=" flex cursor-pointer justify-center text-sm font-normal text-dark/70 rtl:text-right dark:text-light/70">
                   Product is published?
                 </span>
                 <SwitchToggle
                   state={product.image_urls[0] ? product.is_published : false}
-                  setState={handleInput}
-                  stateName="is_published"
+                  setState={(value) => handleInput("is_published", value)}
                   className="scale-90"
                   disabled={product.image_urls[0] ? false : true}
                 />
