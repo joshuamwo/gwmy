@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../forms/input";
 import { MusicProductInput, ProductInput } from "@/types";
 import SwitchToggle from "../ui/switch-toggle";
@@ -12,6 +12,7 @@ import { useSupabase } from "@/context/supabase-context";
 import resizeImage from "@/lib/resize-image";
 import { AddMusic } from "@/app/actions/add-music";
 import { useFormState, useFormStatus } from "react-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 interface AddMusicFormProps {
   type: string;
@@ -24,22 +25,20 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
   const [success, setSuccess] = useState<boolean>(false);
 
   // form state and action
-  const initialState = {
-    message: null,
-    productType: type,
+  const initialState: {
+    data: {
+      id: string;
+    } | null;
+    error: {
+      message: string;
+      code: number;
+    } | null;
+  } = {
+    data: null,
+    error: null,
   };
   const [state, addMusic] = useFormState(AddMusic, initialState);
-  // const { pending } = useFormStatus();
-
-  let disabled: boolean =
-    !product.name ||
-    !product.artist ||
-    (!product.album && !isSingle) ||
-    (!product.cover && !isSingle) ||
-    !product.price ||
-    !product.genre ||
-    !product.track ||
-    loading;
+  const { pending } = useFormStatus();
 
   //handle inputs
   function handleInput(key: string, value: any) {
@@ -52,39 +51,29 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
     });
   }
 
-  //send music to api
-  async function handleAddMusic() {
-    uploadFiles();
-    return;
-
-    setLoading(true);
-
-    try {
-      const response = await fetch("/api/music/add", {
-        method: "POST",
-        body: JSON.stringify(product),
-      });
-
-      if (response.ok) {
-        setSuccess(true);
-        setLoading(false);
-        console.log("Music added successfully");
-      } else {
-        throw new Error("Network response was not ok");
-      }
-    } catch (error) {
-      console.error("Error adding music:", error);
-      setLoading(false);
+  //handle success || failure of adding music
+  useEffect(() => {
+    if (state?.data?.id) {
+      setSuccess(true);
+      type === "Album"
+        ? toast.success("Album Saved")
+        : toast.success("Track Saved");
+      setTimeout(() => {
+        setSuccess(false);
+      }, 2000);
+    } else if (state?.error?.message) {
+      type === "Album"
+        ? toast.error(state.error.message)
+        : toast.error(state.error.message);
     }
-  }
-
-  async function uploadFiles() {
-    //
-  }
+  }, [state, state?.data, state?.error]);
 
   return (
     <form className="flex flex-col gap-4" action={addMusic}>
-      <p>{state?.message}</p>
+      <p>{state?.data?.id}</p>
+      <Toaster position="top-center" reverseOrder={false} />
+      <input type="hidden" value={type} name="productType" />
+
       {/* single | part of an album toggle - unavailable for albums */}
       {type === "Track" && (
         <SwitchToggle
@@ -132,12 +121,7 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
         array={product.other_artists ? product.other_artists : []}
         placeholder="Enter Other Artist's Name & Press Enter To Add"
         inputType="text"
-      />
-      <input
-        id="other-artists-hidden-input"
-        type="hidden"
         name="other_artists"
-        value={product.other_artists}
       />
 
       {/* select album drop down - unavailable for single tracks & albums  */}
@@ -187,15 +171,17 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
 
       {/* cover upload */}
 
-      <ImageArrayInput
-        key="cover-image-input"
-        images={product.cover ? [product.cover] : []}
-        setImages={(images) => handleInput("cover", images[0])}
-        multiple={false}
-        label="Cover"
-        name="cover"
-        required
-      />
+      {(isSingle || type === "Album") && (
+        <ImageArrayInput
+          key="cover-image-input"
+          images={product.cover ? [product.cover] : []}
+          setImages={(images) => handleInput("cover", images[0])}
+          multiple={false}
+          label="Cover"
+          name="cover"
+          required
+        />
+      )}
 
       {/* track */}
 
@@ -222,11 +208,10 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
       {/* submit button */}
 
       <Button
-        isLoading={loading}
+        usePending
         type="submit"
-        className=" w-full text-sm tracking-[0.2px] "
-        onClick={handleAddMusic}
-        // disabled={pending}
+        className="relative w-full text-sm tracking-[0.2px] "
+        success={success}
       >
         {loading
           ? ""

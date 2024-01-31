@@ -2,6 +2,7 @@
 
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { useSupabase } from "./supabase-server";
 
 interface ImageUploadProps {
   folder: string;
@@ -9,32 +10,48 @@ interface ImageUploadProps {
 }
 
 export async function AddMusic(prevState: any, formData: FormData) {
-  const cookieStore = cookies();
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
+  const supabase = useSupabase();
+
+  try {
+    //validate user
+    const { data, error } = await supabase.from("profiles").select("*");
+    if (error) {
+      console.log(error);
+      return {
+        data: null,
+        error: {
+          message: "Music was not added! Try Again Later!",
+          code: 500,
         },
-        set(name: string, value: string, options: CookieOptions) {
-          cookieStore.set({ name, value, ...options });
+      };
+    } else if (!data || data.length < 1) {
+      return {
+        data: null,
+        error: {
+          message: "Unauthorised to perform this action!",
+          code: 500,
         },
-        remove(name: string, options: CookieOptions) {
-          cookieStore.set({ name, value: "", ...options });
-        },
+      };
+    }
+
+    console.log(data);
+
+    console.log("test ", formData, prevState);
+
+    return {
+      data: {
+        id: "track / album id",
       },
-    },
-  );
-
-  const imageData = await formData.get("cover");
-
-  if (imageData instanceof File) {
-    console.log(imageData.name);
+      error: null,
+    };
+  } catch (error) {
+    console.log("error:", error);
+    return {
+      data: null,
+      error: {
+        message: "Server Error",
+        code: 502,
+      },
+    };
   }
-
-  console.log("test ", formData, prevState);
-
-  return { message: "Ok" };
 }

@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 import { classnames } from "@/utils/classnames";
 import { SpinnerIcon } from "@/components/icons/spinner-icon";
 import { useFormStatus } from "react-dom";
+import { SuccessIcon } from "../icons/success-icon";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
@@ -10,6 +11,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "text" | "outline" | "solid" | "icon" | "solidDanger";
   children?: React.ReactNode;
   type?: "button" | "submit" | "reset";
+  usePending?: boolean;
+  success?: boolean;
 }
 
 const variantClasses = {
@@ -23,27 +26,27 @@ const variantClasses = {
     "min-h-[32px] rounded py-3 px-4 md:px-5 bg-red-500 text-white hover:bg-red-600 focus:bg-red-600",
 };
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      className,
-      isLoading,
-      disabled,
-      children,
-      variant = "solid",
-      type = "button",
-      ...props
-    },
-    ref,
-  ) => (
+function Button({
+  className,
+  isLoading,
+  disabled,
+  children,
+  variant = "solid",
+  type = "button",
+  usePending,
+  success,
+  ...props
+}: ButtonProps) {
+  const { pending } = useFormStatus();
+  const loading = usePending ? pending : isLoading;
+  return (
     <button
-      ref={ref}
       className={classnames(
-        "transition-fill-colors flex items-center justify-center gap-2 font-semibold duration-200",
-        isLoading || disabled
-          ? "pointer-events-none cursor-not-allowed"
-          : "pointer-events-auto cursor-pointer",
-        disabled ? "opacity-70" : "opacity-100",
+        " transition-fill-colors flex items-center justify-center gap-2 font-semibold duration-200",
+        loading || disabled
+          ? "pointer-events-none cursor-not-allowed opacity-70"
+          : "pointer-events-auto cursor-pointer opacity-100",
+        success && "is-carting",
         variantClasses[variant],
         className,
       )}
@@ -51,12 +54,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       {...props}
       disabled={disabled}
     >
-      {isLoading && <SpinnerIcon className=" h-auto w-5 animate-spin" />}
-
+      {loading && (
+        <SpinnerIcon className="absolute left-2 w-5 animate-spin xs:right-4 " />
+      )}
       {children}
+      {!success && ""}
+      <SuccessIcon className="absolute right-2 h-auto w-5 xs:right-4 xs:w-6" />
     </button>
-  ),
-);
+  );
+}
 
-Button.displayName = "Button";
 export default Button;
