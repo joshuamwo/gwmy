@@ -4,12 +4,17 @@ import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { useSupabase } from "./supabase-server";
 
-interface ImageUploadProps {
-  folder: string;
-  files: File[] | File;
+interface PrevState {
+  data: {
+    id: string;
+  } | null;
+  error: {
+    message: string;
+    code: number;
+  } | null;
 }
 
-export async function AddMusic(prevState: any, formData: FormData) {
+export async function AddMusic(prevState: PrevState, formData: FormData) {
   const supabase = useSupabase();
 
   try {
@@ -24,19 +29,19 @@ export async function AddMusic(prevState: any, formData: FormData) {
           code: 500,
         },
       };
-    } else if (!data || data.length < 1) {
+    } else if (!data || data.length < 1 || data[0].user_type !== "alpha") {
       return {
         data: null,
         error: {
-          message: "Unauthorised to perform this action!",
-          code: 500,
+          message: "Sir! You are not allowed to be here!",
+          code: 403,
         },
       };
     }
 
     console.log(data);
 
-    console.log("test ", formData, prevState);
+    console.log("test ", formData);
 
     return {
       data: {

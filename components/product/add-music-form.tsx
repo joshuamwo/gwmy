@@ -13,6 +13,8 @@ import resizeImage from "@/lib/resize-image";
 import { AddMusic } from "@/app/actions/add-music";
 import { useFormState, useFormStatus } from "react-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { useModalAction } from "../modals/modal-controller";
 
 interface AddMusicFormProps {
   type: string;
@@ -23,6 +25,11 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
   const [isSingle, setIsSingle] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
+
+  //route
+  const router = useRouter();
+  //close modal
+  const { closeModal } = useModalAction();
 
   // form state and action
   const initialState: {
@@ -38,7 +45,6 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
     error: null,
   };
   const [state, addMusic] = useFormState(AddMusic, initialState);
-  const { pending } = useFormStatus();
 
   //handle inputs
   function handleInput(key: string, value: any) {
@@ -51,8 +57,14 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
     });
   }
 
+  function gentlyShowUnauthorisedUserOut() {
+    closeModal();
+    router.push("/");
+  }
+
   //handle success || failure of adding music
   useEffect(() => {
+    console.log(state);
     if (state?.data?.id) {
       setSuccess(true);
       type === "Album"
@@ -65,6 +77,9 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
       type === "Album"
         ? toast.error(state.error.message)
         : toast.error(state.error.message);
+
+      //gently show unauthorised user out
+      state.error.code === 403 && gentlyShowUnauthorisedUserOut();
     }
   }, [state, state?.data, state?.error]);
 
