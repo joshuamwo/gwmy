@@ -2,6 +2,8 @@
 
 import { useSupabase } from "./supabase-server";
 import { z } from "zod";
+import { validateMusicData } from "./validate-music-data";
+import { ValidateUser } from "./authorise-user";
 
 interface PrevState {
   data: {
@@ -13,11 +15,14 @@ interface PrevState {
   } | null;
 }
 
-export async function AddMusic(prevState: PrevState, formData: FormData) {
+export async function AddMusic(
+  prevState: PrevState,
+  formData: FormData,
+): Promise<PrevState> {
   // const supabase = useSupabase();
 
   try {
-    // //validate user
+    // //authorise user
     // const { data, error } = await supabase.from("profiles").select("*");
 
     // //handle error and user unauthorised
@@ -41,99 +46,36 @@ export async function AddMusic(prevState: PrevState, formData: FormData) {
     // }
     // console.log(data);
 
-    if (formData) {
-      console.log("test ", formData);
-      console.log("cover ", await formData.get("cover"));
+    //authorise user
 
-      //Validate data
-      const albumSchema = z.object({
-        name: z.string(),
-        artist: z.string(),
-        price: z.coerce.number(),
-        genre: z.string(),
-        cover: z.any(),
-        other_artists: z.string(),
-        producers: z.string(),
-        artists_note: z.string(),
-      });
+    // const { isAdmin } = await ValidateUser();
+    // const authorised = isAdmin();
 
-      const trackSchema = z.object({
-        name: z.string(),
-        artist: z.string(),
-        price: z.coerce.number(),
-        genre: z.string(),
-        album: z.string(),
-        other_artists: z.string(),
-        producers: z.string(),
-        artists_note: z.string(),
-        track: z.any(),
-      });
-      const singleTrackSchema = z.object({
-        name: z.string(),
-        artist: z.string(),
-        price: z.coerce.number(),
-        genre: z.string(),
-        other_artists: z.string(),
-        producers: z.string(),
-        artists_note: z.string(),
-        cover: z.any(),
-        track: z.any(),
-      });
+    // if (!authorised) {
+    //   return {
+    //     data: null,
+    //     error: {
+    //       message: "Sir! You are not allowed to be here!",
+    //       code: 403,
+    //     },
+    //   };
+    // }
 
-      const productType = z.string().parse(formData.get("productType"));
-
-      //1. Case Album
-
-      if (productType === "Album") {
-        const data = albumSchema.parse({
-          name: formData.get("name"),
-          artist: formData.get("artist"),
-          price: formData.get("price"),
-          genre: formData.get("genre"),
-          cover: formData.get("cover"),
-          other_artists: formData.get("other_artists"),
-          producers: formData.get("producers"),
-          artists_note: formData.get("artists_note"),
-        });
-        console.log(data);
-      }
-
-      //2. Case Track
-
-      if (productType === "Track") {
-        const isSingle = z.string().parse(formData.get("isSingle"));
-        if (isSingle) {
-          const data = singleTrackSchema.parse({
-            name: formData.get("name"),
-            artist: formData.get("artist"),
-            price: formData.get("price"),
-            genre: formData.get("genre"),
-            other_artists: formData.get("other_artists"),
-            producers: formData.get("producers"),
-            artists_note: formData.get("artists_note"),
-            cover: formData.get("cover"),
-            track: formData.get("track"),
-          });
-          console.log(data);
-        } else {
-          const data = trackSchema.parse({
-            name: formData.get("name"),
-            artist: formData.get("artist"),
-            album: formData.get("album"),
-            price: formData.get("price"),
-            genre: formData.get("genre"),
-            other_artists: formData.get("other_artists"),
-            producers: formData.get("producers"),
-            artists_note: formData.get("artists_note"),
-            cover: formData.get("cover"),
-            track: formData.get("track"),
-          });
-          console.log(data);
-        }
-      }
-
-      //add data to db
+    //validate data
+    const { validated, error } = validateMusicData(formData);
+    if (error) {
+      return {
+        data: null,
+        error: {
+          message: "Please check your inputs and try again.",
+          code: 400,
+        },
+      };
     }
+    console.log(validated);
+    //upload files
+
+    //add data to db
 
     return {
       data: {
@@ -146,7 +88,7 @@ export async function AddMusic(prevState: PrevState, formData: FormData) {
     return {
       data: null,
       error: {
-        message: "Server Error",
+        message: "Music was not saved. Please try again later!",
         code: 502,
       },
     };
