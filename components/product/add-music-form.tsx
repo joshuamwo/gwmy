@@ -64,7 +64,7 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
 
   //handle success || failure of adding music
   useEffect(() => {
-    console.log(state);
+    console.log(product);
     if (state?.data?.id) {
       setSuccess(true);
       type === "Album"
@@ -92,10 +92,11 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
       {/* single | part of an album toggle - unavailable for albums */}
       {type === "Track" && (
         <SwitchToggle
-          state={isSingle}
+          state={isSingle ?? false}
           setState={setIsSingle}
           label="Track is a Single"
           className="my-4"
+          name="isSingle"
         />
       )}
 
@@ -158,6 +159,7 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
         label="A Note To Your Listeners"
         onChange={(e) => handleInput("artists_note", e.target.value)}
         value={product.artists_note}
+        name="artists_note"
       />
       {/* producers */}
       <ArrayInput

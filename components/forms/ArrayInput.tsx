@@ -29,7 +29,7 @@ export default function ArrayInput({
 
   function handleAddElement(e: React.KeyboardEvent<HTMLInputElement>) {
     if (!input) return;
-    if (e.key === "Enter") {
+    if (e.key === "Enter" || e.key === "Tab") {
       // array is submtted as one string with comma separated
       // values so string elements cannot have commas
       const filteredInput = input.replaceAll(",", "");
@@ -38,6 +38,16 @@ export default function ArrayInput({
       handleInput(newArray);
     }
     return;
+  }
+
+  function handleMouseLeave() {
+    if (!input) return;
+    // array is submtted as one string with comma separated
+    // values so string elements cannot have commas
+    const filteredInput = input.replaceAll(",", "");
+    const newArray = [...array, filteredInput];
+    setInput("");
+    handleInput(newArray);
   }
 
   function handleRemoveElement(index: number) {
@@ -86,6 +96,7 @@ export default function ArrayInput({
           value={input}
           placeholder={placeholder}
           type={inputType}
+          onMouseLeave={handleMouseLeave}
         />
       </div>
     </div>
