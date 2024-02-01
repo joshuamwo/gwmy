@@ -40,7 +40,7 @@ export default function ArrayInput({
     return;
   }
 
-  function handleMouseLeave() {
+  function addCurrentValueToArray() {
     if (!input) return;
     // array is submtted as one string with comma separated
     // values so string elements cannot have commas
@@ -96,7 +96,7 @@ export default function ArrayInput({
           value={input}
           placeholder={placeholder}
           type={inputType}
-          onMouseLeave={handleMouseLeave}
+          onMouseLeave={addCurrentValueToArray}
         />
       </div>
     </div>
