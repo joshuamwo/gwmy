@@ -64,7 +64,6 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
 
   //handle success || failure of adding music
   useEffect(() => {
-    console.log(product);
     if (state?.data?.id) {
       setSuccess(true);
       type === "Album"
@@ -103,29 +102,26 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
       {/* name */}
       <Input
         id="music-product-name"
-        label={`${type} Name`}
+        label={`${type} Name *`}
         onChange={(e) => handleInput("name", e.target.value)}
-        // value={product.name}
         name="name"
       />
 
       {/* price */}
       <Input
         id="music-product-price"
-        label="Price"
+        label="Price *"
         type="number"
         onChange={(e) => handleInput("price", e.target.value)}
-        // value={product.price}
         name="price"
       />
 
       {/* artist */}
       <Input
         id="music-product-artist"
-        label="Artist Name"
+        label="Artist Name *"
         onChange={(e) => handleInput("artist", e.target.value)}
         name="artist"
-        // value={product.artist}
       />
 
       {/* other artists  */}
@@ -147,7 +143,7 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
           options={["1", "2", "3"]}
           selectedOption={product.album}
           setSelectedOption={(value) => handleInput("album", value)}
-          label="Album"
+          label="Album *"
           name="album"
           required
         />
@@ -180,7 +176,7 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
       {/* genre */}
       <Input
         id="music-product-genre"
-        label="Genre"
+        label="Genre *"
         onChange={(e) => handleInput("genre", e.target.value)}
         value={product.genre}
         name="genre"

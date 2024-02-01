@@ -26,7 +26,6 @@ export default function TrackInput({
     if (e.target.files) {
       const file = e.target.files[0];
       const fileUrl = window.URL.createObjectURL(file);
-      console.log(fileUrl);
 
       if (trackFile) {
         setAudioSrc("");
