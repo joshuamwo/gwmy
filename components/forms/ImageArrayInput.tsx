@@ -4,6 +4,8 @@ import { ImageCourosel, ImageSlide } from "../ui/image-courosel";
 import { DeleteIcon } from "../icons/delete-icon";
 import Image from "next/image";
 import ImagePreview from "../ui/ImagePreview";
+import resizeImage from "@/lib/resize-image";
+import { useFormState } from "react-dom";
 
 interface ImageInputProps {
   images: File[];
@@ -33,15 +35,27 @@ export default function ImageArrayInput({
     if (e.target.files) {
       if (images && !multiple) {
         const image = e.target.files[0];
-        const imageUrl = window.URL.createObjectURL(image);
+        //resize image
+        // Resize each image to ensure consistency and possibly reduce upload time
+        const resizedImageBlob = await resizeImage(image, 795, 480);
+
+        // Convert each resized image blob to a File
+        const fileName = `${self.crypto.randomUUID()}`;
+        const resizedImage: File = new File([resizedImageBlob], fileName, {
+          type: "image/png",
+        });
+
+        const imageUrl = window.URL.createObjectURL(resizedImage);
         console.log(e.target.files);
-        setImages([image]);
+        setImages([resizedImage]);
         setImagePreview([imageUrl]);
+        // setField("cover", resizedImage);
         return;
       }
+
       const files = e.target.files;
       const fileArray = Array.from(files).map((file) =>
-        window.URL.createObjectURL(file)
+        window.URL.createObjectURL(file),
       );
 
       setImagePreview([...imagePreview, ...fileArray]);
@@ -70,23 +84,23 @@ export default function ImageArrayInput({
     <>
       {/* image preview */}
       {imagePreview.length !== 0 && (
-        <div className="w-full !mt-5">
+        <div className="!mt-5 w-full">
           <ImageCourosel>
             {imagePreview.map((image, index) => (
               <ImageSlide key={index}>
                 {/* delete image */}
                 {multiple && (
-                  <div className="absolute top-2 right-2 z-50">
+                  <div className="absolute right-2 top-2 z-50">
                     <Button
                       variant="icon"
                       onClick={() => handleImageInputRemove(index)}
-                      className="w-10 h-10 rounded-full bg-dark-300 dark:bg-dark-400 hover:bg-red-500"
+                      className="h-10 w-10 rounded-full bg-dark-300 hover:bg-red-500 dark:bg-dark-400"
                     >
-                      <DeleteIcon className="h-5 w-5 text-white opacity-80 hover:opacity-100 hover:animate-pulse hover:scale-125 " />
+                      <DeleteIcon className="h-5 w-5 text-white opacity-80 hover:scale-125 hover:animate-pulse hover:opacity-100 " />
                     </Button>
                   </div>
                 )}
-                <div className="w-full h-60 flex justify-center items-center mb-4">
+                <div className="mb-4 flex h-60 w-full items-center justify-center">
                   <Image
                     src={image}
                     className="object-cover"
@@ -105,31 +119,40 @@ export default function ImageArrayInput({
       {/* Add images */}
       <Button
         type="button"
-        className="w-full text-sm !p-0 h-12  tracking-[0.2px]"
+        className="h-12 w-full !p-0 text-sm  tracking-[0.2px]"
         variant="outline"
       >
         <label
           htmlFor="product-images-upload"
-          className="w-full relative h-full flex justify-center items-center "
+          className="relative flex h-full w-full items-center justify-center "
         >
           {multiple && imagePreview.length == 0
             ? `Upload ${label ?? "Images"}`
             : multiple && imagePreview.length > 0
-            ? "Add Images"
-            : !multiple && imagePreview.length == 0
-            ? `Upload ${label ?? "Image"}`
-            : "Replace Image"}
+              ? "Add Images"
+              : !multiple && imagePreview.length == 0
+                ? `Upload ${label ?? "Image"}`
+                : "Replace Image"}
           <input
             type="file"
             id="product-images-upload"
-            className="opacity-0 absolute left-0 right-0 h-full "
+            className="absolute left-0 right-0 h-full opacity-0 "
             onChange={(e) => handleImageInput(e)}
             multiple={multiple}
             aria-hidden
             accept="image/*"
-            required={required}
             name={name}
+            // required={required}
           />
+          {/* <input
+            type="hidden"
+            id="product-images-dummy"
+            className="absolute left-0 right-0 h-full opacity-0"
+            aria-hidden
+            name="null"
+            required={required}
+            value={images[0]?.name}
+          /> */}
         </label>
       </Button>
     </>

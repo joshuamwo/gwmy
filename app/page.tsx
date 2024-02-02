@@ -34,6 +34,7 @@ export default function App() {
 
   useEffect(() => {
     fetchProducts();
+    console.log(products);
   }, []);
 
   return (
@@ -42,7 +43,7 @@ export default function App() {
     // </div>
 
     <div>
-      <AllPublishedProductsList  />
+      <AllPublishedProductsList />
     </div>
   );
 }

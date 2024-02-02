@@ -33,6 +33,7 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
 
   // form state and action
   const initialState: {
+    productType: string;
     data: {
       id: string;
     } | null;
@@ -41,10 +42,21 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
       code: number;
     } | null;
   } = {
+    productType: isSingle ? "SingleTrack" : type,
     data: null,
     error: null,
   };
+
+  //adding music
   const [state, addMusic] = useFormState(AddMusic, initialState);
+  function handleFormAction(formData: FormData) {
+    //replace seleted image with resized image
+    if (product.cover) {
+      formData.set("cover", product.cover);
+				}
+			console.log(formData.get("cover"))
+    AddMusic(state, formData);
+  }
 
   //handle inputs
   function handleInput(key: string, value: any) {
@@ -82,8 +94,13 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
     }
   }, [state, state?.data, state?.error]);
 
+  //update prodycr type in state
+  useEffect(() => {
+    state.productType = type === "Track" && isSingle ? "SingleTrack" : type;
+  }, [isSingle, type]);
+
   return (
-    <form className="flex flex-col gap-4" action={addMusic}>
+    <form className="flex flex-col gap-4" action={handleFormAction}>
       <p>{state?.data?.id}</p>
       <Toaster position="top-center" reverseOrder={false} />
       <input type="hidden" value={type} name="productType" />
