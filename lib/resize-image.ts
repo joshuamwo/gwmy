@@ -3,7 +3,8 @@ export default async function resizeImage(
   maxWidth: number,
   maxHeight: number
 ): Promise<Blob> {
-  return new Promise((resolve, reject) => {
+
+	return new Promise((resolve, reject) => {
     const img = new Image();
 
     img.onload = () => {

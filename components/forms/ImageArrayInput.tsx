@@ -24,17 +24,15 @@ export default function ImageArrayInput({
   multiple,
   label,
   name,
-	required,
-	imagePreview,
-		setImagePreview,
+  required,
+  imagePreview,
+  setImagePreview,
 }: ImageInputProps) {
-
-
   // Image input and preview set
   const handleImageInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
     // e.preventDefault();
 
-    //set image preview
+    //set image state & preview
     if (e.target.files) {
       if (images && !multiple) {
         const image = e.target.files[0];
@@ -49,10 +47,8 @@ export default function ImageArrayInput({
         });
 
         const imageUrl = window.URL.createObjectURL(resizedImage);
-        console.log(e.target.files);
         setImages([resizedImage]);
         setImagePreview([imageUrl]);
-        // setField("cover", resizedImage);
         return;
       }
 
@@ -145,17 +141,8 @@ export default function ImageArrayInput({
             aria-hidden
             accept="image/*"
             name={name}
-            // required={required}
-          />
-          {/* <input
-            type="hidden"
-            id="product-images-dummy"
-            className="absolute left-0 right-0 h-full opacity-0"
-            aria-hidden
-            name="null"
             required={required}
-            value={images[0]?.name}
-          /> */}
+          />
         </label>
       </Button>
     </>

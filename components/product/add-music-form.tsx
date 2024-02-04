@@ -21,6 +21,7 @@ interface AddMusicFormProps {
 }
 
 export default function AddMusicForm({ type }: AddMusicFormProps) {
+  const { supabase } = useSupabase();
   const [product, setProduct] = useState<MusicProductInput>({});
   const [isSingle, setIsSingle] = useState<boolean>(true);
   const [success, setSuccess] = useState<boolean>(false);
@@ -58,12 +59,11 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
     if (product.cover) {
       formData.set("cover", product.cover);
     }
-    console.log(formData.get("cover"));
     addMusic(formData);
   }
 
   //handle inputs
-  function handleInput(key: string, value: any) {
+  async function handleInput(key: string, value: any) {
     setProduct((prevProduct) => {
       const newProduct = {
         ...prevProduct,
@@ -74,13 +74,28 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
 
     //set state.cover to null of the user replaced the image
     if (state.cover && key === "cover") {
+      //dete uploaded track from cloud bucket
+      const filePath = state.cover.split("music-cover-images/")[1];
+      await deleteFilesFromSupabase("music-cover-images", filePath);
       state.cover = null;
     }
     //set state.track to null of the user replaced the track
     if (state.track && key === "track") {
+      //dete uploaded track from cloud bucket
+      await deleteFilesFromSupabase("tracks", state.track);
       state.track = null;
     }
     return;
+  }
+
+  //delete files from supabase
+  async function deleteFilesFromSupabase(bucket: string, filePath: string) {
+    const { error } = await supabase.storage.from(bucket).remove([filePath]);
+			if (error) {
+					//TODO
+					console.log(error);
+					
+    }
   }
 
   function gentlyShowUnauthorisedUserOut() {
