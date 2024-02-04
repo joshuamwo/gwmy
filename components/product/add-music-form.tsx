@@ -23,8 +23,9 @@ interface AddMusicFormProps {
 export default function AddMusicForm({ type }: AddMusicFormProps) {
   const [product, setProduct] = useState<MusicProductInput>({});
   const [isSingle, setIsSingle] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
+  //image preview
+  const [imagePreview, setImagePreview] = useState<string[]>([]);
 
   //route
   const router = useRouter();
@@ -33,17 +34,16 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
 
   // form state and action
   const initialState: {
+    ok: boolean | null;
     productType: string;
-    data: {
-      id: string;
-    } | null;
     error: {
+      data: any;
       message: string;
       code: number;
     } | null;
   } = {
+    ok: null,
     productType: isSingle ? "SingleTrack" : type,
-    data: null,
     error: null,
   };
 
@@ -53,9 +53,9 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
     //replace seleted image with resized image
     if (product.cover) {
       formData.set("cover", product.cover);
-				}
-			console.log(formData.get("cover"))
-    AddMusic(state, formData);
+    }
+    console.log(formData.get("cover"));
+    addMusic(formData);
   }
 
   //handle inputs
@@ -76,32 +76,50 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
 
   //handle success || failure of adding music
   useEffect(() => {
-    if (state?.data?.id) {
+    if (state.ok === null) return;
+    if (state.ok === true) {
       setSuccess(true);
+      //reset the image field
+      const imageInput = document.getElementById(
+        "product-images-upload",
+      ) as HTMLInputElement;
+
+      //
+      state.ok = null;
+      state.error = null;
+
+      //toast
       type === "Album"
         ? toast.success("Album Saved")
         : toast.success("Track Saved");
+
+      //
       setTimeout(() => {
         setSuccess(false);
       }, 2000);
-    } else if (state?.error?.message) {
+      closeModal();
+    } else {
       type === "Album"
-        ? toast.error(state.error.message)
-        : toast.error(state.error.message);
+        ? toast.error(
+            state.error?.message ?? "Adding album failed! Try again later.",
+          )
+        : toast.error(
+            state.error?.message ?? " Adding track failed! Try again later.",
+          );
 
       //gently show unauthorised user out
-      state.error.code === 403 && gentlyShowUnauthorisedUserOut();
+      state.error?.code === 403 && gentlyShowUnauthorisedUserOut();
     }
-  }, [state, state?.data, state?.error]);
+  }, [state, state?.ok]);
 
-  //update prodycr type in state
+  //update product type in state
   useEffect(() => {
     state.productType = type === "Track" && isSingle ? "SingleTrack" : type;
-  }, [isSingle, type]);
+  }, [isSingle, type, state]);
 
   return (
     <form className="flex flex-col gap-4" action={handleFormAction}>
-      <p>{state?.data?.id}</p>
+      <p>{state.ok}</p>
       <Toaster position="top-center" reverseOrder={false} />
       <input type="hidden" value={type} name="productType" />
 
@@ -115,7 +133,6 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
           name="isSingle"
         />
       )}
-
       {/* name */}
       <Input
         id="music-product-name"
@@ -203,6 +220,8 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
 
       {(isSingle || type === "Album") && (
         <ImageArrayInput
+          imagePreview={imagePreview}
+          setImagePreview={setImagePreview}
           key="cover-image-input"
           images={product.cover ? [product.cover] : []}
           setImages={(images) => handleInput("cover", images[0])}
@@ -242,16 +261,15 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
         type="submit"
         className="relative w-full text-sm tracking-[0.2px] "
         success={success}
+        disabled={success}
       >
-        {loading
-          ? ""
-          : success && product.is_published
-            ? "Product Published"
-            : success && !product.is_published
-              ? "Draft Saved"
-              : product.is_published
-                ? "Publish"
-                : "Save as Draft"}
+        {success && product.is_published
+          ? "Product Published"
+          : success && !product.is_published
+            ? "Draft Saved"
+            : product.is_published
+              ? "Publish"
+              : "Save as Draft"}
       </Button>
     </form>
   );

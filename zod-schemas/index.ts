@@ -13,7 +13,7 @@ export const albumSchema = z.object({
 });
 
 export const trackSchema = z.object({
-  productType: z.string(),
+  // productType: z.string(),
   name: z.string(),
   artist: z.string(),
   price: z.coerce.number(),
@@ -25,7 +25,7 @@ export const trackSchema = z.object({
   track: z.any(),
 });
 export const singleTrackSchema = z.object({
-  productType: z.string(),
+  // productType: z.string(),
   name: z.string(),
   artist: z.string(),
   price: z.coerce.number(),

@@ -42,27 +42,30 @@ export default function TrackInput({
       {audioSrc && (
         <audio
           controls
-          className="p-2 w-full my-2"
+          className="my-2 w-full p-2"
           key={audioSrc} // Added key attribute
           src={audioSrc}
         />
       )}
       <Button
         type="button"
-        className="w-full !p-0 !h- text-sm  tracking-[0.2px] h-12"
+        className="!h- h-12 w-full !p-0  text-sm tracking-[0.2px]"
         variant="outline"
       >
         <label
           htmlFor="music-file-input"
-          className="w-full h-full relative flex items-center justify-center"
+          className="relative flex h-full w-full items-center justify-center"
         >
           {trackFile ? "Replace Track" : "Upload Track"}
 
           <input
             type="file"
             id="music-file-input"
-            className="opacity-0 absolute left-0 right-0 h-full"
-            onChange={(e) => handleFileInput(e)}
+            className="absolute left-0 right-0 h-full opacity-0"
+            onChange={(e) => {
+              console.log(e.target.files);
+              handleFileInput(e);
+            }}
             aria-hidden
             accept="audio/mpeg"
             name={name}

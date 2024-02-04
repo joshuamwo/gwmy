@@ -9,29 +9,52 @@ function arrayfyString(input: string) {
   return input.split(",");
 }
 
-export async function AddAlbum(formData: FormData) {
+type AddAlbumResponse = {
+  ok: boolean;
+  error: {
+    data: any;
+    message: string;
+    code: number;
+  };
+};
+
+export async function AddAlbum(formData: FormData): Promise<AddAlbumResponse> {
   try {
     const supabase = useSupabase();
     //validate data
+    console.log("validating data");
     const { validated, error } = validateAlbumData(formData);
     if (error) {
-      throw {
-        productType: "Album",
-        data: null,
+      console.error("Data validation failed");
+      return {
+        ok: false,
         error: {
+          data: error,
           message: "Please check your inputs and try again.",
           code: 400,
         },
       };
     }
 
-    //upload album cover
-    const imageUrl = await uploadImages(
-      [formData.get("cover") as File],
-      "music-cover-images",
-    );
+    // //upload album cover
+    // const imageUrl = await uploadImages(
+    //   [formData.get("cover") as File],
+    //   "music-cover-images",
+    // );
 
     if (validated) {
+      console.log("Data validation success");
+      //upload album cover
+      console.log("Uploading images");
+      const imageUrl = await uploadImages(
+        [validated.cover as File],
+        "music-cover-images",
+      );
+
+      imageUrl && console.log("Image uploaded");
+
+      console.log("Adding data to databae");
+
       //add data to db
       const response = await supabase
         .from("albums")
@@ -50,16 +73,47 @@ export async function AddAlbum(formData: FormData) {
         .single();
 
       if (response.error) {
+        console.error("Failed to add data to DB");
         console.log(response.error);
-        throw response.error;
+        return {
+          ok: false,
+          error: {
+            data: response.error,
+            message: "Adding data to database failed",
+            code: 500,
+          },
+        };
       }
+      console.log("Data Added to DB");
       console.log(response);
-      return response;
+      return {
+        ok: true,
+        error: {
+          data: null,
+          message: "Album Added",
+          code: 200,
+        },
+      };
     }
+    console.error("Validation returned no data and no error => add-album.ts");
     //return response
-    return "End of add album";
+    return {
+      ok: false,
+      error: {
+        data: null,
+        message: "Validation returned no data and no error => add-album.ts",
+        code: 504,
+      },
+    };
   } catch (error) {
-    console.log(error);
-    throw error;
+    console.error("Exeption caught, failed to Add Album", error);
+    return {
+      ok: false,
+      error: {
+        data: error,
+        message: "Exception caught in => add-album.ts",
+        code: 504,
+      },
+    };
   }
 }

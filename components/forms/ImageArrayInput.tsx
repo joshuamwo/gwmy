@@ -14,6 +14,8 @@ interface ImageInputProps {
   label?: string;
   name?: string;
   required?: boolean;
+  imagePreview: string[];
+  setImagePreview: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export default function ImageArrayInput({
@@ -22,10 +24,11 @@ export default function ImageArrayInput({
   multiple,
   label,
   name,
-  required,
+	required,
+	imagePreview,
+		setImagePreview,
 }: ImageInputProps) {
-  //image preview
-  const [imagePreview, setImagePreview] = useState<string[]>([]);
+
 
   // Image input and preview set
   const handleImageInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
