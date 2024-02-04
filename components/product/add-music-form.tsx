@@ -22,7 +22,7 @@ interface AddMusicFormProps {
 
 export default function AddMusicForm({ type }: AddMusicFormProps) {
   const [product, setProduct] = useState<MusicProductInput>({});
-  const [isSingle, setIsSingle] = useState<boolean>(false);
+  const [isSingle, setIsSingle] = useState<boolean>(true);
   const [success, setSuccess] = useState<boolean>(false);
   //image preview
   const [imagePreview, setImagePreview] = useState<string[]>([]);
@@ -41,10 +41,14 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
       message: string;
       code: number;
     } | null;
+    cover: string | null;
+    track: string | null;
   } = {
     ok: null,
     productType: isSingle ? "SingleTrack" : type,
     error: null,
+    cover: null,
+    track: null,
   };
 
   //adding music
@@ -67,6 +71,16 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
       };
       return newProduct;
     });
+
+    //set state.cover to null of the user replaced the image
+    if (state.cover && key === "cover") {
+      state.cover = null;
+    }
+    //set state.track to null of the user replaced the track
+    if (state.track && key === "track") {
+      state.track = null;
+    }
+    return;
   }
 
   function gentlyShowUnauthorisedUserOut() {

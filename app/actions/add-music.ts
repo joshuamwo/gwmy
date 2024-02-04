@@ -8,7 +8,7 @@ import { uploadImages } from "./upload-images";
 import { AddAlbum } from "./add-album";
 import { AddSingleTrack } from "./add-single-track";
 
-interface PrevState {
+export interface PrevState {
   ok: boolean | null;
   productType: string;
   error: {
@@ -16,6 +16,8 @@ interface PrevState {
     message: string;
     code: number;
   } | null;
+  cover: string | null;
+  track: string | null;
 }
 
 export async function AddMusic(
@@ -39,44 +41,13 @@ export async function AddMusic(
           message: "Sir! You are not allowed to be here!",
           code: 403,
         },
+        cover: prevState.cover,
+        track: prevState.track,
       };
     }
 
     const productType = prevState.productType;
 
-    // if (productType == "Album") {
-    //   console.log("adding music");
-    //   const response = await AddAlbum(formData);
-    //   if (response.ok === true) {
-    //     console.log("COMPLETED: Album added");
-    //     return {
-    //       ok: true,
-    //       productType: "Album",
-    //       error: null,
-    //     };
-    //   }
-
-    //   console.log(response.error);
-    //   return {
-    //     ok: false,
-    //     productType: "Album",
-    //     error: {
-    //       data: response.error,
-    //       message: "Action Failed",
-    //       code: 500,
-    //     },
-    //   };
-    // } else {
-    //   return {
-    //     ok: false,
-    //     productType: prevState.productType,
-    //     error: {
-    //       data: prevState,
-    //       message: "Configure adding track",
-    //       code: 302,
-    //     },
-    //   };
-    // }
 
     switch (prevState.productType) {
       case "Album": {
@@ -89,6 +60,8 @@ export async function AddMusic(
             ok: true,
             productType: "Album",
             error: null,
+            cover: prevState.cover,
+            track: prevState.track,
           };
         }
 
@@ -101,11 +74,13 @@ export async function AddMusic(
             message: "Action Failed",
             code: 500,
           },
+          cover: prevState.cover,
+          track: prevState.track,
         };
       }
       case "SingleTrack": {
         console.log("adding track");
-        const response = await AddSingleTrack(formData);
+        const response = await AddSingleTrack(formData, prevState);
 
         if (response.ok === true) {
           console.log("COMPLETED: Track added");
@@ -113,7 +88,10 @@ export async function AddMusic(
             ok: true,
             productType: "SingleTrack",
             error: null,
+            cover: prevState.cover,
+            track: prevState.track,
           };
+									
         }
 
         console.log(response.error);
@@ -125,6 +103,8 @@ export async function AddMusic(
             message: "Action Failed. Try again later.",
             code: 500,
           },
+          cover: prevState.cover,
+          track: prevState.track,
         };
       }
       default: {
@@ -137,6 +117,8 @@ export async function AddMusic(
             message: "Music type not supported!",
             code: 302,
           },
+          cover: prevState.cover,
+          track: prevState.track,
         };
       }
     }
@@ -150,6 +132,8 @@ export async function AddMusic(
         message: "Music was not saved. Please try again later!",
         code: 502,
       },
+      cover: prevState.cover,
+      track: prevState.track,
     };
   }
 }
