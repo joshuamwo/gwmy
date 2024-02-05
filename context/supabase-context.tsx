@@ -3,7 +3,7 @@ import { createContext, useEffect, useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
 import { useRecoilState } from "recoil";
-import { getUserDoneState } from "@/recoil/atoms";
+import { getUserDoneState, userState } from "@/recoil/atoms";
 import { UserStateType } from "@/types";
 
 type SupabaseContextType = {
@@ -11,7 +11,7 @@ type SupabaseContextType = {
 };
 
 const SupabseContext = createContext<SupabaseContextType | undefined>(
-  undefined
+  undefined,
 );
 const UserContext = createContext<UserStateType | undefined>(undefined);
 
@@ -23,12 +23,12 @@ export function SupabaseProvider({ children }: { children: React.ReactNode }) {
   const [supabase] = useState(() =>
     createBrowserClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    ),
   );
 
   //set user state
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useRecoilState(userState);
 
   //function to	get user
   async function getUser() {
@@ -37,7 +37,7 @@ export function SupabaseProvider({ children }: { children: React.ReactNode }) {
       setUser(data[0]);
       setGetUserDone(true);
     } else {
-      setUser(null);
+      // setUser(null);
       setGetUserDone(true);
     }
   }

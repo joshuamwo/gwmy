@@ -141,6 +141,24 @@ export interface MusicProductInput {
   track?: File;
 }
 
+export interface Album {
+  id: string;
+  name: string;
+  artist: string;
+  tracks: string[] | null;
+  cover: string[];
+  genre: string;
+  price: number;
+  other_artists: string[] | null;
+  artists_note: string | null;
+  producers: string[] | null;
+  release_date: string | null;
+  published: boolean;
+  purchases: number;
+  likes: number;
+  owner: string;
+}
+
 //can take null	or Product
 export type ProductList = Product[] | null;
 

@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { FashionProduct, UserStateType } from "@/types";
+import { Album, FashionProduct, UserStateType } from "@/types";
 import { RecoilState } from "recoil";
 import { Product } from "@/types";
 import { Drawer } from "@/types";
@@ -19,7 +19,9 @@ export const myProductsState: RecoilState<Product[]> = atom<Product[]>({
   default: [],
 });
 
-export const myFashionProductsState: RecoilState<FashionProduct[]> = atom<FashionProduct[]>({
+export const myFashionProductsState: RecoilState<FashionProduct[]> = atom<
+  FashionProduct[]
+>({
   key: "myFashionProductsState",
   default: [],
 });
@@ -35,9 +37,14 @@ export const modalIsOpenState: RecoilState<boolean> = atom<boolean>({
 });
 
 export const drawerState: RecoilState<Drawer> = atom<Drawer>({
-	key: "draweState",
-	default: {
-		drawerType: "CART_VIEW",
-			isOpen: false,
-		}
+  key: "draweState",
+  default: {
+    drawerType: "CART_VIEW",
+    isOpen: false,
+  },
+});
+
+export const myAlbumsState: RecoilState<Album[]> = atom<Album[]>({
+  key: "myMusicState",
+  default: [],
 });

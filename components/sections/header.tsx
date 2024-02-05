@@ -39,7 +39,7 @@ export default function Header({
   }, [cart]);
 
   return (
-    <div className="app-header sticky top-0 z-30 flex h-16 w-full  items-center justify-between  bg-light py-1 px-4 left-0  dark:bg-dark-200 sm:h-[70px] sm:px-6">
+    <div className="app-header sticky left-0 top-0 z-30 flex h-16  w-full items-center justify-between bg-light px-4 py-1  dark:bg-dark-200 sm:h-[70px] sm:px-6">
       <div className="flex items-center gap-4">
         <Hamburger
           className="hidden sm:flex"
@@ -50,24 +50,26 @@ export default function Header({
           {/* <h1 className="font-bold">GWMY</h1> */}
           {["G", "W", "M", "Y"].map((letter) => (
             <div className="group" key={letter}>
-              <h1 className=" bg-brand hover:bg-dark-400 transition-all duration-500 p-1 w-8 justify-center flex rounded">
+              <h1 className=" flex w-8 justify-center rounded bg-brand p-1 transition-all duration-500 hover:bg-dark-400">
                 {letter}
               </h1>
               {/* tooltip */}
-              <div className=" hidden  mt-1 w-8 absolute p-1 rounded bg-brand text-center group-hover:flex group-hover:animate-bounce  flex-col ">
+              <div className=" absolute  mt-1 hidden w-8 flex-col rounded bg-brand p-1 text-center group-hover:flex  group-hover:animate-bounce ">
                 {letter === "G"
                   ? ["O", "D"].map((letter) => (
                       <span key={letter}>{letter}</span>
                     ))
                   : letter === "W"
-                  ? ["W", "A", "N", "T", "S"].map((letter) => (
-                      <span key={letter}>{letter}</span>
-                    ))
-                  : letter === "M"
-                  ? ["E"].map((letter) => <span key={letter}>{letter}</span>)
-                  : ["Y", "O", "U", "N", "G"].map((letter) => (
-                      <span key={letter}>{letter}</span>
-                    ))}
+                    ? ["W", "A", "N", "T", "S"].map((letter) => (
+                        <span key={letter}>{letter}</span>
+                      ))
+                    : letter === "M"
+                      ? ["E"].map((letter) => (
+                          <span key={letter}>{letter}</span>
+                        ))
+                      : ["Y", "O", "U", "N", "G"].map((letter) => (
+                          <span key={letter}>{letter}</span>
+                        ))}
               </div>
             </div>
           ))}

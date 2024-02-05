@@ -24,7 +24,7 @@ export default function AddFashionForm({}: AddFashionFormProps) {
   const { supabase } = useSupabase();
   // global products	state
   const [myFashionProducts, setMyFashionProducts] = useRecoilState(
-    myFashionProductsState
+    myFashionProductsState,
   );
   const user = userContext();
   const fetchProducts = async () => {
@@ -70,7 +70,7 @@ export default function AddFashionForm({}: AddFashionFormProps) {
     if (e.target.files) {
       const files = e.target.files;
       const fileArray = Array.from(files).map((file) =>
-        window.URL.createObjectURL(file)
+        window.URL.createObjectURL(file),
       );
 
       setImagePreview([...imagePreview, ...fileArray]);
@@ -125,7 +125,7 @@ export default function AddFashionForm({}: AddFashionFormProps) {
 
     // Resize each image to ensure consistency and possibly reduce upload time
     const resizedImagesPromises: Promise<Blob>[] = images.map((image) =>
-      resizeImage(image, 795, 480)
+      resizeImage(image, 795, 480),
     );
 
     // Wait for all the images to be resized
@@ -149,7 +149,7 @@ export default function AddFashionForm({}: AddFashionFormProps) {
       }
       // Store the URL of the uploaded image for later use
       imageUrls.push(
-        `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-images/${data.path}`
+        `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-images/${data.path}`,
       );
     });
 
@@ -204,7 +204,7 @@ export default function AddFashionForm({}: AddFashionFormProps) {
         setImages([]);
         setProduct(productInputDefaults);
         setTimeout(() => setSuccess(false), 3000);
-      }
+      },
     );
   };
 
@@ -219,7 +219,7 @@ export default function AddFashionForm({}: AddFashionFormProps) {
         handleInput={handleInput}
       />
       {/* Product Pricing and Variations */}
-      <span className=" cursor-pointer pb-2.5 flex justify-center font-normal text-dark/70 rtl:text-right dark:text-light/70">
+      <span className=" flex cursor-pointer justify-center pb-2.5 font-normal text-dark/70 rtl:text-right dark:text-light/70">
         Pricing and Variations
       </span>
 
@@ -240,7 +240,7 @@ export default function AddFashionForm({}: AddFashionFormProps) {
       <Input
         id="price_per_variation"
         label="Price"
-        className="w-full my-5"
+        className="my-5 w-full"
         type="number"
         inputClassName="bg-light dark:bg-dark-300"
         onChange={(e) => handleInput("price", e.target.valueAsNumber)}
@@ -255,6 +255,8 @@ export default function AddFashionForm({}: AddFashionFormProps) {
         images={images}
         setImages={(images) => setImages(images)}
         multiple
+        imagePreview={imagePreview}
+        setImagePreview={setImagePreview}
       />
 
       {/* Toggle published */}
@@ -286,12 +288,12 @@ export default function AddFashionForm({}: AddFashionFormProps) {
         {loading
           ? ""
           : success && product.is_published
-          ? "Product Published"
-          : success && !product.is_published
-          ? "Draft Saved"
-          : product.is_published
-          ? "Publish Product"
-          : "Save as Draft"}
+            ? "Product Published"
+            : success && !product.is_published
+              ? "Draft Saved"
+              : product.is_published
+                ? "Publish Product"
+                : "Save as Draft"}
       </Button>
     </div>
   );

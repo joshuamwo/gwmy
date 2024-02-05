@@ -12,7 +12,7 @@ import DrawersContainer from "@/components/drawer/drawer-container";
 import { userContext } from "@/context/supabase-context";
 
 const BottomNavigation = dynamic(
-  () => import("@/components/sections/bottom-navigation")
+  () => import("@/components/sections/bottom-navigation"),
 );
 
 export default function InterfaceLayout({
@@ -25,13 +25,13 @@ export default function InterfaceLayout({
     setSidebarIsOpen(!sidebarIsOpen);
   };
 
-  const user = userContext()
+  const user = userContext();
   const isUserLoggedIn: boolean = !user?.id === undefined;
   const getUserDone = useRecoilValue(getUserDoneState);
 
   return (
     <>
-      <div className="flex flex-col min-h-screen w-full  bg-light-300 dark:bg-dark-300 ">
+      <div className="flex min-h-screen w-full flex-col  bg-light-300 dark:bg-dark-300 ">
         <Header
           sidebarIsOpen={sidebarIsOpen}
           sidebarToggle={sidebarToggle}

@@ -5,12 +5,12 @@ import { ReactNode, useEffect } from "react";
 import { useModalAction } from "@/components/modals/modal-controller";
 import { useRecoilValue } from "recoil";
 import { useIsMounted } from "@/lib/hooks/use-is-mounted";
-import { getUserDoneState } from "@/recoil/atoms";
+import { getUserDoneState, userState } from "@/recoil/atoms";
 import { modalIsOpenState } from "@/recoil/atoms";
 import { userContext } from "@/context/supabase-context";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
-  const user = userContext();
+  const user = useRecoilValue(userState);
   const { openModal } = useModalAction();
   const router = useRouter();
   const isMounted = useIsMounted();

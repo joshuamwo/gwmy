@@ -6,6 +6,7 @@ import { HelpIcon } from "../icons/help-icon";
 import { OrdersIcon } from "../icons/orders-icon";
 import { ProductsIcon } from "../icons/products";
 import { EventsIcon } from "../icons/events-icon";
+import { MusicIcon } from "../ui/music-icon";
 
 interface SidebarProps {
   sidebarIsOpen: boolean;
@@ -38,11 +39,17 @@ export default function AdminSidebar({
           icon={<OrdersIcon className="h-[18px] w-[18px] text-current" />}
         />
         <NavLink
+          title="My Music"
+          href="/admin/my-music"
+          sidebarIsOpen={sidebarIsOpen}
+          icon={<MusicIcon className="h-[18px] w-[18px] text-current" />}
+        />
+        <NavLink
           title="My Events"
           href="/admin/my-events"
           sidebarIsOpen={sidebarIsOpen}
           icon={
-            <EventsIcon className="h-[18px] w-[18px] text-current fill-inherit" />
+            <EventsIcon className="h-[18px] w-[18px] fill-inherit text-current " />
           }
         />
         <NavLink

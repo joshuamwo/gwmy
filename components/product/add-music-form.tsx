@@ -8,7 +8,7 @@ import ImageArrayInput from "../forms/ImageArrayInput";
 import AutocompleteDropdown from "../ui/autocomplete-dropdown";
 import Button from "../ui/button";
 import TrackInput from "../forms/TrackInput";
-import { useSupabase } from "@/context/supabase-context";
+import { useSupabase, userContext } from "@/context/supabase-context";
 import resizeImage from "@/lib/resize-image";
 import { AddMusic } from "@/app/actions/add-music";
 import { useFormState, useFormStatus } from "react-dom";
@@ -27,6 +27,7 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
   const [success, setSuccess] = useState<boolean>(false);
   //image preview
   const [imagePreview, setImagePreview] = useState<string[]>([]);
+  const [userAlbums, setUserAlbums] = useState<any>();
 
   //route
   const router = useRouter();
@@ -51,6 +52,20 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
     cover: null,
     track: null,
   };
+
+  //get user
+  const user = userContext();
+
+  async function fetchAlbums() {
+    // get albums
+    const { data, error } = await supabase
+      .from("albums")
+      .select("*")
+      .eq("owner", user?.id);
+    console.log(data);
+  }
+
+  fetchAlbums();
 
   //adding music
   const [state, addMusic] = useFormState(AddMusic, initialState);
@@ -91,10 +106,9 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
   //delete files from supabase
   async function deleteFilesFromSupabase(bucket: string, filePath: string) {
     const { error } = await supabase.storage.from(bucket).remove([filePath]);
-			if (error) {
-					//TODO
-					console.log(error);
-					
+    if (error) {
+      //TODO
+      console.log(error);
     }
   }
 

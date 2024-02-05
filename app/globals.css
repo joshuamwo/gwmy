@@ -81,35 +81,41 @@ input[type="number"] {
 /* scroll bars */
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
+  @apply h-1.5 w-1.5;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-dark-900;
 }
 
 /* Track */
-::-webkit-scrollbar-track {
+/* ::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+} */
+/* ::-webkit-scrollbar-track {
   background: darkgrey;
   border-radius: 3rem;
-}
+} */
 
 /* Handle */
-::-webkit-scrollbar-thumb {
+/* ::-webkit-scrollbar-thumb {
   background: #555;
   border-radius: 3rem;
-}
+} */
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #24b47e;
-  border-radius: 3rem;
+  /* border-radius: 3rem; */
 }
 
 /* Share Buttons custom styles */
 
 /* React Share button custom styles */
 .product-share .react-share__ShareButton > svg > circle {
-  @apply transition-all stroke-1 fill-transparent stroke-light-800 dark:stroke-dark-600;
+  @apply fill-transparent stroke-light-800 stroke-1 transition-all dark:stroke-dark-600;
 }
 .product-share .react-share__ShareButton > svg > path {
-  @apply transition-all scale-90 translate-x-1 translate-y-1 fill-dark-800 dark:fill-light;
+  @apply translate-x-1 translate-y-1 scale-90 fill-dark-800 transition-all dark:fill-light;
 }
 .product-share .react-share__ShareButton:hover > svg > circle {
   @apply fill-light-200 dark:fill-dark-600;
@@ -137,4 +143,14 @@ z-1000 {
 .is-carting .path {
   opacity: 1;
   stroke-dashoffset: 0;
+}
+
+/* remove scrollbar for horizontal slider */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
