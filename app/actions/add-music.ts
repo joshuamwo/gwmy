@@ -48,7 +48,6 @@ export async function AddMusic(
 
     const productType = prevState.productType;
 
-
     switch (prevState.productType) {
       case "Album": {
         console.log("adding album");
@@ -91,7 +90,6 @@ export async function AddMusic(
             cover: prevState.cover,
             track: prevState.track,
           };
-									
         }
 
         console.log(response.error);
@@ -102,6 +100,20 @@ export async function AddMusic(
             data: JSON.stringify(response.error),
             message: "Action Failed. Try again later.",
             code: 500,
+          },
+          cover: prevState.cover,
+          track: prevState.track,
+        };
+      }
+      case "Track": {
+        console.log(formData);
+        return {
+          ok: true,
+          productType: "Track",
+          error: {
+            data: null,
+            message: "Endpoint Reached.",
+            code: 200,
           },
           cover: prevState.cover,
           track: prevState.track,

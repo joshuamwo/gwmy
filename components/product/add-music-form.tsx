@@ -18,12 +18,16 @@ import { useModalAction } from "../modals/modal-controller";
 
 interface AddMusicFormProps {
   type: string;
+  album?: {
+    name: string;
+    id: string;
+  };
 }
 
-export default function AddMusicForm({ type }: AddMusicFormProps) {
+export default function AddMusicForm({ type, album }: AddMusicFormProps) {
   const { supabase } = useSupabase();
   const [product, setProduct] = useState<MusicProductInput>({});
-  const [isSingle, setIsSingle] = useState<boolean>(true);
+  const [isSingle, setIsSingle] = useState<boolean>(!album);
   const [success, setSuccess] = useState<boolean>(false);
   //image preview
   const [imagePreview, setImagePreview] = useState<string[]>([]);
@@ -56,16 +60,16 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
   //get user
   const user = userContext();
 
-  async function fetchAlbums() {
-    // get albums
-    const { data, error } = await supabase
-      .from("albums")
-      .select("*")
-      .eq("owner", user?.id);
-    console.log(data);
-  }
+  // async function fetchAlbums() {
+  //   // get albums
+  //   const { data, error } = await supabase
+  //     .from("albums")
+  //     .select("*")
+  //     .eq("owner", user?.id);
+  //   console.log(data);
+  // }
 
-  fetchAlbums();
+  // fetchAlbums();
 
   //adding music
   const [state, addMusic] = useFormState(AddMusic, initialState);
@@ -166,7 +170,7 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
       <Toaster position="top-center" reverseOrder={false} />
       <input type="hidden" value={type} name="productType" />
 
-      {/* single | part of an album toggle - unavailable for albums */}
+      {/* single | part of an album toggle - unavailable for albums
       {type === "Track" && (
         <SwitchToggle
           state={isSingle ?? false}
@@ -175,7 +179,7 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
           className="my-4"
           name="isSingle"
         />
-      )}
+      )} */}
       {/* name */}
       <Input
         id="music-product-name"
@@ -216,14 +220,16 @@ export default function AddMusicForm({ type }: AddMusicFormProps) {
       {/* select album drop down - unavailable for single tracks & albums  */}
 
       {!isSingle && type === "Track" && (
-        <AutocompleteDropdown
-          options={["1", "2", "3"]}
-          selectedOption={product.album}
-          setSelectedOption={(value) => handleInput("album", value)}
-          label="Album *"
-          name="album"
-          required
-        />
+        // <AutocompleteDropdown
+        //   options={["1", "2", "3"]}
+        //   selectedOption={product.album}
+        //   setSelectedOption={(value) => handleInput("album", value)}
+        //   label="Album *"
+        //   name="album"
+        //   required
+        // />
+
+        <input type="hidden" name="album" value={JSON.stringify(album)} />
       )}
 
       {/* artists note */}

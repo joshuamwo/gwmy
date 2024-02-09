@@ -21,7 +21,14 @@ const AuthForm = dynamic(() => import("@/components/auth/auth-form"));
 //   modalToggle: (action: ModalToggleProps) => void;
 // }
 
-function renderModalContent(view: string, data: { productType: ProductType, productSubType: string}) {
+function renderModalContent(
+  view: string,
+  data: {
+    productType: ProductType;
+    productSubType: string;
+    album?: { name: string; id: string };
+  },
+) {
   switch (view) {
     case "AUTHFORM":
       return <AuthForm />;
@@ -83,12 +90,12 @@ export function ModalContainer() {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-110"
           >
-            <div className="p-4 xs:p-0 relative z-50 inline-block min-h-screen w-full transform overflow-hidden text-start align-middle transition-all xs:min-h-[auto] xs:w-auto">
-              <div className="relative flex min-h-screen items-center overflow-hidden xs:block xs:min-h-[auto] rounded-md">
+            <div className="relative z-50 inline-block min-h-screen w-full transform overflow-hidden p-4 text-start align-middle transition-all xs:min-h-[auto] xs:w-auto xs:p-0">
+              <div className="relative flex min-h-screen items-center overflow-hidden rounded-md xs:block xs:min-h-[auto]">
                 <button
                   onClick={() => closeModal()}
                   aria-label="Close panel"
-                  className="absolute top-5 z-10 text-dark-900 outline-none transition-all hover:text-dark focus-visible:outline-none right-4  dark:text-dark-800 hover:dark:text-light-200 md:top-6 md:right-5 lg:top-7 lg:right-7 
+                  className="absolute right-4 top-5 z-10 text-dark-900 outline-none transition-all hover:text-dark focus-visible:outline-none  dark:text-dark-800 hover:dark:text-light-200 md:right-5 md:top-6 lg:right-7 lg:top-7 
 																		"
                 >
                   <CloseIcon className="h-4 w-4 focus-visible:outline-none lg:h-[18px] lg:w-[18px] 3xl:h-5 3xl:w-5" />

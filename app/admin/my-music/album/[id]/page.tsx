@@ -5,6 +5,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Album } from "@/types";
 import Button from "@/components/ui/button";
+import { useModalAction } from "@/components/modals/modal-controller";
 
 export default function AlbumViewPage({ params }: { params: { id: string } }) {
   const { supabase } = useSupabase();
@@ -30,6 +31,9 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
   }
 
   getAlbum();
+
+  //
+  const { openModal } = useModalAction();
 
   return (
     <>
@@ -61,7 +65,20 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
 
           {/* actions */}
           <div className="flex justify-end p-4">
-            <Button variant="solid" className=" h-8 rounded-full text-sm">
+            <Button
+              variant="solid"
+              className=" h-8 rounded-full text-sm"
+              onClick={() =>
+                openModal("ADDPRODUCTFORM", {
+                  productType: "Music",
+                  productSubType: "Track",
+                  album: {
+                    id: album.id,
+                    name: album.id,
+                  },
+                })
+              }
+            >
               Add Tracks
             </Button>
           </div>
