@@ -1,5 +1,5 @@
 import { PrevState } from "./add-music";
-import { useSupabase } from "./supabase-server";
+import { SupabaseServer } from "./supabase-server";
 import { uploadImages } from "./upload-images";
 import { validateSingleTrackData } from "./validate-music-data";
 import { v4 as uuidv4 } from "uuid";
@@ -25,7 +25,7 @@ export async function AddSingleTrack(
   prevState: PrevState,
 ): Promise<AddTrackResponse> {
   try {
-    const supabase = useSupabase();
+    const supabase = SupabaseServer();
     //validate data
     console.log("validating data");
     const { validated, error } = validateSingleTrackData(formData);

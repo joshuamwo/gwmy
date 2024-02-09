@@ -36,8 +36,8 @@ export default function HorizontalSlider() {
           ref={sliderEl}
         >
           {albums.length > 0
-            ? albums.map((album) => (
-                <div className="w-32 ">
+            ? albums.map((album, index) => (
+                <div className="w-32 " key={index}>
                   <AlbumCard
                     album={album}
                     key={album.id}

@@ -1,6 +1,6 @@
 "use server";
 
-import { useSupabase } from "./supabase-server";
+import { SupabaseServer } from "./supabase-server";
 import { z } from "zod";
 import { validateMusicData } from "./validate-music-data";
 import { ValidateUser } from "./authorise-user";

@@ -1,4 +1,4 @@
-import { useSupabase } from "./supabase-server";
+import { SupabaseServer } from "./supabase-server";
 import { uploadImages } from "./upload-images";
 import { validateAlbumData } from "./validate-music-data";
 
@@ -20,7 +20,7 @@ type AddAlbumResponse = {
 
 export async function AddAlbum(formData: FormData): Promise<AddAlbumResponse> {
   try {
-    const supabase = useSupabase();
+    const supabase = SupabaseServer();
     //validate data
     console.log("validating data");
     const { validated, error } = validateAlbumData(formData);
@@ -64,7 +64,7 @@ export async function AddAlbum(formData: FormData): Promise<AddAlbumResponse> {
             artist: validated.artist,
             price: validated.price,
             genre: validated.genre,
-            cover: imageUrl,
+            cover: imageUrl && imageUrl[0],
             other_artists: arrayfyString(validated.other_artists),
             producers: arrayfyString(validated.producers),
             artists_note: validated.artists_note,

@@ -22,9 +22,17 @@ interface AddMusicFormProps {
     name: string;
     id: string;
   };
+  action?: {
+    onSuccess?: () => any;
+    onFailure?: () => any;
+  };
 }
 
-export default function AddMusicForm({ type, album }: AddMusicFormProps) {
+export default function AddMusicForm({
+  type,
+  album,
+  action,
+}: AddMusicFormProps) {
   const { supabase } = useSupabase();
   const [product, setProduct] = useState<MusicProductInput>({});
   const [isSingle, setIsSingle] = useState<boolean>(!album);
@@ -126,6 +134,10 @@ export default function AddMusicForm({ type, album }: AddMusicFormProps) {
     if (state.ok === null) return;
     if (state.ok === true) {
       setSuccess(true);
+
+      // refresh track
+      action?.onSuccess && action.onSuccess();
+
       //reset the image field
       const imageInput = document.getElementById(
         "product-images-upload",

@@ -1,12 +1,12 @@
 "use server";
-import { useSupabase } from "./supabase-server";
+import { SupabaseServer } from "./supabase-server";
 import resizeImage from "@/lib/resize-image";
 import { v4 as uuidv4 } from "uuid";
 
 export async function uploadImages(images: File[], bucket: string) {
   try {
     console.log(images);
-    const supabase = useSupabase();
+    const supabase = SupabaseServer();
     // Exit if there are no images to process
     if (images.length < 1) return;
 

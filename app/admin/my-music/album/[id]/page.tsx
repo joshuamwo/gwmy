@@ -1,7 +1,7 @@
 "use client";
 
 import { useSupabase } from "@/context/supabase-context";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Album, Track } from "@/types";
 import Button from "@/components/ui/button";
@@ -14,15 +14,15 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
   const [tracks, setTracks] = useState<Track[]>();
 
   async function getAlbum() {
-    if (album) return;
+    // if (album) return;
     try {
       const { data, error } = await supabase
         .from("albums")
         .select("*")
         .eq("id", params.id);
 
-      if (!data) throw "Not found";
       if (error) throw error;
+      if (data.length < 1) throw "Not found";
 
       const album = data[0] as Album;
       setAlbum(album);
@@ -37,46 +37,57 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
 
   //
   async function getTracks() {
-    if (tracks) return;
+    // if (tracks) return;
+    console.log("getting tracks");
     try {
       const { data, error } = await supabase
         .from("tracks")
         .select("*")
         .eq("album", params.id);
 
+      if (error) throw error;
+      if (data.length < 1) throw "No Tracks found";
+
       const tracks = data as Track[];
       setTracks(tracks);
+      return;
     } catch (error) {
       console.log(error);
+      return;
     }
   }
 
-  getAlbum();
-  getTracks();
+  useEffect(() => {
+    getAlbum();
+    getTracks();
+  }, [0]);
 
   return (
     <>
       {album && (
-        <div className="h-full">
+        <div className="mb-16 h-full">
           {/* Album name and cover */}
           <div className="flex h-[25vh] items-end bg-light-400 dark:bg-dark-400 ">
             <div className="flex items-center pb-4 pl-4">
               <Image
                 src={album.cover}
                 alt={album.name}
-                width={100}
-                height={100}
-                className="rounded"
+                width={130}
+                height={130}
+                className="aspect-square rounded object-cover"
               />
 
               <div className="flex flex-col gap-2 pl-4">
                 <h3 className="text-xs">Album</h3>
-                <h1 className="text-4xl font-bold">{album.name}</h1>
-                <h3 className="flex gap-2 text-xs">
+                <h1 className="text-4xl font-bold">{album.name} </h1>
+                <h3 className="flex flex-wrap gap-2 text-xs">
                   <span>{album.artist}</span>
+                  {album.other_artists &&
+                    album.other_artists.map((artist, index) => (
+                      <span key={index}>• {artist}</span>
+                    ))}
                   <span>
-                    {" "}
-                    {tracks ? `${tracks.length} Tracks` : "No Tracks"}
+                    • {tracks ? `${tracks.length} Tracks` : "No Tracks"}
                   </span>
                 </h3>
               </div>
@@ -95,6 +106,9 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
                   album: {
                     id: album.id,
                     name: album.name,
+                  },
+                  action: {
+                    onSuccess: getTracks,
                   },
                 })
               }

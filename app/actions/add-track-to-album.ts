@@ -1,6 +1,6 @@
 import { PrevState } from "./add-music";
 import { arrayfyString } from "./add-single-track";
-import { useSupabase } from "./supabase-server";
+import { SupabaseServer } from "./supabase-server";
 import { uploadImages } from "./upload-images";
 import { v4 as uuidv4 } from "uuid";
 import { validateAlbumTrackData } from "./validate-music-data";
@@ -19,7 +19,7 @@ export async function AddTrackToAlbum(
   prevState: PrevState,
 ): Promise<AddTrackToAlbumResponse> {
   try {
-    const supabase = useSupabase();
+    const supabase = SupabaseServer();
 
     //validate data
 

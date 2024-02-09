@@ -1,7 +1,7 @@
-import { useSupabase } from "./supabase-server";
+import { SupabaseServer } from "./supabase-server";
 
 export async function ValidateUser() {
-  const supabase = useSupabase();
+  const supabase = SupabaseServer();
   const { data, error } = await supabase.from("profiles").select("*");
 
   function isAdmin(): boolean {
