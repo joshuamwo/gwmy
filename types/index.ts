@@ -146,7 +146,7 @@ export interface Album {
   name: string;
   artist: string;
   tracks: string[] | null;
-  cover: string[];
+  cover: string;
   genre: string;
   price: number;
   other_artists: string[] | null;

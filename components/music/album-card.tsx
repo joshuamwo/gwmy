@@ -136,7 +136,12 @@ export default function AlbumCard({ album, isMyMusicPage }: CardProps) {
       </div>
       <div className="flex flex-col px-1 pt-2 ">
         <div className="group -mt-[1px] mr-auto cursor-pointer truncate">
-          <Link href={`/product/${album.id}`} className="flex flex-col ">
+          <Link
+            href={
+              isMyMusicPage ? `/admin/my-music/album/${album.id}` : "/music"
+            }
+            className="flex flex-col"
+          >
             <span className="mb-0.5 truncate text-xs font-medium group-hover:text-brand">
               {album.name}
             </span>
