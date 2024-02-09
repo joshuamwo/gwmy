@@ -3,13 +3,15 @@
 import { useSupabase } from "@/context/supabase-context";
 import { useState } from "react";
 import Image from "next/image";
-import { Album } from "@/types";
+import { Album, Track } from "@/types";
 import Button from "@/components/ui/button";
 import { useModalAction } from "@/components/modals/modal-controller";
+import AlbumTrackList from "@/components/music/album-track-list";
 
 export default function AlbumViewPage({ params }: { params: { id: string } }) {
   const { supabase } = useSupabase();
   const [album, setAlbum] = useState<Album>();
+  const [tracks, setTracks] = useState<Track[]>();
 
   async function getAlbum() {
     if (album) return;
@@ -30,17 +32,34 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
     }
   }
 
-  getAlbum();
-
   //
   const { openModal } = useModalAction();
+
+  //
+  async function getTracks() {
+    if (tracks) return;
+    try {
+      const { data, error } = await supabase
+        .from("tracks")
+        .select("*")
+        .eq("album", params.id);
+
+      const tracks = data as Track[];
+      setTracks(tracks);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  getAlbum();
+  getTracks();
 
   return (
     <>
       {album && (
         <div className="h-full">
           {/* Album name and cover */}
-          <div className="flex h-1/4 items-end bg-light-400 dark:bg-dark-400 ">
+          <div className="flex h-[25vh] items-end bg-light-400 dark:bg-dark-400 ">
             <div className="flex items-center pb-4 pl-4">
               <Image
                 src={album.cover}
@@ -56,7 +75,8 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
                 <h3 className="flex gap-2 text-xs">
                   <span>{album.artist}</span>
                   <span>
-                    . {album.tracks ? `${album.tracks.length}` : "0 Tracks"}
+                    {" "}
+                    {tracks ? `${tracks.length} Tracks` : "No Tracks"}
                   </span>
                 </h3>
               </div>
@@ -74,7 +94,7 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
                   productSubType: "Track",
                   album: {
                     id: album.id,
-                    name: album.id,
+                    name: album.name,
                   },
                 })
               }
@@ -85,9 +105,9 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
 
           {/* tracks */}
 
-          <div className="w-full ">
-            {album.tracks ? (
-              <div>{/* list tracks */}</div>
+          <div className="w-full overflow-y-auto ">
+            {tracks ? (
+              <AlbumTrackList tracks={tracks} />
             ) : (
               <span className=" flex w-full justify-center text-sm ">
                 Add tracks to this album.

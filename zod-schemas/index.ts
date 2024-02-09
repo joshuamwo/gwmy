@@ -12,7 +12,7 @@ export const albumSchema = z.object({
   artists_note: z.string(),
 });
 
-export const trackSchema = z.object({
+export const albumTrackSchema = z.object({
   // productType: z.string(),
   name: z.string(),
   artist: z.string(),
@@ -23,6 +23,7 @@ export const trackSchema = z.object({
   producers: z.string(),
   artists_note: z.string(),
   track: z.any(),
+  is_published: z.string(),
 });
 export const singleTrackSchema = z.object({
   // productType: z.string(),
@@ -35,4 +36,5 @@ export const singleTrackSchema = z.object({
   artists_note: z.string(),
   cover: z.any(),
   track: z.any(),
+  is_published: z.string(),
 });

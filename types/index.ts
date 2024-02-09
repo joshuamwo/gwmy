@@ -159,6 +159,23 @@ export interface Album {
   owner: string;
 }
 
+export interface Track {
+  id: string;
+  name: string;
+  artist: string;
+  genre: string;
+  price: number;
+  cover?: string;
+  other_artists?: string[];
+  artists_note?: string;
+  producers?: string[];
+  release_date?: string;
+  published: boolean;
+  purchases: number;
+  likes: number;
+  owner: string;
+}
+
 //can take null	or Product
 export type ProductList = Product[] | null;
 

@@ -1,13 +1,17 @@
 import { ZodError, z } from "zod";
 //schemas
-import { albumSchema, singleTrackSchema, trackSchema } from "@/zod-schemas";
+import {
+  albumSchema,
+  singleTrackSchema,
+  albumTrackSchema,
+} from "@/zod-schemas";
 
 type Album = z.infer<typeof albumSchema>;
-type Track = z.infer<typeof trackSchema>;
+type AlbumTrack = z.infer<typeof albumTrackSchema>;
 type SingleTrack = z.infer<typeof singleTrackSchema>;
 
 interface ValidationResult {
-  validated: Album | Track | SingleTrack | null;
+  validated: Album | AlbumTrack | SingleTrack | null;
   error: ZodError | { message: string } | null;
 }
 
@@ -55,7 +59,7 @@ export function validateMusicData(formData: FormData): ValidationResult {
           error: null,
         };
       } else {
-        const data = trackSchema.parse({
+        const data = albumTrackSchema.parse({
           name: formData.get("name"),
           artist: formData.get("artist"),
           album: formData.get("album"),
@@ -135,6 +139,38 @@ export function validateSingleTrackData(formData: FormData): {
       other_artists: formData.get("other_artists"),
       producers: formData.get("producers"),
       artists_note: formData.get("artists_note"),
+      is_published: formData.get("is_published"),
+    });
+    return {
+      validated: data,
+      error: null,
+    };
+  } catch (error) {
+    return {
+      validated: null,
+      error: error as ZodError,
+    };
+  }
+}
+
+//album track
+export function validateAlbumTrackData(formData: FormData): {
+  validated: AlbumTrack | null;
+  error: ZodError | { message: string } | null;
+} {
+  try {
+    //Validate data
+    const data = albumTrackSchema.parse({
+      name: formData.get("name"),
+      artist: formData.get("artist"),
+      price: formData.get("price"),
+      album: formData.get("album"),
+      genre: formData.get("genre"),
+      track: formData.get("track"),
+      other_artists: formData.get("other_artists"),
+      producers: formData.get("producers"),
+      artists_note: formData.get("artists_note"),
+      is_published: formData.get("is_published"),
     });
     return {
       validated: data,

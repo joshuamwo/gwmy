@@ -1,17 +1,11 @@
 import { PrevState } from "./add-music";
+import { arrayfyString } from "./add-single-track";
 import { useSupabase } from "./supabase-server";
 import { uploadImages } from "./upload-images";
-import { validateSingleTrackData } from "./validate-music-data";
 import { v4 as uuidv4 } from "uuid";
+import { validateAlbumTrackData } from "./validate-music-data";
 
-export function arrayfyString(input: string) {
-  if (input === "") {
-    return null;
-  }
-  return input.split(",");
-}
-
-type AddTrackResponse = {
+type AddTrackToAlbumResponse = {
   ok: boolean;
   error: {
     data: any;
@@ -20,15 +14,17 @@ type AddTrackResponse = {
   } | null;
 };
 
-export async function AddSingleTrack(
+export async function AddTrackToAlbum(
   formData: FormData,
   prevState: PrevState,
-): Promise<AddTrackResponse> {
+): Promise<AddTrackToAlbumResponse> {
   try {
     const supabase = useSupabase();
+
     //validate data
-    console.log("validating data");
-    const { validated, error } = validateSingleTrackData(formData);
+
+    console.log("Validating data!");
+    const { validated, error } = validateAlbumTrackData(formData);
     if (!validated) {
       console.error("Data validation failed");
       return {
@@ -40,35 +36,12 @@ export async function AddSingleTrack(
         },
       };
     } else {
-					console.log("Data validation success");
-					
-      //upload album cover
-
-      if (!prevState.cover) {
-        console.log("Uploading images");
-        const imageUrl = await uploadImages(
-          [validated.cover as File],
-          "music-cover-images",
-        );
-
-        if (!imageUrl) {
-          console.log("Image Upload Failed");
-          return {
-            ok: false,
-            error: {
-              data: null,
-              message: "Image Upload failed. Try again later.",
-              code: 501,
-            },
-          };
-        }
-        prevState.cover = imageUrl[0];
-        console.log("Image uploaded");
-      }
+      console.log("Data validation success");
 
       let trackId = prevState.track ? prevState.track.split("/")[1] : null;
 
       //upload track
+
       if (!prevState.track) {
         console.log("Uploading track");
         trackId = `${uuidv4()}`;
@@ -96,11 +69,16 @@ export async function AddSingleTrack(
       console.log("Track added");
 
       const trackPath = prevState.track;
-      const imageUrl = prevState.cover;
 
       console.log("prev state", prevState);
+
       //add data to db
+
       console.log("Adding data to database");
+      const album: {
+        id: string;
+        name: string;
+      } = JSON.parse(validated.album);
       const addDataToDBRes = await supabase
         .from("tracks")
         .insert([
@@ -109,12 +87,13 @@ export async function AddSingleTrack(
             name: validated.name,
             artist: validated.artist,
             price: validated.price,
+            album: album.id,
             genre: validated.genre,
-            cover: imageUrl,
             track: trackPath,
             other_artists: validated && arrayfyString(validated.other_artists),
             producers: validated && arrayfyString(validated.producers),
             artists_note: validated?.artists_note,
+            published: validated.is_published === "true" ? true : false,
           },
         ])
         .single();
@@ -143,13 +122,13 @@ export async function AddSingleTrack(
       };
     }
   } catch (error) {
-    console.error("Exeption caught, failed to Add Album", error);
+    console.log(error);
     return {
       ok: false,
       error: {
+        code: 500,
         data: error,
-        message: "Exception caught in => add-album.ts",
-        code: 504,
+        message: "Failed to add track!",
       },
     };
   }

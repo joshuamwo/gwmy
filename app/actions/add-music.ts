@@ -7,6 +7,7 @@ import { ValidateUser } from "./authorise-user";
 import { uploadImages } from "./upload-images";
 import { AddAlbum } from "./add-album";
 import { AddSingleTrack } from "./add-single-track";
+import { AddTrackToAlbum } from "./add-track-to-album";
 
 export interface PrevState {
   ok: boolean | null;
@@ -106,14 +107,28 @@ export async function AddMusic(
         };
       }
       case "Track": {
-        console.log(formData);
+        console.log("adding track to album");
+        const response = await AddTrackToAlbum(formData, prevState);
+
+        if (response.ok === true) {
+          console.log("COMPLETED: Track added");
+          return {
+            ok: true,
+            productType: prevState.productType,
+            error: null,
+            cover: prevState.cover,
+            track: prevState.track,
+          };
+        }
+
+        console.log(response.error);
         return {
-          ok: true,
-          productType: "Track",
+          ok: false,
+          productType: prevState.productType,
           error: {
-            data: null,
-            message: "Endpoint Reached.",
-            code: 200,
+            data: JSON.stringify(response.error),
+            message: "Action Failed. Try again later.",
+            code: 500,
           },
           cover: prevState.cover,
           track: prevState.track,
