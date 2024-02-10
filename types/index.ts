@@ -165,8 +165,8 @@ export interface Track {
   artist: string;
   genre: string;
   price: number;
-  cover?: string;
-  album: string;
+  cover: string;
+  album?: string;
   other_artists?: string[];
   artists_note?: string;
   producers?: string[];

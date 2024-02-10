@@ -103,15 +103,15 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
   return (
     <>
       {album && (
-        <div className="mb-16 h-full">
+        <div className="h-full  rounded pb-16">
           {/* Album name and cover */}
-          <div className="flex h-[25vh] items-end bg-light-400 dark:bg-dark-400 ">
-            <div className="flex items-center pb-4 pl-4">
+          <div className="flex h-[25vh] min-h-[200px] items-end rounded bg-light-400 dark:bg-dark-400 ">
+            <div className="flex items-end pb-4 pl-4">
               <Image
                 src={album.cover}
                 alt={album.name}
-                width={130}
-                height={130}
+                width={150}
+                height={150}
                 className="aspect-square rounded object-cover"
               />
 
@@ -133,7 +133,7 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
           </div>
 
           {/* actions */}
-          <div className="flex justify-end gap-2 p-4">
+          <div className=" flex justify-end gap-2 p-4">
             <Button
               variant="solid"
               className=" h-8 rounded-full text-sm"
