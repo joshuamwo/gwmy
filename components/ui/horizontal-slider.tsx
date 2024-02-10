@@ -5,8 +5,13 @@ import AlbumCard from "../music/album-card";
 import { useScrollableSlider } from "@/lib/hooks/use-scrollable-slider";
 import { ChevronLeftIcon } from "./chevron-left-icon";
 import { ChevronRightIcon } from "./chevron-right-icon";
+import { classnames } from "@/utils/classnames";
 
-export default function HorizontalSlider() {
+export default function HorizontalSlider({
+  className,
+}: {
+  className?: string;
+}) {
   const albums = useRecoilValue(myAlbumsState);
 
   const {
@@ -19,7 +24,10 @@ export default function HorizontalSlider() {
 
   return (
     <div
-      className="relative flex items-center overflow-hidden"
+      className={classnames(
+        "relative flex items-center overflow-hidden",
+        className,
+      )}
       style={{ scrollbarWidth: "none" }}
     >
       <button

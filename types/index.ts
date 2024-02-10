@@ -166,6 +166,24 @@ export interface Track {
   genre: string;
   price: number;
   cover?: string;
+  album: string;
+  other_artists?: string[];
+  artists_note?: string;
+  producers?: string[];
+  release_date?: string;
+  published: boolean;
+  purchases: number;
+  likes: number;
+  owner: string;
+}
+
+export interface SingleTrack {
+  id: string;
+  name: string;
+  artist: string;
+  genre: string;
+  price: number;
+  cover?: string;
   other_artists?: string[];
   artists_note?: string;
   producers?: string[];

@@ -1,5 +1,11 @@
 import { atom } from "recoil";
-import { Album, FashionProduct, UserStateType } from "@/types";
+import {
+  Album,
+  FashionProduct,
+  SingleTrack,
+  Track,
+  UserStateType,
+} from "@/types";
 import { RecoilState } from "recoil";
 import { Product } from "@/types";
 import { Drawer } from "@/types";
@@ -45,6 +51,13 @@ export const drawerState: RecoilState<Drawer> = atom<Drawer>({
 });
 
 export const myAlbumsState: RecoilState<Album[]> = atom<Album[]>({
-  key: "myMusicState",
+  key: "myAlbumsState",
+  default: [],
+});
+
+export const mySingleTracksState: RecoilState<SingleTrack[]> = atom<
+  SingleTrack[]
+>({
+  key: "mySingleTracksState",
   default: [],
 });

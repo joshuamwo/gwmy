@@ -1,4 +1,4 @@
-import { Album } from "@/types";
+import { SingleTrack } from "@/types";
 import Image from "next/image";
 import { useState } from "react";
 import { classnames } from "@/utils/classnames";
@@ -9,16 +9,16 @@ import { useModalAction } from "../modals/modal-controller";
 import { DeleteIcon } from "../icons/delete-icon";
 import Link from "next/link";
 import placeholder from "@/public/images/placeholders/product.svg";
+import { ShoppingBagIcon } from "../ui/shopping-bag-icon";
 import { PlusIcon } from "../icons/plus-icon";
 
 interface CardProps {
-  album: Album;
+  track: SingleTrack;
   isMyMusicPage?: boolean;
 }
 
-export default function AlbumCard({ album, isMyMusicPage }: CardProps) {
-  const src = album.cover ? album.cover : placeholder;
-  // const src = "/images/product-image-placeholder.jpeg";
+export default function TrackCard({ track, isMyMusicPage }: CardProps) {
+  const src = track.cover ? track.cover : placeholder;
 
   const [isGridCompact, setIsGridCompact] = useState(false);
   const { openModal, closeModal } = useModalAction();
@@ -30,12 +30,12 @@ export default function AlbumCard({ album, isMyMusicPage }: CardProps) {
         {/* <pre>{JSON.stringify(product.image_urls, null, 4)}</pre> */}
 
         <Image
-          alt={album.name}
+          alt={track.name}
           src={src}
           fill
           priority={true}
           quality={100}
-          className="rounded-md bg-light-500 object-cover shadow-lg dark:bg-dark-400 "
+          className="aspect-square rounded-md bg-light-500 object-cover shadow-lg dark:bg-dark-400 "
           sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 50vw,
               33vw"
@@ -139,18 +139,18 @@ export default function AlbumCard({ album, isMyMusicPage }: CardProps) {
         <div className="group -mt-[1px] mr-auto cursor-pointer truncate">
           <Link
             href={
-              isMyMusicPage ? `/admin/my-music/album/${album.id}` : "/music"
+              isMyMusicPage ? `/admin/my-music/track/${track.id}` : "/music"
             }
             className="flex flex-col"
           >
             <span className="mb-0.5 truncate text-xs font-medium group-hover:text-brand">
-              {album.name}
+              {track.name}
             </span>
           </Link>
         </div>
         <div className="flex flex-row items-center justify-between">
           <span className="truncate text-xs   text-dark-400 group-hover:text-brand dark:text-light-800">
-            {album.artist}
+            {track.artist}
           </span>
         </div>
         <div className="mt-1 flex w-full justify-end">
@@ -159,7 +159,7 @@ export default function AlbumCard({ album, isMyMusicPage }: CardProps) {
               <PlusIcon className="h-4 w-4 rounded-full border border-brand fill-brand p-0.5" />
             )}{" "}
             Ksh.
-            {album.price}
+            {track.price}
           </span>
         </div>
       </div>
