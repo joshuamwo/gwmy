@@ -44,7 +44,7 @@ export default function ProductViewModal() {
         <div className="flex shrink-0 flex-col justify-between text-13px lg:w-[400px] xl:w-[520px] 3xl:w-[555px]">
           <div className="pb-7 xs:pb-8 lg:pb-10">
             {/* product description */}
-            <div className="pb-5 leading-[1.9em] text-dark-500 dark:text-light-600 xl:pb-6 3xl:pb-8">
+            <div className="pb-5 text-base leading-[1.9em] text-dark-500 dark:text-light-600 xl:pb-6 3xl:pb-8">
               {product.product_description}
             </div>
             {/* color select */}

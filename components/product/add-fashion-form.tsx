@@ -17,16 +17,20 @@ import resizeImage from "@/lib/resize-image";
 import toast from "react-hot-toast";
 import ImageArrayInput from "../forms/ImageArrayInput";
 
-interface AddFashionFormProps {}
+interface AddFashionFormProps {
+	productType: string,
+	productSubType: string,
+}
 
-export default function AddFashionForm({}: AddFashionFormProps) {
+export default function AddFashionForm({productType, productSubType}: AddFashionFormProps) {
   // Supabase
   const { supabase } = useSupabase();
   // global products	state
   const [myFashionProducts, setMyFashionProducts] = useRecoilState(
     myFashionProductsState,
   );
-  const user = userContext();
+	const user = userContext();
+	//
   const fetchProducts = async () => {
     const { data, error } = await supabase
       .from("products")
@@ -101,6 +105,7 @@ export default function AddFashionForm({}: AddFashionFormProps) {
       ...items,
       [id]: value,
     }));
+    console.log(product);
     return;
   }
 
@@ -180,8 +185,8 @@ export default function AddFashionForm({}: AddFashionFormProps) {
           .from("products")
           .insert([
             {
-              category: product.category,
-              sub_category: product.sub_category,
+              category: productType,
+              sub_category: productSubType,
               product_name: product.product_name,
               product_description: product.product_description,
               price: product.price,
@@ -276,8 +281,8 @@ export default function AddFashionForm({}: AddFashionFormProps) {
         disabled={
           !product.product_name ||
           !product.product_description ||
-          !product.category ||
-          !product.sub_category ||
+          !productType ||
+          !productSubType ||
           !product.price ||
           !product.colors ||
           !product.sizes ||
@@ -286,7 +291,7 @@ export default function AddFashionForm({}: AddFashionFormProps) {
         }
       >
         {loading
-          ? ""
+          ? "Saving..."
           : success && product.is_published
             ? "Product Published"
             : success && !product.is_published

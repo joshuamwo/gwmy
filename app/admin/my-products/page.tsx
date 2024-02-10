@@ -38,25 +38,30 @@ export default function MyProducts() {
 
   return (
     <div className="">
-      <div className="p-5 md:p-8 flex-col">
-        <div className="sticky top-16 z-10 p-5 md:p-8 bg-light dark:bg-dark-200 shadow-lg rounded mb-8 flex flex-col">
+      <div className="flex-col p-5 md:p-8">
+        <div className="sticky top-16 z-10 mb-8 flex flex-col rounded bg-light p-5 shadow-lg dark:bg-dark-200 md:p-8">
           <div className=" flex w-full flex-col  items-center md:flex-row">
-            <div className="mb-4 md:mb-0 md:w-1/4 sm:block">
-              <h1 className="text-lg font-semibold text-heading">
+            <div className="mb-4 sm:block md:mb-0 md:w-1/4">
+              <h1 className="text-heading text-lg font-semibold">
                 My Products
               </h1>
             </div>
-            <div className="flex w-full flex-col items-center ms-auto md:w-3/4">
+            <div className="ms-auto flex w-full flex-col items-center md:w-3/4">
               <Search />
             </div>
-            <div className="hidden md:flex mt-5 items-center whitespace-nowrap text-base font-semibold text-accent md:mt-0 md:ms-5">
+            <div className="text-accent mt-5 hidden items-center whitespace-nowrap text-base font-semibold md:ms-5 md:mt-0 md:flex">
               <Button
-                onClick={() => openModal("ADDPRODUCTFORM")}
-                className="h-8 bottom-24 right-6"
+                onClick={() =>
+                  openModal("ADDPRODUCTFORM", {
+                    productType: "Fashion",
+                    productSubType: "",
+                  })
+                }
+                className="bottom-24 right-6 h-8"
               >
                 <label
                   htmlFor="add-product-button"
-                  className="text-xs sm:text-md"
+                  className="sm:text-md text-xs"
                 >
                   Add Product
                 </label>
@@ -71,10 +76,15 @@ export default function MyProducts() {
       </div>
 
       <Button
-        onClick={() => openModal("ADDPRODUCTFORM")}
-        className="fixed z-999 bottom-24 sm:bottom-6 right-6 rounded-full h-16 w-16 md:hidden"
+        onClick={() =>
+          openModal("ADDPRODUCTFORM", {
+            productType: "Fashion",
+            productSubType: "",
+          })
+        }
+        className="z-999 fixed bottom-24 right-6 h-16 w-16 rounded-full sm:bottom-6 md:hidden"
       >
-        <PlusIcon className="fill-white h-6" />
+        <PlusIcon className="h-6 fill-white" />
       </Button>
     </div>
   );

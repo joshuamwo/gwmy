@@ -83,16 +83,11 @@ export default function AddToCart({
       disabled={disabled}
       onClick={() => handleAddToCart()}
       isLoading={addToCartLoader}
-      className={classnames(
-        "relative",
-        cartingSuccess
-          ? "is-carting pointer-events-none cursor-not-allowed"
-          : "pointer-events-auto cursor-pointer",
-        className,
-      )}
+      success={cartingSuccess}
+      className={classnames("relative", className)}
     >
       Add to Bag Ksh.{item.price}
-      <SuccessIcon className="right-3 h-auto w-5 xs:right-4 xs:w-6" />
+      {/* <SuccessIcon className="right-3 h-auto w-5 xs:right-4 xs:w-6" /> */}
     </Button>
   );
 }

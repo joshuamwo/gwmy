@@ -55,7 +55,12 @@ export default function AddProductForm({ data }: addProductFormProps) {
 
           {/* input forms per product type */}
 
-          {productType === "Fashion" && <AddFashionForm />}
+          {productType === "Fashion" && (
+            <AddFashionForm
+              productType={productType}
+              productSubType={productSubType}
+            />
+          )}
           {productType === "Music" && (
             <AddMusicForm
               type={productSubType}

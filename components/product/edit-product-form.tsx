@@ -25,6 +25,7 @@ import { myProductsState, productsState } from "@/recoil/atoms";
 import { Product } from "@/types";
 import { useModalState } from "../modals/modal-controller";
 import { randomUUID } from "crypto";
+import ProductTypeSelector from "./product-type-selector";
 
 export default function AddProductForm() {
   // Supabase
@@ -188,8 +189,10 @@ export default function AddProductForm() {
               product_name: product.product_name,
               product_description: product.product_description,
               price: product.price,
-              product_variations: product.product_variations,
+              colors: product.colors,
+              sizes: product.sizes,
               image_urls: imageUrls,
+              product_variations: product.product_variations,
               is_published: product.is_published,
               is_product_varied: product.is_product_varied,
             })
@@ -220,11 +223,13 @@ export default function AddProductForm() {
             </h2>
           </div>
           <div>
-            <ProductCategorySelector
-              product_category={product_category}
-              handleCategoryChange={handleInput}
-              handleSubCategoryChange={handleInput}
-              product_sub_category={product_sub_category}
+            <ProductTypeSelector
+              productType={product_category}
+              productSubType={product_sub_category}
+              handleTypeChange={(value) => handleInput("category", value)}
+              handleSubTypeChange={(value) =>
+                handleInput("sub_category", value)
+              }
             />
           </div>
 
@@ -244,56 +249,20 @@ export default function AddProductForm() {
               <span className=" flex cursor-pointer justify-center pb-2.5 font-normal text-dark/70 rtl:text-right dark:text-light/70">
                 Pricing and Variations
               </span>
-              <div className="flex flex-row items-center justify-between hover:animate-pulse">
-                <span className=" flex cursor-pointer justify-center text-sm font-normal text-dark/70 rtl:text-right dark:text-light/70">
-                  Product has different colors or sizes?
-                </span>
-                <SwitchToggle
-                  state={product.is_product_varied}
-                  setState={(value) => handleInput("is_product_varied", value)}
-                  className="scale-90"
-                />
-              </div>
-              {/* <div className="flex flex-row items-center justify-between hover:animate-pulse">
-                <span className=" cursor-pointer text-sm flex justify-center font-normal text-dark/70 rtl:text-right dark:text-light/70">
-                  Sizes are priced differently?
-                </span>
-                <SwitchToggle
-                  state={sizePriceVariation}
-                  setState={(id, state) => setSizePriceVariation(state)}
-                  stateName="sizePriceVariation"
-                  className="scale-90"
-                />
-              </div> */}
 
-              {/* {product.is_product_varied &&
-                productVariationTypes[product_category].map((variation) => (
-                  <div key={variation.type}>
-                    <ProductVariations
-                      placeholder={variation.placeholder}
-                      handleVariationsInput={handleInput}
-                      variation_name={variation.type}
-                      variations={product.product_variations}
-                      setVariationAdded={setVariationAdded}
-                    />
-                  </div>
-                ))} */}
-              {/* {product.is_product_varied &&
-                sizePriceVariation &&
-                productVariationTypes[product_category].map((variation) => (
-                  <div>
-                    <ProductVariations
-                      key={variation.type}
-                      placeholder={variation.placeholder}
-                      handleVariationsInput={handleInput}
-                      variation_name={variation.type}
-                      variations={product.product_variations}
-                      product={product}
-                      setProduct={setProduct}
-                      setVariationAdded={setVariationAdded}
-                    />
-                  </div>
-                ))} */}
+              {productVariationTypes["Fashion"].map((variation) => (
+                <div key={variation.type}>
+                  <ProductVariations
+                    placeholder={variation.placeholder}
+                    variation_name={variation.type}
+                    variations={{
+                      colors: product.colors,
+                      sizes: product.sizes,
+                    }}
+                    handleInput={handleInput}
+                  />
+                </div>
+              ))}
 
               <Input
                 id="price_per_variation"
@@ -314,7 +283,7 @@ export default function AddProductForm() {
                     {imagePreview.map((image, index) => (
                       <ImageSlide key={index}>
                         {/* delete image */}
-                        <div className="absolute right-2 top-2">
+                        <div className="absolute right-2 top-2 z-50">
                           <Button
                             variant="icon"
                             onClick={() => handleImageInputRemove(image, index)}
@@ -323,16 +292,20 @@ export default function AddProductForm() {
                             <DeleteIcon className="h-5 w-5 text-white opacity-80 hover:scale-125 hover:animate-pulse hover:opacity-100 " />
                           </Button>
                         </div>
-                        <Image
-                          src={image}
-                          className="rounded object-cover"
+                        <div
                           style={{
                             width: "100%",
                             height: "15rem",
                             objectFit: "cover",
                           }}
-                          alt={`image ${index}`}
-                        />
+                        >
+                          <Image
+                            src={image}
+                            className="rounded object-cover"
+                            fill
+                            alt={`image ${index}`}
+                          />
+                        </div>
                       </ImageSlide>
                     ))}
                   </ImageCourosel>
@@ -384,7 +357,11 @@ export default function AddProductForm() {
                   loading
                 }
               >
-                {loading ? "" : success ? "Product Updated" : "Update Product"}
+                {loading
+                  ? "Saving..."
+                  : success
+                    ? "Product Updated"
+                    : "Update Product"}
               </Button>
             </div>
           )}

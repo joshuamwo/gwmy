@@ -26,8 +26,6 @@ export const productVariationTypes = {
       placeholder: "Eg. S, M, L, XL",
     },
   ],
-  Music: ["mp3 128kbps", "mp3 320kbps"],
-  Event: ["VIP", "Regular"],
 };
 
 export const productInputDefaults = {
