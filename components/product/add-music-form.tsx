@@ -200,14 +200,16 @@ export default function AddMusicForm({
         name="name"
       />
 
-      {/* price */}
-      <Input
-        id="music-product-price"
-        label="Price *"
-        type="number"
-        onChange={(e) => handleInput("price", e.target.value)}
-        name="price"
-      />
+      {/* price - unavailable for albums */}
+      {type !== "Album" && (
+        <Input
+          id="music-product-price"
+          label="Price *"
+          type="number"
+          onChange={(e) => handleInput("price", e.target.value)}
+          name="price"
+        />
+      )}
 
       {/* artist */}
       <Input

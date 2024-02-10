@@ -76,7 +76,7 @@ export default function MyMusic() {
               <div className="ms-auto flex w-full flex-col items-center md:w-3/4">
                 <Search />
               </div>
-              <div className="text-accent mt-5  hidden items-center whitespace-nowrap text-base font-semibold md:ms-5 md:mt-0 md:flex">
+              <div className="text-accent mt-5 hidden items-center whitespace-nowrap text-base font-semibold md:ms-5 md:mt-0 md:flex">
                 <Button
                   onClick={() =>
                     openModal("ADDPRODUCTFORM", {

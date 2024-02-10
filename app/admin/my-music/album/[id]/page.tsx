@@ -7,11 +7,15 @@ import { Album, Track } from "@/types";
 import Button from "@/components/ui/button";
 import { useModalAction } from "@/components/modals/modal-controller";
 import AlbumTrackList from "@/components/music/album-track-list";
+import { publishAlbum } from "@/app/actions/publish-album";
+import { unpublishAlbum } from "@/app/actions/unpublish-album";
+import toast from "react-hot-toast";
 
 export default function AlbumViewPage({ params }: { params: { id: string } }) {
   const { supabase } = useSupabase();
   const [album, setAlbum] = useState<Album>();
   const [tracks, setTracks] = useState<Track[]>();
+  const [loading, setLoading] = useState(false);
 
   async function getAlbum() {
     // if (album) return;
@@ -57,6 +61,40 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
     }
   }
 
+  //
+  async function handleTogglePublishAlbum() {
+    if (!album) return;
+    try {
+      setLoading(true);
+      console.log("Publishing Album");
+      const { ok } = await (album.published
+        ? unpublishAlbum(album.id)
+        : publishAlbum(album.id));
+
+      if (ok) {
+        toast.success(
+          album.published ? "Album Unpublished" : "Album Published",
+        );
+      } else {
+        //reverse any changes
+        toast.error(
+          album.published ? "Failed to Unpublish" : "Failed to Publish",
+        );
+        album.published
+          ? await publishAlbum(album.id)
+          : await unpublishAlbum(album.id);
+      }
+
+      setLoading(false);
+      //
+      await getAlbum();
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  }
+
+  //
   useEffect(() => {
     getAlbum();
     getTracks();
@@ -95,7 +133,7 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
           </div>
 
           {/* actions */}
-          <div className="flex justify-end p-4">
+          <div className="flex justify-end gap-2 p-4">
             <Button
               variant="solid"
               className=" h-8 rounded-full text-sm"
@@ -114,6 +152,16 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
               }
             >
               Add Tracks
+            </Button>
+            <Button
+              isLoading={loading}
+              variant="outline"
+              className=" relative h-8 rounded-full !bg-blue-600 text-sm "
+              onClick={() => handleTogglePublishAlbum()}
+            >
+              <span className="px-4">
+                {album.published ? "UnPublish" : "Publish"}
+              </span>
             </Button>
           </div>
 

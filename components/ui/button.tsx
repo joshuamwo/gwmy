@@ -42,7 +42,7 @@ function Button({
   return (
     <button
       className={classnames(
-        " transition-fill-colors flex items-center justify-center gap-2 font-semibold duration-200",
+        "transition-fill-colors flex items-center justify-center gap-2 font-semibold duration-200",
         loading || disabled
           ? "pointer-events-none cursor-not-allowed opacity-70"
           : "pointer-events-auto cursor-pointer opacity-100",
