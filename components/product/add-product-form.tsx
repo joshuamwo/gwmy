@@ -34,22 +34,24 @@ export default function AddProductForm({ data }: addProductFormProps) {
           <div className="flex flex-col pb-5 text-center lg:pb-9 xl:pb-10 xl:pt-2">
             <h2 className="text-lg font-medium tracking-[-0.3px] text-dark dark:text-light lg:text-xl">
               {data.album
-                ? "Add Tracks To Album"
-                : data.productSubType === "Track"
+                ? "Add Track To Album"
+                : productSubType === "Track"
                   ? "Add Single Track"
-                  : data.productSubType === "Album"
+                  : productSubType === "Album"
                     ? "Add Album"
                     : `Add ${productType} Product`}
             </h2>
           </div>
-          {/* <div>
-            <ProductTypeSelector
-              productType={productType}
-              handleTypeChange={setProductType}
-              productSubType={productSubType}
-              handleSubTypeChange={setProductSubType}
-            />
-          </div> */}
+          {!data.album && (
+            <div>
+              <ProductTypeSelector
+                productType={productType}
+                handleTypeChange={setProductType}
+                productSubType={productSubType}
+                handleSubTypeChange={setProductSubType}
+              />
+            </div>
+          )}
 
           {/* input forms per product type */}
 

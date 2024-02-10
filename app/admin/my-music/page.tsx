@@ -76,18 +76,40 @@ export default function MyMusic() {
               <div className="ms-auto flex w-full flex-col items-center md:w-3/4">
                 <Search />
               </div>
-              <div className="text-accent mt-5 hidden items-center whitespace-nowrap text-base font-semibold md:ms-5 md:mt-0 md:flex">
+              <div className="text-accent mt-5  hidden items-center whitespace-nowrap text-base font-semibold md:ms-5 md:mt-0 md:flex">
                 <Button
-                  onClick={() => openModal("ADDPRODUCTFORM")}
+                  onClick={() =>
+                    openModal("ADDPRODUCTFORM", {
+                      productType: "Music",
+                      productSubType: "Track",
+                    })
+                  }
                   className="bottom-24 right-6 h-8"
                 >
                   <label
                     htmlFor="add-product-button"
                     className="sm:text-md text-xs"
                   >
-                    Add Product
+                    Add Music
                   </label>
                 </Button>
+                {/* 
+                <Button
+                  onClick={() =>
+                    openModal("ADDPRODUCTFORM", {
+                      productType: "Music",
+                      productSubType: "Track",
+                    })
+                  }
+                  className="bottom-24 right-6 h-8"
+                >
+                  <label
+                    htmlFor="add-product-button"
+                    className="sm:text-md text-xs"
+                  >
+                    Add Music
+                  </label>
+                </Button> */}
               </div>
             </div>
           </div>
