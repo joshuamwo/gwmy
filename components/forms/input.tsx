@@ -29,9 +29,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   ) => {
     return (
       <div className={className}>
-        <label className="block text-13px">
+        <label className="block text-sm">
           {label && (
-            <span className="block cursor-pointer  pb-2.5  font-normal text-dark/70 rtl:text-right dark:text-light/70">
+            <span className="block cursor-pointer  pb-2.5  font-medium text-dark/70 rtl:text-right dark:text-light/70">
               {label}
             </span>
           )}

@@ -79,10 +79,13 @@ export default function MyMusic() {
               <div className="text-accent mt-5 hidden items-center whitespace-nowrap text-base font-semibold md:ms-5 md:mt-0 md:flex">
                 <Button
                   onClick={() =>
-                    openModal("ADDPRODUCTFORM", {
-                      productType: "Music",
-                      productSubType: "Track",
-                    })
+                    openModal(
+                      "ADDARTISTFORM",
+                      // {
+                      //productType: "Music",
+                      //productSubType: "Track",
+                      // }
+                    )
                   }
                   className="bottom-24 right-6 h-8"
                 >
@@ -90,7 +93,7 @@ export default function MyMusic() {
                     htmlFor="add-product-button"
                     className="sm:text-md text-xs"
                   >
-                    Add Music
+                    Add Artist
                   </label>
                 </Button>
               </div>
@@ -114,7 +117,7 @@ export default function MyMusic() {
         </div>
 
         <Button
-          onClick={() => openModal("ADDPRODUCTFORM")}
+          onClick={() => openModal("ADDARTISTFORM")}
           className="z-999 fixed bottom-24 right-6 h-12 w-12 rounded-full sm:bottom-6 md:hidden"
         >
           <PlusIcon className="h-6 fill-white" />

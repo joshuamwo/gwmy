@@ -4,7 +4,7 @@ import { FormBgPattern } from "../auth/form-bg-pattern";
 import "@splidejs/react-splide/css";
 import AddFashionForm from "./add-fashion-form";
 import ProductTypeSelector from "./product-type-selector";
-import AddMusicForm from "./add-music-form";
+import AddMusicForm from "../music/add-music-form";
 
 interface addProductFormProps {
   data: {

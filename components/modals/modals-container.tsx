@@ -12,6 +12,7 @@ import EditProductForm from "../product/edit-product-form";
 import DeleteProductForm from "../product/delete-product-form";
 import ProductViewModal from "../product/product-view-modal";
 import { ProductType } from "@/types";
+import AddArtistForm from "../music/add-artist-form";
 
 const AuthForm = dynamic(() => import("@/components/auth/auth-form"));
 
@@ -48,6 +49,9 @@ function renderModalContent(
       break;
     case "PRODUCTVIEWMODAL":
       return <ProductViewModal />;
+      break;
+    case "ADDARTISTFORM":
+      return <AddArtistForm />;
       break;
   }
 }

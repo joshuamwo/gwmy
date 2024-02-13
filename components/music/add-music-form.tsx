@@ -7,7 +7,7 @@ import { t } from "@/utils/text";
 import ImageArrayInput from "../forms/ImageArrayInput";
 import AutocompleteDropdown from "../ui/autocomplete-dropdown";
 import Button from "../ui/button";
-import TrackInput from "../forms/TrackInput";
+import TrackInput from "./TrackInput";
 import { useSupabase, userContext } from "@/context/supabase-context";
 import resizeImage from "@/lib/resize-image";
 import { AddMusic } from "@/app/actions/add-music";

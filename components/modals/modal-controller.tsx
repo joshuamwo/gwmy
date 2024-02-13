@@ -22,6 +22,7 @@ type Action =
 export type MODAL_VIEWS =
   | "AUTHFORM"
   | "ADDPRODUCTFORM"
+  | "ADDARTISTFORM"
   | "CHECKOUT"
   | "FORGOT_PASSWORD"
   | "RESET_PASSWORD"
@@ -34,7 +35,7 @@ export type MODAL_VIEWS =
 
 const ModalContext = createContext<ModalState>(initialState);
 const ModalActionContext = createContext<Dispatch<Action> | undefined>(
-  undefined
+  undefined,
 );
 ModalActionContext.displayName = "ModalActionContext";
 
@@ -75,7 +76,7 @@ export const useModalState = () => {
   const modalContext = useContext(ModalContext);
   if (modalContext === undefined) {
     throw new Error(
-      "useModalContext must be used within a ModalContextProvider"
+      "useModalContext must be used within a ModalContextProvider",
     );
   }
   return modalContext;
@@ -87,7 +88,7 @@ export function useModalAction() {
 
   if (dispatch === undefined) {
     throw new Error(
-      "useModalAction must be used within a ModalActionContextProvider"
+      "useModalAction must be used within a ModalActionContextProvider",
     );
   }
 

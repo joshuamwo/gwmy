@@ -17,7 +17,7 @@ import { ChevronLeftIcon } from "../ui/chevron-left-icon";
 import placeholder from "@/public/images/placeholders/product.svg";
 
 interface ProductThumbnailGalleryProps {
-  gallery: string[];
+  gallery?: string[];
   className?: string;
 }
 
@@ -54,7 +54,7 @@ export default function ImagePreview({
           {gallery?.map((image, index) => (
             <SwiperSlide
               key={`product-gallery-${index}`}
-              className="relative flex aspect-[16/9] lg:aspect-[4/5] items-center justify-center bg-light-200 dark:bg-dark-200"
+              className="relative flex aspect-[16/9] items-center justify-center bg-light-200 dark:bg-dark-200 lg:aspect-[4/5]"
             >
               <Image
                 fill
@@ -68,7 +68,7 @@ export default function ImagePreview({
         </Swiper>
         <div
           className={
-            gallery.length > 1
+            gallery && gallery.length > 1
               ? "absolute top-2/4 z-10 flex w-full items-center justify-between px-2.5 xl:px-4"
               : "hidden"
           }
