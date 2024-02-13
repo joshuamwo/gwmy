@@ -65,10 +65,10 @@ export default function MyMusic() {
   }, []);
 
   return (
-    <div>
+    <div className="rounded">
       <>
         <div className="mb-24 flex-col px-3 py-5 md:px-3 md:py-8">
-          <div className=" sticky top-16 z-10 mb-8 hidden flex-col rounded bg-light p-5 shadow-lg dark:bg-dark-200 sm:flex md:p-8">
+          <div className=" sticky top-16 z-10 mb-8 hidden flex-col rounded bg-light p-5 shadow-lg dark:bg-dark-300 sm:flex md:p-8">
             <div className=" flex w-full flex-col  items-center md:flex-row">
               <div className="mb-4 sm:block md:mb-0 md:w-1/4">
                 <h1 className="text-heading text-lg font-semibold">My Music</h1>
@@ -93,23 +93,6 @@ export default function MyMusic() {
                     Add Music
                   </label>
                 </Button>
-                {/* 
-                <Button
-                  onClick={() =>
-                    openModal("ADDPRODUCTFORM", {
-                      productType: "Music",
-                      productSubType: "Track",
-                    })
-                  }
-                  className="bottom-24 right-6 h-8"
-                >
-                  <label
-                    htmlFor="add-product-button"
-                    className="sm:text-md text-xs"
-                  >
-                    Add Music
-                  </label>
-                </Button> */}
               </div>
             </div>
           </div>

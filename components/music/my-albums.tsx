@@ -15,10 +15,12 @@ export default function MyAlbums({ className }: { className?: string }) {
         className,
       )}
     >
-      <div className="grid grid-cols-3 gap-2 xs:grid-cols-4 md:grid-cols-5 lg:gap-3 3xl:grid-cols-6 3xl:gap-4">
+      <div className=" grid w-full grid-cols-2  gap-4 md:grid-cols-3 3xl:grid-cols-5 ">
         {albums.length > 0
           ? albums.map((album) => (
-              <AlbumCard album={album} key={album.id} isMyMusicPage={true} />
+              <div className="!w-[200px]">
+                <AlbumCard album={album} key={album.id} isMyMusicPage={true} />
+              </div>
             ))
           : ""}
       </div>

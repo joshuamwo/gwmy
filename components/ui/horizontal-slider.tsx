@@ -40,12 +40,12 @@ export default function HorizontalSlider({
       </button>
       <div className="flex items-start overflow-hidden px-2 pb-9 pt-5 md:pb-10 md:pt-6 lg:pb-12 ">
         <div
-          className="scrollbar-hide flex w-full overflow-x-auto scroll-smooth"
+          className="scrollbar-hide flex w-full gap-4 overflow-x-auto scroll-smooth"
           ref={sliderEl}
         >
           {albums.length > 0
             ? albums.map((album, index) => (
-                <div className="w-32 " key={index}>
+                <div className="" key={index}>
                   <AlbumCard
                     album={album}
                     key={album.id}

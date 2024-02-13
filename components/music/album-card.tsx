@@ -25,144 +25,43 @@ export default function AlbumCard({ album, isMyMusicPage }: CardProps) {
   const modalName1 = "EDITPRODUCTFORM";
   const modalName2 = "PRODUCTVIEWMODAL";
   return (
-    <div className="rounded  p-2  md:p-4">
-      <div className="group relative flex aspect-square w-full  ">
-        {/* <pre>{JSON.stringify(product.image_urls, null, 4)}</pre> */}
-
-        <Image
-          alt={album.name}
-          src={src}
-          fill
-          priority={true}
-          quality={100}
-          className="rounded-md bg-light-500 object-cover shadow-lg dark:bg-dark-400 "
-          sizes="(max-width: 768px) 100vw,
-              (max-width: 1200px) 50vw,
-              33vw"
-        />
-        {/* overlay */}
-        {/* <div
-          className="absolute left-0 top-0 flex h-full w-full cursor-pointer items-center justify-center gap-9 rounded bg-light/70 p-4 opacity-0 backdrop-blur-sm transition-all group-hover:gap-5 group-hover:opacity-100 dark:bg-dark/70"
-          onClick={() => !isMyMusicPage && openModal(modalName2, album)}
-        >
-          <button
-            className={classnames(
-              "text-center text-xs font-medium text-light md:text-[13] ",
-              isGridCompact ? "text-xs" : "text-13px",
-            )}
-            onClick={() =>
-              isMyMusicPage
-                ? openModal(modalName1, album)
-                : openModal(modalName2, album)
-            }
-          >
-            <div
-              className={classnames(
-                "mb-2 flex items-center justify-center rounded-full bg-dark-800 text-light backdrop-blur-sm transition-all hover:bg-brand",
-                isGridCompact ? "h-11 w-11" : "h-[50px] w-[50px]",
-              )}
-            >
-              {isMyMusicPage ? (
-                <EditIcon
-                  className={classnames(
-                    isGridCompact ? "h-4 w-4 md:h-5 md:w-5 " : "h-6 w-6",
-                  )}
-                />
-              ) : (
-                <PreviewIcon
-                  className={classnames(isGridCompact ? "h-5 w-5" : "h-6 w-6")}
-                />
-              )}
+    <div className=" rounded-md p-4 dark:bg-dark-250 dark:hover:bg-dark-300 ">
+      <Link
+        href={isMyMusicPage ? `/admin/my-music/album/${album.id}` : "/music"}
+      >
+        <div className="group relative flex aspect-square min-w-[150px]">
+          <Image
+            alt={album.name}
+            src={src}
+            fill
+            priority={true}
+            className="rounded-md bg-light-500 object-cover dark:bg-dark-400"
+          />
+        </div>
+        <div className="flex flex-col px-1 pt-3 ">
+          <div className="group -mt-[1px] mr-auto cursor-pointer truncate">
+            <div className="flex flex-col">
+              <span className="mb-0.5 truncate text-base font-medium group-hover:text-brand">
+                {album.name}
+              </span>
             </div>
-            {isMyMusicPage ? "Edit" : "Preview"}
-          </button>
-
-          {isMyMusicPage && (
-            <button
-              onClick={() => openModal(modalName2, album)}
-              className={classnames(
-                "relative z-[11] text-center font-medium text-light",
-                isGridCompact ? "text-xs" : "text-13px",
-              )}
-            >
-              <div
-                className={classnames(
-                  "mb-2 flex items-center justify-center rounded-full bg-dark-800 text-light backdrop-blur-sm transition-all hover:bg-brand",
-                  isGridCompact ? "h-11 w-11" : "h-[50px] w-[50px]",
-                )}
-              >
-                {isMyMusicPage ? (
-                  <PreviewIcon
-                    className={classnames(
-                      isGridCompact ? "h-5 w-5" : "h-6 w-6",
-                    )}
-                  />
-                ) : (
-                  <DetailsIcon
-                    className={classnames(
-                      "fill-white",
-                      isGridCompact ? "h-4 w-4" : "h-5 w-5",
-                    )}
-                  />
-                )}
-              </div>
-              {isMyMusicPage ? "Preview" : "Details"}
-            </button>
-          )}
-          {isMyMusicPage && (
-            <button
-              onClick={() => openModal("DELETEPRODUCTFORM", isMyMusicPage)}
-              className={classnames(
-                "relative z-[11] text-center font-medium text-light",
-                isGridCompact ? "text-xs" : "text-13px",
-              )}
-            >
-              <div
-                className={classnames(
-                  "mb-2 flex items-center justify-center rounded-full bg-dark-800 text-light backdrop-blur-sm transition-all hover:bg-brand",
-                  isGridCompact ? "h-11 w-11" : "h-[50px] w-[50px]",
-                )}
-              >
-                <DeleteIcon
-                  className={classnames(
-                    "",
-                    isGridCompact ? "h-4 w-4" : "h-5 w-5",
-                  )}
-                />
-              </div>
-              Delete
-            </button>
-          )}
-        </div> */}
-      </div>
-      <div className="flex flex-col px-1 pt-2 ">
-        <div className="group -mt-[1px] mr-auto cursor-pointer truncate">
-          <Link
-            href={
-              isMyMusicPage ? `/admin/my-music/album/${album.id}` : "/music"
-            }
-            className="flex flex-col"
-          >
-            <span className="mb-0.5 truncate text-xs font-medium group-hover:text-brand">
-              {album.name}
+          </div>
+          <div className="flex flex-row items-center justify-between">
+            <span className="truncate text-sm   text-dark-400 group-hover:text-brand dark:text-light-800">
+              {album.artist}
             </span>
-          </Link>
+          </div>
+          <div className="mt-3 flex w-full ">
+            <span className="flex w-full items-center justify-center gap-2 rounded-2xl bg-light-400 px-1.5 py-1  text-sm font-semibold uppercase text-brand shadow-inner dark:bg-dark-400 dark:text-brand-dark">
+              {!isMyMusicPage && (
+                <PlusIcon className="h-4 w-4 rounded-full border border-brand fill-brand p-0.5" />
+              )}{" "}
+              Ksh.
+              {album.price}
+            </span>
+          </div>
         </div>
-        <div className="flex flex-row items-center justify-between">
-          <span className="truncate text-xs   text-dark-400 group-hover:text-brand dark:text-light-800">
-            {album.artist}
-          </span>
-        </div>
-        <div className="mt-1 flex w-full justify-end">
-          <span className="flex w-full items-center justify-center gap-2 rounded-2xl bg-light-400 px-1.5 py-1  text-[11px] font-semibold uppercase text-brand shadow-inner dark:bg-dark-400 dark:text-brand-dark">
-            {!isMyMusicPage && (
-              <PlusIcon className="h-4 w-4 rounded-full border border-brand fill-brand p-0.5" />
-            )}{" "}
-            Ksh.
-            {album.price}
-          </span>
-        </div>
-      </div>
+      </Link>
     </div>
   );
 }
