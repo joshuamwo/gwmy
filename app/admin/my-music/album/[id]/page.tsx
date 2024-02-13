@@ -105,20 +105,23 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
       {album && (
         <div className="h-full  rounded pb-16">
           {/* Album name and cover */}
-          <div className="flex h-[25vh] min-h-[200px] items-end rounded bg-light-400 dark:bg-dark-400 ">
+          <div className="flex h-[25vh] min-h-[200px] items-end rounded bg-light-400 dark:bg-dark-400 md:h-[33vh] ">
             <div className="flex items-end pb-4 pl-4">
-              <Image
-                src={album.cover}
-                alt={album.name}
-                width={150}
-                height={150}
-                className="aspect-square rounded object-cover"
-              />
+              <div className="relative h-[15vw] max-h-[200px] min-h-[150px] w-[15vw] min-w-[150px] max-w-[200px]">
+                <Image
+                  src={album.cover}
+                  alt={album.name}
+                  fill
+                  className="aspect-square rounded object-cover"
+                />
+              </div>
 
-              <div className="flex flex-col gap-2 pl-4">
-                <h3 className="text-xs">Album</h3>
-                <h1 className="text-4xl font-bold">{album.name} </h1>
-                <h3 className="flex flex-wrap gap-2 text-xs">
+              <div className="flex flex-col gap-2 pl-4 md:gap-4">
+                <h3 className="text-sm font-medium">Album</h3>
+                <h1 className="text-2xl font-bold xs:text-4xl sm:text-5xl md:text-6xl  lg:text-7xl">
+                  {album.name}{" "}
+                </h1>
+                <h3 className="flex flex-wrap gap-2 text-sm">
                   <span>{album.artist}</span>
                   {album.other_artists &&
                     album.other_artists.map((artist, index) => (
