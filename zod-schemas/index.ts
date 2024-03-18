@@ -38,3 +38,13 @@ export const singleTrackSchema = z.object({
   track: z.any(),
   is_published: z.string(),
 });
+
+export const artistSchema = z.object({
+  first_name: z.string(),
+  last_name: z.string(),
+  alias: z.string(),
+  id_number: z.string(),
+  phone_number: z.string(),
+  profile_picture: z.any(),
+  recording_label: z.string(),
+});

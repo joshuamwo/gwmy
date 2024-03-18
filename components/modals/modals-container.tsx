@@ -51,7 +51,7 @@ function renderModalContent(
       return <ProductViewModal />;
       break;
     case "ADDARTISTFORM":
-      return <AddArtistForm />;
+      return <AddArtistForm onSuccess={data.action?.onSuccess} />;
       break;
   }
 }

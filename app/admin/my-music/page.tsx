@@ -79,13 +79,13 @@ export default function MyMusic() {
               <div className="text-accent mt-5 hidden items-center whitespace-nowrap text-base font-semibold md:ms-5 md:mt-0 md:flex">
                 <Button
                   onClick={() =>
-                    openModal(
-                      "ADDARTISTFORM",
-                      // {
-                      //productType: "Music",
-                      //productSubType: "Track",
-                      // }
-                    )
+                    openModal("ADDARTISTFORM", {
+                      action: {
+                        onSuccess: () => {
+                          console.log("success");
+                        },
+                      },
+                    })
                   }
                   className="bottom-24 right-6 h-8"
                 >

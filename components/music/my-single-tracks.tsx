@@ -10,7 +10,7 @@ export default function MySingleTracks() {
 
   return (
     <div className="w-full pb-9 pt-5 md:px-6 md:pb-10 md:pt-6 lg:pb-12">
-      <div className="grid grid-cols-2 gap-4 xs:grid-cols-4 sm:grid-cols-4 md:grid-cols-4 3xl:grid-cols-3 3xl:gap-4">
+      <div className="grid grid-cols-2 gap-4 xs:grid-cols-4 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7">
         {tracks.length > 0
           ? tracks.map((track) => (
               <div key={track.id} className="max-w-[200px]">

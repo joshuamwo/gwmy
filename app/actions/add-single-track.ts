@@ -24,7 +24,8 @@ export async function AddSingleTrack(
   formData: FormData,
   prevState: PrevState,
 ): Promise<AddTrackResponse> {
-  try {
+	try {
+			
     const supabase = SupabaseServer();
     //validate data
     console.log("validating data");
@@ -34,14 +35,14 @@ export async function AddSingleTrack(
       return {
         ok: false,
         error: {
-          data: error,
+          data: JSON.stringify(error),
           message: "Please check your inputs and try again.",
           code: 400,
         },
       };
     } else {
-					console.log("Data validation success");
-					
+      console.log("Data validation success");
+
       //upload album cover
 
       if (!prevState.cover) {
@@ -147,7 +148,7 @@ export async function AddSingleTrack(
     return {
       ok: false,
       error: {
-        data: error,
+        data: JSON.stringify(error),
         message: "Exception caught in => add-album.ts",
         code: 504,
       },

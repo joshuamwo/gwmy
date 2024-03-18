@@ -1,19 +1,98 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormBgPattern } from "../auth/form-bg-pattern";
-import ImageArrayInput from "../forms/ImageArrayInput";
 import Input from "../forms/input";
 import ImageInput from "../forms/ImageInput";
 import Button from "../ui/button";
+import { addArtist } from "@/app/actions/add-artist";
+import { useFormState } from "react-dom";
+import { useModalAction, useModalState } from "../modals/modal-controller";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
-export default function AddArtistForm() {
+export default function AddArtistForm({
+  onSuccess,
+}: {
+  onSuccess?: () => any;
+}) {
+  console.log(onSuccess);
   const [profilePicture, setProfilePicture] = useState<File>();
   const [profilePicturePreview, setProfilePicturePreview] = useState<string>();
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
+  const { closeModal } = useModalAction();
+
+  //initial state
+  const initialState: {
+    ok: boolean | null;
+    error: {
+      data: any;
+      message: string;
+      code: number;
+    } | null;
+    profile_picture: string | null;
+  } = {
+    ok: null,
+    error: null,
+    profile_picture: null,
+  };
+
+  //handleform action
+  const [state, newArtist] = useFormState(addArtist, initialState);
   async function handleFormAction(formData: FormData) {
-    profilePicture && formData.set("profile_picture", profilePicture);
+    try {
+      setLoading(true);
+      //add profile picture to formData
+      profilePicture && formData.set("profile_picture", profilePicture);
 
-    console.log(formData.get("profile_picture"));
+      //send data to server
+      newArtist(formData);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   }
+
+  //kick out the user
+  const router = useRouter();
+  function gentlyShowUnauthorisedUserOut() {
+    toast.error("How did you get here?");
+    closeModal();
+    router.push("/");
+  }
+
+  //handle success || failure of adding music
+  useEffect(() => {
+    if (state.ok === null) return;
+    if (state.ok === true) {
+      // refresh artists
+      onSuccess && onSuccess();
+      //reset the image field
+      const imageInput = document.getElementById(
+        "product-images-upload",
+      ) as HTMLInputElement;
+
+      //
+      state.ok = null;
+      state.error = null;
+
+      //toast
+
+      toast.success("Artist Added");
+
+      //
+      setTimeout(() => {
+        setSuccess(false);
+      }, 2000);
+      closeModal();
+    } else {
+      toast.error("Failed to add artist, try again later.");
+
+      //gently show unauthorised user out
+      state.error?.code === 403 && gentlyShowUnauthorisedUserOut();
+    }
+  }, [state, state?.ok]);
 
   return (
     <form action={handleFormAction}>
@@ -43,11 +122,16 @@ export default function AddArtistForm() {
                 />
               </div>
               <Input id="alias" name="alias" label="Alias" required />
-              <Input id="id_no" name="id_no" label="ID Number" required />
               <Input
-                id="phone_no"
-                name="phone_no"
-                label="M-Pesa Number"
+                id="id_number"
+                name="id_number"
+                label="ID Number"
+                required
+              />
+              <Input
+                id="phone_number"
+                name="phone_number"
+                label="M-Pesa Number 07**/01**"
                 required
               />
               <Input
@@ -65,7 +149,14 @@ export default function AddArtistForm() {
                 rounded
                 required
               />
-              <Button type="submit">Submit</Button>
+              <Button
+                type="submit"
+                isLoading={loading}
+                usePending
+                disabled={loading}
+              >
+                Submit
+              </Button>
             </div>
           </div>
         </div>
