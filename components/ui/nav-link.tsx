@@ -18,12 +18,12 @@ export default function NavLink({
     <ActiveLink
       href={href}
       className="my-0.5 flex items-center gap-1 px-4 py-3 hover:bg-light-300 hover:dark:bg-dark-300 xs:px-6 sm:my-1 sm:gap-1.5 sm:px-7 lg:gap-2 xl:my-0.5"
-      activeClassName="text-dark-100 active-text-dark dark:active-text-light dark:text-light-400 shadow-lg font-medium bg-light-300 dark:bg-dark-300 hover:bg-light-600 hover:dark:bg-dark-500"
+      activeClassName="text-dark-100 active-text-dark dark:active-text-light font-medium dark:text-light-100  shadow-lg font-medium bg-light-200 dark:bg-dark-400 hover:bg-light-600 hover:dark:bg-dark-500"
     >
       <span
         className={classnames(
           "flex flex-shrink-0 items-center justify-start",
-          sidebarIsOpen ? "w-8 xl:w-auto" : "w-auto xl:w-8"
+          sidebarIsOpen ? "w-8 xl:w-auto" : "w-auto xl:w-8",
         )}
       >
         {icon}
@@ -31,7 +31,7 @@ export default function NavLink({
       <span
         className={classnames(
           "text-dark-100 dark:text-light-400",
-          sidebarIsOpen ? "inline-flex xl:hidden" : "hidden xl:inline-flex"
+          sidebarIsOpen ? "inline-flex xl:hidden" : "hidden xl:inline-flex",
         )}
       >
         {title}

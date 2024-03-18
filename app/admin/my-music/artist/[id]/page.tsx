@@ -137,10 +137,10 @@ export default function ArtistPage({ params }: { params: { id: string } }) {
               </div>
 
               <div className="flex flex-col gap-2 pl-4 md:gap-4">
-                <h3 className="text-sm font-medium">Artist</h3>
                 <h1 className="text-2xl font-bold xs:text-4xl sm:text-5xl md:text-6xl  lg:text-7xl">
                   {artist.alias}{" "}
                 </h1>
+                <h3 className="text-sm font-medium">Artist</h3>
                 {/* <h3 className="flex flex-wrap gap-2 text-sm">
                   <span>{artist.artist}</span>
                   {album.other_artists &&

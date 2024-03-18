@@ -15,7 +15,10 @@ const ActiveLink: React.FC<
     <Link
       href={href}
       className={classnames(className, {
-        [activeClassName]: pathname === href,
+        [activeClassName]:
+          href === "/"
+            ? pathname === href
+            : pathname.startsWith(href.toString()),
       })}
       {...props}
     />
