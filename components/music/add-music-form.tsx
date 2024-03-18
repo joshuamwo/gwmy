@@ -21,6 +21,11 @@ interface AddMusicFormProps {
   album?: {
     name: string;
     id: string;
+    cover: string;
+  };
+  artist: {
+    name: string;
+    id: string;
   };
   action?: {
     onSuccess?: () => any;
@@ -31,6 +36,7 @@ interface AddMusicFormProps {
 export default function AddMusicForm({
   type,
   album,
+  artist,
   action,
 }: AddMusicFormProps) {
   const { supabase } = useSupabase();
@@ -67,17 +73,6 @@ export default function AddMusicForm({
 
   //get user
   const user = userContext();
-
-  // async function fetchAlbums() {
-  //   // get albums
-  //   const { data, error } = await supabase
-  //     .from("albums")
-  //     .select("*")
-  //     .eq("owner", user?.id);
-  //   console.log(data);
-  // }
-
-  // fetchAlbums();
 
   //adding music
   const [state, addMusic] = useFormState(AddMusic, initialState);
@@ -200,23 +195,31 @@ export default function AddMusicForm({
         name="name"
       />
 
-      {/* price - unavailable for albums */}
-      {type !== "Album" && (
-        <Input
-          id="music-product-price"
-          label="Price *"
-          type="number"
-          onChange={(e) => handleInput("price", e.target.value)}
-          name="price"
-        />
-      )}
+      {/* price */}
+
+      <Input
+        id="music-product-price"
+        label="Price *"
+        type="number"
+        onChange={(e) => handleInput("price", e.target.value)}
+        name="price"
+      />
 
       {/* artist */}
+
       <Input
-        id="music-product-artist"
-        label="Artist Name *"
+        type="hidden"
+        id="music-product-artist-name"
         onChange={(e) => handleInput("artist", e.target.value)}
-        name="artist"
+        name="artist_name"
+        value={artist.name}
+      />
+      <Input
+        type="hidden"
+        id="music-product-artist-id"
+        onChange={(e) => handleInput("artist", e.target.value)}
+        name="artist_id"
+        value={artist.id}
       />
 
       {/* other artists  */}
@@ -279,7 +282,7 @@ export default function AddMusicForm({
         name="genre"
       />
 
-      {/* cover upload */}
+      {/* cover */}
 
       {(isSingle || type === "Album") && (
         <ImageArrayInput

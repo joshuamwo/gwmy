@@ -45,11 +45,6 @@ export default function MyMusic() {
 
   //fetch single tracks
   const fetchSingleTracks = async () => {
-    const sql = `
-  			SELECT *
-  			FROM tracks
-  			WHERE album IS NULL;
-				`;
     const { data, error } = await supabase
       .from("tracks")
       .select("*")
@@ -67,11 +62,6 @@ export default function MyMusic() {
 
   //fetch single tracks
   const fetchArtists = async () => {
-    const sql = `
-  			SELECT *
-  			FROM tracks
-  			WHERE album IS NULL;
-				`;
     const { data, error } = await supabase
       .from("artists")
       .select("*")
@@ -107,9 +97,7 @@ export default function MyMusic() {
                   onClick={() =>
                     openModal("ADDARTISTFORM", {
                       action: {
-                        onSuccess: () => {
-                          console.log("success");
-                        },
+                        onSuccess: fetchArtists,
                       },
                     })
                   }
@@ -132,7 +120,7 @@ export default function MyMusic() {
             </div>
           )}
 
-          {myAlbums && (
+          {myAlbums && myAlbums.length > 0 && (
             <div className="">
               <h1 className="text-lg ">Albums</h1>
               <HorizontalSlider className="hidden sm:flex" albums={myAlbums} />
@@ -140,7 +128,7 @@ export default function MyMusic() {
             </div>
           )}
 
-          {mySingleTracks && (
+          {mySingleTracks && mySingleTracks.length > 0 && (
             <div className="">
               <h1 className="text-lg ">Single Tracks</h1>
               <SingleTracks tracks={mySingleTracks} />

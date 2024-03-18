@@ -28,6 +28,8 @@ export default function TrackViewPage({ params }: { params: { id: string } }) {
       if (error) throw error;
       if (data.length < 1) throw "Not found";
 
+      console.log(data);
+
       const trak = data[0];
       setTrack(trak);
       console.log(trak);

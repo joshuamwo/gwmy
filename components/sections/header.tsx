@@ -39,7 +39,7 @@ export default function Header({
   }, [cart]);
 
   return (
-    <div className="app-header sticky left-0 top-0 z-30 flex h-16  w-full items-center justify-between bg-light px-4 py-1  dark:bg-dark-300 sm:h-[70px] sm:px-6">
+    <div className="app-header sticky left-0 top-0 z-30 flex h-16  w-full items-center justify-between bg-light-400 px-4 py-1  dark:bg-dark-300 sm:h-[70px] sm:px-6">
       <div className="flex items-center gap-4">
         <Hamburger
           className="hidden sm:flex"

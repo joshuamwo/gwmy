@@ -1,6 +1,7 @@
 import { useRecoilValue } from "recoil";
 import { myAlbumsState } from "@/recoil/atoms";
 import React from "react";
+import Card from "../ui/card";
 import AlbumCard from "./album-card";
 import { classnames } from "@/utils/classnames";
 import { Album } from "@/types";
@@ -19,10 +20,10 @@ export default function Albums({
         className,
       )}
     >
-      <div className=" grid w-full grid-cols-2  gap-4 md:grid-cols-3 3xl:grid-cols-5 ">
+      <div className=" flex w-full flex-wrap ">
         {albums.length > 0 &&
           albums.map((album) => (
-            <div className="!w-[200px]" key={album.id}>
+            <div className="!max-w-[300px]" key={album.id}>
               <AlbumCard album={album} isMyMusicPage={true} />
             </div>
           ))}

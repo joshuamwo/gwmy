@@ -2,7 +2,7 @@ import { PrevState } from "./add-music";
 import { arrayfyString } from "./add-single-track";
 import { SupabaseServer } from "./supabase-server";
 import { uploadImages } from "./upload-images";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4, validate } from "uuid";
 import { validateAlbumTrackData } from "./validate-music-data";
 
 type AddTrackToAlbumResponse = {
@@ -78,6 +78,8 @@ export async function AddTrackToAlbum(
       const album: {
         id: string;
         name: string;
+        cover: string;
+        price: string;
       } = JSON.parse(validated.album);
       const addDataToDBRes = await supabase
         .from("tracks")
@@ -85,15 +87,17 @@ export async function AddTrackToAlbum(
           {
             id: trackId,
             name: validated.name,
-            artist: validated.artist,
+            artist: validated.artist_name,
             price: validated.price,
             album: album.id,
+            cover: album.cover,
             genre: validated.genre,
             track: trackPath,
             other_artists: validated && arrayfyString(validated.other_artists),
             producers: validated && arrayfyString(validated.producers),
             artists_note: validated?.artists_note,
             published: validated.is_published === "true" ? true : false,
+            owner: validated.artist_id,
           },
         ])
         .single();
@@ -110,6 +114,27 @@ export async function AddTrackToAlbum(
           },
         };
       }
+
+      //  const updateAlbumPriceRes = await supabase
+      //    .from("albums")
+      //    .update({
+      //      price: album.price + validated.price,
+      //    })
+      //    .eq("id", album.id);
+
+      // if (addDataToDBRes.error) {
+      //        console.error("Failed to add data to DB");
+      //        console.log(addDataToDBRes.error);
+      //        return {
+      //          ok: false,
+      //          error: {
+      //            data: addDataToDBRes.error,
+      //            message: "Adding data to database failed",
+      //            code: 500,
+      //          },
+      //        };
+      //      }
+
       console.log("Data Added to DB");
       console.log(addDataToDBRes);
       return {

@@ -104,7 +104,8 @@ export function validateAlbumData(formData: FormData): {
     //Validate data
     const data = albumSchema.parse({
       name: formData.get("name"),
-      artist: formData.get("artist"),
+      artist_name: formData.get("artist_name"),
+      artist_id: formData.get("artist_id"),
       price: formData.get("price"),
       genre: formData.get("genre"),
       cover: formData.get("cover"),
@@ -133,7 +134,8 @@ export function validateSingleTrackData(formData: FormData): {
     //Validate data
     const data = singleTrackSchema.parse({
       name: formData.get("name"),
-      artist: formData.get("artist"),
+      artist_name: formData.get("artist_name"),
+      artist_id: formData.get("artist_id"),
       price: formData.get("price"),
       genre: formData.get("genre"),
       cover: formData.get("cover"),
@@ -164,7 +166,8 @@ export function validateAlbumTrackData(formData: FormData): {
     //Validate data
     const data = albumTrackSchema.parse({
       name: formData.get("name"),
-      artist: formData.get("artist"),
+      artist_name: formData.get("artist_name"),
+      artist_id: formData.get("artist_id"),
       price: formData.get("price"),
       album: formData.get("album"),
       genre: formData.get("genre"),

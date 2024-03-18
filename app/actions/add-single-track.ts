@@ -24,8 +24,7 @@ export async function AddSingleTrack(
   formData: FormData,
   prevState: PrevState,
 ): Promise<AddTrackResponse> {
-	try {
-			
+  try {
     const supabase = SupabaseServer();
     //validate data
     console.log("validating data");
@@ -108,7 +107,7 @@ export async function AddSingleTrack(
           {
             id: trackId,
             name: validated.name,
-            artist: validated.artist,
+            artist: validated.artist_name,
             price: validated.price,
             genre: validated.genre,
             cover: imageUrl,
@@ -116,6 +115,8 @@ export async function AddSingleTrack(
             other_artists: validated && arrayfyString(validated.other_artists),
             producers: validated && arrayfyString(validated.producers),
             artists_note: validated?.artists_note,
+            owner: validated.artist_id,
+            published: validated.is_published,
           },
         ])
         .single();

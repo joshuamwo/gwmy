@@ -27,8 +27,8 @@ function renderModalContent(
   data: {
     productType: ProductType;
     productSubType: string;
-    album?: { name: string; id: string };
-    artist?: { alias: string; id: string };
+    album?: { name: string; id: string, cover: string };
+    artist?: { name: string; id: string };
     action?: {
       onSuccess?: () => any;
       onFailure?: () => any;

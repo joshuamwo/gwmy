@@ -30,7 +30,6 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
 
       const album = data[0] as Album;
       setAlbum(album);
-      console.log(album);
     } catch (error) {
       console.log(error);
     }
@@ -42,7 +41,6 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
   //
   async function getTracks() {
     // if (tracks) return;
-    console.log("getting tracks");
     try {
       const { data, error } = await supabase
         .from("tracks")
@@ -66,7 +64,6 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
     if (!album) return;
     try {
       setLoading(true);
-      console.log("Publishing Album");
       const { ok } = await (album.published
         ? unpublishAlbum(album.id)
         : publishAlbum(album.id));
@@ -147,6 +144,11 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
                   album: {
                     id: album.id,
                     name: album.name,
+                    cover: album.cover,
+                  },
+                  artist: {
+                    name: album.artist,
+                    id: album.owner,
                   },
                   action: {
                     onSuccess: getTracks,
@@ -162,7 +164,7 @@ export default function AlbumViewPage({ params }: { params: { id: string } }) {
               className=" relative h-8 rounded-full !bg-blue-600 text-sm "
               onClick={() => handleTogglePublishAlbum()}
             >
-              <span className="px-4">
+              <span className="px-4 text-light-300">
                 {album.published ? "UnPublish" : "Publish"}
               </span>
             </Button>

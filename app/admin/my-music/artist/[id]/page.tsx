@@ -66,16 +66,17 @@ export default function ArtistPage({ params }: { params: { id: string } }) {
         .from("tracks")
         .select("*")
         .eq("owner", params.id)
-        .eq("album", null)
+        .is("album", null)
         .returns<SingleTrack[]>();
 
       if (error) throw error;
       if (data.length < 1) throw "No Tracks found";
 
+      console.log(data);
       setSingles(data);
       return;
     } catch (error) {
-      console.log(error);
+      console.log("get singles error", error);
       return;
     }
   }
@@ -125,7 +126,7 @@ export default function ArtistPage({ params }: { params: { id: string } }) {
       {artist && (
         <div className="h-full  rounded pb-16">
           {/* Album name and cover */}
-          <div className="flex h-[25vh] min-h-[200px] items-end rounded bg-light-400 dark:bg-dark-400 md:h-[33vh] ">
+          <div className="flex h-[25vh] min-h-[200px] items-end rounded bg-light-200 dark:bg-dark-400 md:h-[33vh] ">
             <div className="flex items-end pb-4 pl-4">
               <div className="relative h-[15vw] max-h-[200px] min-h-[150px] w-[15vw] min-w-[150px] max-w-[200px]">
                 <Image
@@ -141,16 +142,6 @@ export default function ArtistPage({ params }: { params: { id: string } }) {
                   {artist.alias}{" "}
                 </h1>
                 <h3 className="text-sm font-medium">Artist</h3>
-                {/* <h3 className="flex flex-wrap gap-2 text-sm">
-                  <span>{artist.artist}</span>
-                  {album.other_artists &&
-                    album.other_artists.map((artist, index) => (
-                      <span key={index}>• {artist}</span>
-                    ))}
-                  <span>
-                    • {tracks ? `${tracks.length} Tracks` : "No Tracks"}
-                  </span>
-                </h3> */}
               </div>
             </div>
           </div>
@@ -165,7 +156,7 @@ export default function ArtistPage({ params }: { params: { id: string } }) {
                   productType: "Music",
                   productSubType: "Track",
                   artist: {
-                    alias: artist.alias,
+                    name: artist.alias,
                     id: artist.id,
                   },
                   action: {
@@ -190,40 +181,42 @@ export default function ArtistPage({ params }: { params: { id: string } }) {
                     id: artist.id,
                   },
                   action: {
-                    onSuccess: getSingles,
+                    onSuccess: getAlbums,
                   },
                 })
               }
             >
-              <span className="px-4">Add Album</span>
+              <span className="px-4 text-light-300">Add Album</span>
             </Button>
           </div>
 
-          {/* nothing found */}
-          {!albums && !singles && (
-            <div className="flex h-full items-center justify-center">
-              <h1 className="text-2xl font-semibold">
-                Your added music will appear here.
-              </h1>
-            </div>
-          )}
+          <div className="p-4">
+            {/* nothing found */}
+            {albums && albums.length < 1 && !singles && (
+              <div className="flex h-full w-full justify-center">
+                <h1 className="text-2xl font-semibold text-dark-600 dark:text-light-600">
+                  Your added music will appear here.
+                </h1>
+              </div>
+            )}
 
-          {/* Albums */}
+            {/* Albums */}
 
-          {albums && albums?.length > 0 && (
-            <div className="">
-              <h1 className="text-lg ">Albums</h1>
-              <HorizontalSlider className="hidden sm:flex" albums={albums} />
-              <Albums albums={albums} />
-            </div>
-          )}
+            {albums && albums?.length > 0 && (
+              <div className="">
+                <h1 className="text-lg md:pl-4">Albums</h1>
+                {/* <HorizontalSlider className="hidden sm:flex" albums={albums} /> */}
+                <Albums albums={albums} />
+              </div>
+            )}
 
-          {singles && (
-            <div className="">
-              <h1 className="text-lg ">Single Tracks</h1>
-              <SingleTracks tracks={singles} />
-            </div>
-          )}
+            {singles && (
+              <div className="">
+                <h1 className="text-lg md:pl-4">Singles</h1>
+                <SingleTracks tracks={singles} />
+              </div>
+            )}
+          </div>
         </div>
       )}
     </>

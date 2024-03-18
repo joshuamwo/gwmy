@@ -3,7 +3,8 @@ import { z } from "zod";
 export const albumSchema = z.object({
   // productType: z.string(),
   name: z.string(),
-  artist: z.string(),
+  artist_name: z.string(),
+  artist_id: z.string(),
   price: z.coerce.number(),
   genre: z.string(),
   cover: z.any(),
@@ -15,7 +16,8 @@ export const albumSchema = z.object({
 export const albumTrackSchema = z.object({
   // productType: z.string(),
   name: z.string(),
-  artist: z.string(),
+  artist_name: z.string(),
+  artist_id: z.string(),
   price: z.coerce.number(),
   genre: z.string(),
   album: z.string(),
@@ -28,7 +30,8 @@ export const albumTrackSchema = z.object({
 export const singleTrackSchema = z.object({
   // productType: z.string(),
   name: z.string(),
-  artist: z.string(),
+  artist_name: z.string(),
+  artist_id: z.string(),
   price: z.coerce.number(),
   genre: z.string(),
   other_artists: z.string(),

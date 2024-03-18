@@ -40,7 +40,7 @@ export default function TrackCard({ track, isMyMusicPage }: CardProps) {
           />
         </div>
         <div className="flex flex-col px-1 pt-4 ">
-          <div className="group -mt-[1px] mr-auto cursor-pointer truncate">
+          <div className="group -mt-[1px]  cursor-pointer truncate">
             <div className="flex flex-col">
               <span className="mb-0.5 truncate text-base font-medium group-hover:text-brand">
                 {track.name}

@@ -14,6 +14,10 @@ interface addProductFormProps {
       name: string;
       id: string;
     };
+    artist?: {
+      name: string;
+      id: string;
+    };
     action?: {
       onSuccess?: () => any;
       onFailure?: () => any;
@@ -61,11 +65,12 @@ export default function AddProductForm({ data }: addProductFormProps) {
               productSubType={productSubType}
             />
           )}
-          {productType === "Music" && (
+          {productType === "Music" && data.artist && (
             <AddMusicForm
               type={productSubType}
               album={data.album}
               action={data.action}
+              artist={data.artist}
             />
           )}
         </div>

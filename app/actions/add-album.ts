@@ -61,13 +61,14 @@ export async function AddAlbum(formData: FormData): Promise<AddAlbumResponse> {
         .insert([
           {
             name: validated.name,
-            artist: validated.artist,
+            artist: validated.artist_name,
             price: validated.price,
             genre: validated.genre,
             cover: imageUrl && imageUrl[0],
             other_artists: arrayfyString(validated.other_artists),
             producers: arrayfyString(validated.producers),
             artists_note: validated.artists_note,
+            owner: validated.artist_id,
           },
         ])
         .single();
