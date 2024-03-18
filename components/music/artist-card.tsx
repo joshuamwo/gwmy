@@ -21,7 +21,7 @@ export default function ArtistCard({ artist, isMyMusicPage }: CardProps) {
   return (
     <div className="rounded-md p-2 shadow-md dark:bg-dark-250 dark:hover:bg-dark-300  md:p-4">
       <Link
-        href={isMyMusicPage ? `/admin/my-music/artists/${artist.id}` : "/music"}
+        href={isMyMusicPage ? `/admin/my-music/artist/${artist.id}` : "/music"}
       >
         <div className="group relative flex aspect-square  min-w-[150px]">
           <Image

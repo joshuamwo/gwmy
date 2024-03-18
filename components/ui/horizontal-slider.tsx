@@ -6,14 +6,15 @@ import { useScrollableSlider } from "@/lib/hooks/use-scrollable-slider";
 import { ChevronLeftIcon } from "./chevron-left-icon";
 import { ChevronRightIcon } from "./chevron-right-icon";
 import { classnames } from "@/utils/classnames";
+import { Album } from "@/types";
 
 export default function HorizontalSlider({
   className,
+  albums,
 }: {
   className?: string;
+  albums: Album[];
 }) {
-  const albums = useRecoilValue(myAlbumsState);
-
   const {
     sliderEl,
     sliderPrevBtn,

@@ -3,8 +3,8 @@
 import { PlusIcon } from "@/components/icons/plus-icon";
 import { useModalAction } from "@/components/modals/modal-controller";
 import Artists from "@/components/music/artists";
-import MyAlbums from "@/components/music/my-albums";
-import MySingleTracks from "@/components/music/my-single-tracks";
+import Albums from "@/components/music/my-albums";
+import SingleTracks from "@/components/music/my-single-tracks";
 import Search from "@/components/search";
 import Button from "@/components/ui/button";
 import HorizontalSlider from "@/components/ui/horizontal-slider";
@@ -135,15 +135,15 @@ export default function MyMusic() {
           {myAlbums && (
             <div className="">
               <h1 className="text-lg ">Albums</h1>
-              <HorizontalSlider className="hidden sm:flex" />
-              <MyAlbums className="flex sm:hidden" />
+              <HorizontalSlider className="hidden sm:flex" albums={myAlbums} />
+              <Albums className="flex sm:hidden" albums={myAlbums} />
             </div>
           )}
 
           {mySingleTracks && (
             <div className="">
               <h1 className="text-lg ">Single Tracks</h1>
-              <MySingleTracks />
+              <SingleTracks tracks={mySingleTracks} />
             </div>
           )}
         </div>

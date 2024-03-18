@@ -1,13 +1,17 @@
 import { useRecoilValue } from "recoil";
 import { myAlbumsState } from "@/recoil/atoms";
 import React from "react";
-import Card from "../ui/card";
 import AlbumCard from "./album-card";
 import { classnames } from "@/utils/classnames";
+import { Album } from "@/types";
 
-export default function MyAlbums({ className }: { className?: string }) {
-  const albums = useRecoilValue(myAlbumsState);
-
+export default function Albums({
+  className,
+  albums,
+}: {
+  className?: string;
+  albums: Album[];
+}) {
   return (
     <div
       className={classnames(
