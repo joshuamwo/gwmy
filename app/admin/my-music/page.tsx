@@ -2,14 +2,19 @@
 
 import { PlusIcon } from "@/components/icons/plus-icon";
 import { useModalAction } from "@/components/modals/modal-controller";
+import Artists from "@/components/music/artists";
 import MyAlbums from "@/components/music/my-albums";
 import MySingleTracks from "@/components/music/my-single-tracks";
 import Search from "@/components/search";
 import Button from "@/components/ui/button";
 import HorizontalSlider from "@/components/ui/horizontal-slider";
 import { useSupabase, userContext } from "@/context/supabase-context";
-import { myAlbumsState, mySingleTracksState } from "@/recoil/atoms";
-import { Album, SingleTrack } from "@/types";
+import {
+  artistsState,
+  myAlbumsState,
+  mySingleTracksState,
+} from "@/recoil/atoms";
+import { Album, Artist, SingleTrack } from "@/types";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 
@@ -22,6 +27,7 @@ export default function MyMusic() {
   const [myAlbums, setMyAlbums] = useRecoilState(myAlbumsState);
   const [mySingleTracks, setMySingleTracks] =
     useRecoilState(mySingleTracksState);
+  const [artists, setArtists] = useRecoilState(artistsState);
 
   //fetch albums
   const fetchAlbums = async () => {
@@ -59,9 +65,29 @@ export default function MyMusic() {
     }
   };
 
+  //fetch single tracks
+  const fetchArtists = async () => {
+    const sql = `
+  			SELECT *
+  			FROM tracks
+  			WHERE album IS NULL;
+				`;
+    const { data, error } = await supabase
+      .from("artists")
+      .select("*")
+      .returns<Artist[]>();
+
+    if (error) console.log(error);
+    if (data) {
+      console.log(data);
+      setArtists(data);
+    }
+  };
+
   useEffect(() => {
     fetchAlbums();
     fetchSingleTracks();
+    fetchArtists();
   }, []);
 
   return (
@@ -99,6 +125,12 @@ export default function MyMusic() {
               </div>
             </div>
           </div>
+          {artists && (
+            <div className="">
+              <h1 className="text-lg ">Artists</h1>
+              <Artists />
+            </div>
+          )}
 
           {myAlbums && (
             <div className="">

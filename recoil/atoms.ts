@@ -1,6 +1,7 @@
 import { atom } from "recoil";
 import {
   Album,
+  Artist,
   FashionProduct,
   SingleTrack,
   Track,
@@ -59,5 +60,10 @@ export const mySingleTracksState: RecoilState<SingleTrack[]> = atom<
   SingleTrack[]
 >({
   key: "mySingleTracksState",
+  default: [],
+});
+
+export const artistsState: RecoilState<Artist[]> = atom<Artist[]>({
+  key: "artistsState",
   default: [],
 });

@@ -250,3 +250,14 @@ export interface Drawer {
   drawerType: DrawerType;
   isOpen: boolean;
 }
+
+export interface Artist {
+  id: string;
+  first_name: string;
+  last_name: string;
+  alias: string;
+  profile_picture: string;
+  id_number: string;
+  mobile_number: string;
+  recording_label: string;
+}
