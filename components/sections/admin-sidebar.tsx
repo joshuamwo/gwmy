@@ -24,39 +24,37 @@ export default function AdminSidebar({
           title="My Shop"
           href="/"
           sidebarIsOpen={sidebarIsOpen}
-          icon={<MyShopIcon className="h-[18px] w-[18px] text-current" />}
+          icon={<MyShopIcon className="h-6 w-6 text-current" />}
         />
         <NavLink
           title="Dashboard"
           href="/admin/dashboard"
           sidebarIsOpen={sidebarIsOpen}
-          icon={<DashboardIcon className="h-[18px] w-[18px] text-current" />}
+          icon={<DashboardIcon className="h-6 w-6 text-current" />}
         />
         <NavLink
           title="Orders"
           href="/admin/orders"
           sidebarIsOpen={sidebarIsOpen}
-          icon={<OrdersIcon className="h-[18px] w-[18px] text-current" />}
+          icon={<OrdersIcon className="h-6 w-6 text-current" />}
         />
         <NavLink
           title="My Music"
           href="/admin/my-music"
           sidebarIsOpen={sidebarIsOpen}
-          icon={<MusicIcon className="h-[18px] w-[18px] text-current" />}
+          icon={<MusicIcon className="h-6 w-6 text-current" />}
         />
         <NavLink
           title="My Events"
           href="/admin/my-events"
           sidebarIsOpen={sidebarIsOpen}
-          icon={
-            <EventsIcon className="h-[18px] w-[18px] fill-inherit text-current " />
-          }
+          icon={<EventsIcon className="h-6 w-6 fill-inherit text-current " />}
         />
         <NavLink
           title="My Products"
           href="/admin/my-products"
           sidebarIsOpen={sidebarIsOpen}
-          icon={<ProductsIcon className="h-[18px] w-[18px] text-current" />}
+          icon={<ProductsIcon className="h-6 w-6 text-current" />}
         />
       </nav>
 
@@ -65,13 +63,13 @@ export default function AdminSidebar({
           title="Settings"
           href="/settings"
           sidebarIsOpen={sidebarIsOpen}
-          icon={<SettingIcon className="h-[18px] w-[18px] text-current" />}
+          icon={<SettingIcon className="h-6 w-6 text-current" />}
         />
         <NavLink
           title="Help"
           href="/help"
           sidebarIsOpen={sidebarIsOpen}
-          icon={<HelpIcon className="h-[18px] w-[18px] text-current" />}
+          icon={<HelpIcon className="h-6 w-6 text-current" />}
         />
       </nav>
     </div>

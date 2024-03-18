@@ -20,7 +20,7 @@ export default function CustomerSidebar({
           title="Home"
           href="/"
           sidebarIsOpen={sidebarIsOpen}
-          icon={<HomeIcon className="h-[18px] w-[18px] text-current" />}
+          icon={<HomeIcon className="h-6 w-6 text-current" />}
         />
       </nav>
 
@@ -29,13 +29,13 @@ export default function CustomerSidebar({
           title="Settings"
           href="/settings"
           sidebarIsOpen={sidebarIsOpen}
-          icon={<SettingIcon className="h-[18px] w-[18px] text-current" />}
+          icon={<SettingIcon className="h-6 w-6 text-current" />}
         />
         <NavLink
           title="Help"
           href="/help"
           sidebarIsOpen={sidebarIsOpen}
-          icon={<HelpIcon className="h-[18px] w-[18px] text-current" />}
+          icon={<HelpIcon className="h-6 w-6 text-current" />}
         />
       </nav>
     </div>
