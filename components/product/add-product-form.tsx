@@ -13,6 +13,7 @@ interface addProductFormProps {
     album?: {
       name: string;
       id: string;
+      cover: string;
     };
     artist?: {
       name: string;
