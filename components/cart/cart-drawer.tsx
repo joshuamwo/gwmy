@@ -35,7 +35,7 @@ export default function CartDrawer() {
   }
   return (
     <>
-      <div className="flex h-[70px] items-center justify-between py-2 px-5 sm:px-7">
+      <div className="flex h-[70px] items-center justify-between px-5 py-2 sm:px-7">
         <h2 className="text-sm font-medium capitalize text-dark dark:text-light">
           Shopping Cart
         </h2>
@@ -49,7 +49,7 @@ export default function CartDrawer() {
           </button>
         </div>
       </div>
-      <Scrollbar className="cart-scrollbar w-full flex-1 py-6 px-6 sm:px-7">
+      <Scrollbar className="cart-scrollbar w-full flex-1 px-6 py-6 sm:px-7">
         {!isEmpty ? (
           <CartItemList cart={cart} removeFromCart={removeFromCart} />
         ) : (
@@ -66,7 +66,7 @@ export default function CartDrawer() {
             disabled={isEmpty}
             isLoading={loading}
             onClick={(e) => handleCheckout(e)}
-            className="w-full text-sm md:h-[52px]"
+            className=" text-sm md:h-[52px]"
           >
             Proceed To Checkout
           </Button>

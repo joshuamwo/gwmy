@@ -32,7 +32,7 @@ export default function SizeSelector({
               <span
                 className={
                   size === selectedSize
-                    ? " flex h-10 w-full items-center justify-center  rounded border border-black  border-opacity-10 text-lg font-medium text-dark-400 ring-2 ring-gray-700 dark:text-light-600 dark:ring-gray-300"
+                    ? " flex h-10 w-full items-center justify-center  rounded border border-black  border-opacity-10 text-lg font-medium text-dark-400 ring-2 ring-brand dark:text-light-600 dark:ring-brand"
                     : " flex h-10 w-full items-center justify-center rounded border border-dark-300 border-opacity-10 text-lg font-medium text-dark-400 dark:border-dark-400 dark:text-light-600"
                 }
               >

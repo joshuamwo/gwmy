@@ -242,6 +242,7 @@ export interface CartContext {
   removeFromCart: (item: CartItem) => void;
   getCartTotalCount: () => number;
   getCartTotalPrice: () => number;
+  clearCart: () => void;
 }
 
 export type DrawerType = "MOBILE_MENU" | "CART_VIEW";

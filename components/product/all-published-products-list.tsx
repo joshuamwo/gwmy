@@ -4,6 +4,7 @@ import React, { Suspense } from "react";
 import Card from "../ui/card";
 import ProductCardUiLoader from "../ui/ui-preloaders/product-card-ui-loader";
 import rangeMap from "@/lib/range-map";
+import { useIsMounted } from "@/lib/hooks/use-is-mounted";
 
 type publishedProductsProps = {
   limit?: number;
@@ -13,6 +14,7 @@ export default function AllPublishedProductsList({
   limit = 15,
 }: publishedProductsProps) {
   const products = useRecoilValue(productsState);
+  const isMounted = useIsMounted();
 
   return (
     <div className="w-full px-4 pb-9 pt-5 md:px-6 md:pb-10 md:pt-6 lg:px-7 lg:pb-12 3xl:px-8">
@@ -25,9 +27,13 @@ export default function AllPublishedProductsList({
                 isMyProductsPage={false}
               />
             ))
-          : rangeMap(limit, (i) => (
-              <ProductCardUiLoader key={i} uniqueKey={`product-${i}`} />
-            ))}
+          : rangeMap(
+              limit,
+              (i) =>
+                isMounted && (
+                  <ProductCardUiLoader key={i} uniqueKey={`product-${i}`} />
+                ),
+            )}
       </div>
     </div>
   );

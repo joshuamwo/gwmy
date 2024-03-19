@@ -51,7 +51,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   function increaseItemQuantity(item: CartItem) {
     setCart((cartItems) => {
       const cartItemExists = cartItems.find(
-        (cartItem) => cartItem.cartItemId === item.cartItemId
+        (cartItem) => cartItem.cartItemId === item.cartItemId,
       );
 
       if (cartItemExists) {
@@ -117,6 +117,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   }
 
+	 function clearCart() {
+     setCart([])
+   }
+
   return (
     <CartContext.Provider
       value={{
@@ -127,6 +131,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         removeFromCart,
         getCartTotalCount,
         getCartTotalPrice,
+        clearCart,
       }}
     >
       {children}

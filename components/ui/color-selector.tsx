@@ -23,7 +23,7 @@ export default function ColorSelector({
               onClick={() => handleColorSelect(color)}
               className={
                 selectedColor === color
-                  ? "bg-secondary text-primary-light  relative flex w-full cursor-pointer flex-row items-center justify-center gap-2 rounded-md border-2 border-solid border-gray-700 px-2 py-3 no-underline motion-safe:transition motion-safe:duration-300  motion-safe:ease-out dark:border-gray-700 "
+                  ? "bg-secondary text-primary-light relative  flex w-full border-spacing-3 cursor-pointer flex-row items-center justify-center gap-2 rounded-md  px-2 py-3 no-underline ring-2 ring-brand motion-safe:transition motion-safe:duration-300 motion-safe:ease-out   dark:ring-brand "
                   : "bg-secondary text-primary-light border-primary relative flex w-full cursor-pointer flex-row items-center justify-center gap-2 rounded-md border border-solid px-2 py-3 no-underline motion-safe:transition motion-safe:duration-300  motion-safe:ease-out dark:border-dark-400 "
               }
             >
