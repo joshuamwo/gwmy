@@ -11,6 +11,11 @@ const nextConfig = {
         hostname: "rnlheglxjbccptvxmtxn.supabase.co",
         pathname: "/storage/v1/**",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.dummyjson.com",
+        pathname: "/product-images/**",
+      },
     ],
   },
 };
