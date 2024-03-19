@@ -140,12 +140,12 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
       <div className="flex items-start justify-between px-1 pt-3.5 ">
         <div className="group -mt-[1px] mr-auto cursor-pointer truncate">
           <Link href={`/product/${product.id}`} className="flex flex-col ">
-            <span className="mb-0.5 truncate font-medium group-hover:text-brand">
-              {product.product_name}
+            <span className="mb-0.5 truncate text-base font-medium text-dark-400 group-hover:text-brand dark:text-light-600">
+              {product.product_name.toUpperCase()}
             </span>
-            <span className="text-xs group-hover:text-brand">
+            {/* <span className="text-sm group-hover:text-brand">
               {product.product_description}
-            </span>
+            </span> */}
           </Link>
         </div>
         <div className="mr-0.5 flex flex-shrink-0 flex-col items-end pl-2.5">

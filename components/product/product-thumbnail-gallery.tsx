@@ -17,7 +17,7 @@ import { ChevronLeftIcon } from "../ui/chevron-left-icon";
 import placeholder from "@/public/images/placeholders/product.svg";
 
 interface ProductThumbnailGalleryProps {
-  gallery: any[];
+  gallery: string[];
   className?: string;
 }
 
@@ -33,6 +33,7 @@ export default function ProductThumbnailGallery({
   let [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const prevRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLDivElement>(null);
+
   return (
     <div className={className}>
       <div className="relative mb-3 w-full overflow-hidden xl:mb-5">
@@ -54,14 +55,14 @@ export default function ProductThumbnailGallery({
           {gallery?.map((item: string) => (
             <SwiperSlide
               key={`product-gallery-${item}`}
-              className="relative flex aspect-[16/9] lg:aspect-[4/5] items-center justify-center bg-light-200 dark:bg-dark-200"
+              className="relative flex aspect-square items-center justify-center bg-light-200 dark:bg-dark-200 lg:aspect-square"
             >
               <Image
                 fill
-                src={item ? item : placeholder}
+                src={item}
                 alt={`Product gallery ${item}`}
                 className="object-cover"
-                sizes="(max-width:795px), (max-height:480px)"
+                sizes="(max-width:480px), (max-height:480px)"
               />
             </SwiperSlide>
           ))}
@@ -87,7 +88,7 @@ export default function ProductThumbnailGallery({
           </div>
         </div>
       </div>
-      <div className="flex-shrink-0">
+      <div className=" hidden md:flex md:flex-shrink-0">
         <Swiper
           id="productGalleryThumbs"
           freeMode={true}
@@ -99,14 +100,14 @@ export default function ProductThumbnailGallery({
           watchSlidesProgress={true}
           hidden={gallery.length < 2}
         >
-          {gallery?.map((item: any) => (
+          {gallery?.map((item: string) => (
             <SwiperSlide
               key={`product-thumb-gallery-${item}`}
-              className="relative flex gap-2 aspect-[5/4] cursor-pointer items-center justify-center border border-light-500 transition hover:opacity-75 dark:border-dark-500"
+              className="relative flex aspect-[5/4] cursor-pointer items-center justify-center gap-2 border border-light-500 transition hover:opacity-75 dark:border-dark-500"
             >
               <Image
                 fill
-                src={item ?? placeholder}
+                src={item}
                 alt={`Product thumb gallery ${item}`}
                 className="object-cover"
                 sizes="(max-width:200px)"

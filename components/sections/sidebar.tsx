@@ -23,7 +23,7 @@ export default function Sidebar({
   return (
     <aside
       className={classnames(
-        "h-full flex-col justify-between overflow-y-auto bg-light-400  pt-16 text-dark-900  dark:bg-dark-300",
+        "h-full flex-col justify-between overflow-y-auto bg-light-400  pt-16 text-dark-400  dark:bg-dark-300",
         sidebarIsOpen ? "sm:w-60 xl:w-[75px]" : "sm:w-[75px] xl:w-60 ",
         className,
       )}

@@ -28,8 +28,8 @@ export default function ProductViewModal() {
   return (
     <div className="flex max-w-full flex-col bg-light text-left dark:bg-dark-250 xs:max-w-[430px] sm:max-w-[550px] md:max-w-[600px] lg:max-w-[960px] xl:max-w-[1200px] 2xl:max-w-[1266px] 3xl:max-w-[1460px]">
       <div className="-mx-2.5 flex flex-wrap items-center bg-light-300 py-3 pl-4 pr-16   dark:bg-dark-100 md:py-4 md:pl-6  lg:-mx-4 lg:py-5 xl:pl-8 ">
-        <h2 className="truncate px-2.5 py-1 text-base font-medium text-dark dark:text-light md:text-lg lg:pl-4 lg:pr-5  3xl:text-xl">
-          {product.product_name}
+        <h2 className="truncate px-2.5 py-1 text-lg font-medium text-dark dark:text-light md:text-lg lg:pl-4 lg:pr-5  3xl:text-xl">
+          {product.product_name.toUpperCase()}
         </h2>
       </div>
       {/* content */}
@@ -41,10 +41,10 @@ export default function ProductViewModal() {
 
         {/* Content */}
 
-        <div className="flex shrink-0 flex-col justify-between text-13px lg:w-[400px] xl:w-[520px] 3xl:w-[555px]">
+        <div className="flex shrink-0 flex-col justify-between lg:w-[400px] xl:w-[520px] 3xl:w-[555px]">
           <div className="pb-7 xs:pb-8 lg:pb-10">
             {/* product description */}
-            <div className="pb-5 text-base leading-[1.9em] text-dark-500 dark:text-light-600 xl:pb-6 3xl:pb-8">
+            <div className="pb-5 text-lg leading-[1.9em] text-dark-500 dark:text-light-600 xl:pb-6 3xl:pb-8">
               {product.product_description}
             </div>
             {/* color select */}

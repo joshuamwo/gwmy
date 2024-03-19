@@ -11,17 +11,17 @@ export default function SizeSelector({
 }: SizeSelectorProps) {
   return (
     <div>
-      <h4 className="text-sm font-medium text-gray-900 dark:text-gray-200">
+      <h4 className="text-base font-medium text-dark-400 dark:text-light-600">
         Choose a Size
       </h4>
 
-      <div className="grid gap-2 items-center mt-4 grid-cols-3">
+      <div className="mt-4 grid grid-cols-3 items-center gap-2">
         {sizes &&
           sizes.map((size) => (
             <div
               key={size}
               onClick={() => handleSizeSelect(size)}
-              className={`relative -m-0.5 flex  cursor-pointer items-center justify-center p-0.5 focus:outline-none ring-gray-400`}
+              className={`relative -m-0.5 flex  cursor-pointer items-center justify-center p-0.5 ring-gray-400 focus:outline-none`}
             >
               {/* <input
                   type="radio"
@@ -32,11 +32,11 @@ export default function SizeSelector({
               <span
                 className={
                   size === selectedSize
-                    ? " w-full h-10 flex rounded  justify-center items-center font-medium  ring-2 ring-gray-700 dark:ring-gray-300 border border-black border-opacity-10"
-                    : " w-full h-10 flex rounded justify-center items-center font-medium border border-dark-300 dark:border-dark-400 border-opacity-10"
+                    ? " flex h-10 w-full items-center justify-center  rounded border border-black  border-opacity-10 text-lg font-medium text-dark-400 ring-2 ring-gray-700 dark:text-light-600 dark:ring-gray-300"
+                    : " flex h-10 w-full items-center justify-center rounded border border-dark-300 border-opacity-10 text-lg font-medium text-dark-400 dark:border-dark-400 dark:text-light-600"
                 }
               >
-                {size}
+                {size.toUpperCase()}
               </span>
             </div>
           ))}

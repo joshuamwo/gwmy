@@ -32,10 +32,8 @@ export default function ShareItem({ className, itemUrl }: ShareItemProps) {
   }
 
   return (
-    <div
-      className={classnames(className, "flex gap-3 text-13px lg:items-center")}
-    >
-      <div className="flex-shrink-0  pt-2 ltr:pr-4 rtl:pl-4 rtl:text-right dark:text-light-600 sm:w-36 lg:pt-0">
+    <div className={classnames(className, "flex gap-3 lg:items-center")}>
+      <div className="flex-shrink-0 pr-4  pt-2 text-base dark:text-light-600 sm:w-36 lg:pt-0">
         Share Item:
       </div>
       {/* share buttons */}
@@ -58,7 +56,7 @@ export default function ShareItem({ className, itemUrl }: ShareItemProps) {
           variant="icon"
           className="flex h-7 flex-shrink-0 items-center rounded-full border border-light-600 px-3 text-dark-600 hover:bg-light-200 hover:text-dark dark:border-dark-500 dark:text-light-600 hover:dark:bg-dark-500 dark:hover:text-light md:px-4 xl:h-10"
         >
-          <LinkIcon className="h-3.5 w-3.5 text-dark-700 ltr:mr-1.5 rtl:ml-1.5 dark:text-light lg:h-4 lg:w-4" />
+          <LinkIcon className="mr-1.5 h-3.5 w-3.5 text-dark-700  dark:text-light lg:h-4 lg:w-4" />
           <span className="text-xs">{copyButtonStatus}</span>
         </Button>
       </div>
