@@ -66,7 +66,7 @@ export default function CartDrawer() {
             disabled={isEmpty}
             isLoading={loading}
             onClick={(e) => handleCheckout(e)}
-            className=" text-sm md:h-[52px]"
+            className=" relative w-full text-sm md:h-[52px]"
           >
             Proceed To Checkout
           </Button>

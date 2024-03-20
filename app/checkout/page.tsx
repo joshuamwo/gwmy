@@ -60,7 +60,7 @@ export default function CheckoutPage() {
       setPhoneNumber("");
 
       // clear cart
-      clearCart();
+      // clearCart();
 
       //
       state.ok = null;
