@@ -4,45 +4,76 @@ import Button from "@/components/ui/button";
 import { useSupabase } from "@/context/supabase-context";
 import { useModalAction } from "@/components/modals/modal-controller";
 import { useRecoilValue } from "recoil";
-import { productsState } from "@/recoil/atoms";
+import {
+  artistsState,
+  myAlbumsState,
+  mySingleTracksState,
+  productsState,
+  tracksState,
+} from "@/recoil/atoms";
 import { useRouter } from "next/navigation";
 import { useRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import MyProductsList from "@/components/sections/my-products-list";
-import { Product } from "@/types";
+import { Album, Artist, Product, Track } from "@/types";
 import AllPublishedProductsList from "@/components/product/all-published-products-list";
+import AllPublishedMusicList from "@/components/music/all-published-music-list";
 
-export default function App() {
+export default function HomePage() {
   const { supabase } = useSupabase();
   const { openModal, closeModal } = useModalAction();
   const router = useRouter();
 
-  const [products, setProducts] = useRecoilState(productsState);
+  const [tracks, setTracks] = useRecoilState(tracksState);
+  const [albums, setAlbums] = useRecoilState(myAlbumsState);
+  const [artists, setArtists] = useRecoilState(artistsState);
 
-  //fetch products
-  const fetchProducts = async () => {
+  //fetch music
+  const fetchTracks = async () => {
     const { data, error } = await supabase
-      .from("products")
+      .from("tracks")
       .select("*")
-      .eq("is_published", "TRUE");
+      .eq("published", "TRUE")
+      .returns<Track[]>();
     if (error) console.log(error);
     if (data) {
-      const products = data as Product[];
-      setProducts(products);
+      setTracks(data);
+    }
+  };
+
+  const fetchAlbums = async () => {
+    const { data, error } = await supabase
+      .from("albums")
+      .select("*")
+      .eq("published", "TRUE")
+      .returns<Album[]>();
+    if (error) console.log(error);
+    if (data) {
+      console.log(data);
+      setAlbums(data);
+    }
+  };
+  const fetchArtists = async () => {
+    const { data, error } = await supabase
+      .from("artists")
+      .select("*")
+      .returns<Artist[]>();
+
+    if (error) console.log(error);
+    if (data) {
+      setArtists(data);
     }
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchTracks();
+    fetchAlbums();
+    fetchArtists();
   }, []);
 
   return (
-    // <div className="gap-2 app-category-filter-bar sticky top-16 z-20 flex min-h-[64px] w-full overflow-hidden border-b border-light-400 bg-light-100 px-4 py-4 dark:border-dark-300 dark:bg-dark-100 sm:top-[70px] sm:min-h-[70px] sm:px-5 sm:py-5 md:px-6 lg:px-7 3xl:px-8">
-    //   <MyProductsList />
-    // </div>
-
     <div>
-      <AllPublishedProductsList />
+      <AllPublishedMusicList />
     </div>
   );
 }

@@ -25,7 +25,7 @@ export default function TrackCard({ track, isMyMusicPage }: CardProps) {
   const modalName1 = "EDITPRODUCTFORM";
   const modalName2 = "PRODUCTVIEWMODAL";
   return (
-    <div className="rounded-md p-2 shadow-md dark:bg-dark-250 dark:hover:bg-dark-300  md:p-4">
+    <div className="group h-full w-full rounded-md  p-2 shadow-lg ring-2  ring-light-500 hover:bg-light-500 dark:bg-dark-250 dark:ring-dark-400 dark:hover:bg-dark-300  md:p-4">
       <Link
         href={isMyMusicPage ? `/admin/my-music/track/${track.id}` : "/music"}
       >
@@ -40,20 +40,21 @@ export default function TrackCard({ track, isMyMusicPage }: CardProps) {
           />
         </div>
         <div className="flex flex-col px-1 pt-4 ">
-          <div className="group -mt-[1px]  cursor-pointer truncate">
+          <div className=" -mt-[1px]  cursor-pointer truncate">
             <div className="flex flex-col">
-              <span className="mb-0.5 truncate text-base font-medium group-hover:text-brand">
+              <span className="mb-0.5 truncate text-base	 font-medium group-hover:text-brand">
                 {track.name}
               </span>
             </div>
           </div>
           <div className="flex flex-row items-center justify-between">
-            <span className="truncate text-sm text-dark-400 group-hover:text-brand dark:text-light-800">
+            <span className="truncate text-sm font-medium  group-hover:text-brand dark:text-light-800">
+              <span className="text-dark-600 dark:text-light-600">Song</span> •{" "}
               {track.artist}
             </span>
           </div>
-          <div className="mt-3 flex w-full">
-            <span className="flex w-full items-center justify-center gap-2 rounded-2xl bg-light-400 px-1.5 py-1  text-sm font-semibold uppercase text-brand shadow-inner dark:bg-dark-400 dark:text-brand-dark">
+          <div className="relative mt-3 w-full shadow-inner">
+            <span className="absolute flex w-full items-center justify-center gap-2 rounded-2xl bg-light-400 px-1.5 py-1  text-sm font-semibold uppercase text-brand shadow-lg dark:bg-dark-300 dark:text-brand-dark dark:shadow-inner">
               {!isMyMusicPage && (
                 <PlusIcon className="h-4 w-4 rounded-full border border-brand fill-brand p-0.5" />
               )}{" "}

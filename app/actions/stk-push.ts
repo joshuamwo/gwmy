@@ -54,11 +54,18 @@ export async function stkPush(
 
     const cart = JSON.parse(validated.cart) as CartItem[];
 
-    // return {
-    //   ok: true,
-    //   error: null,
-    //   code: 200,
-    // };
+    const auth = Buffer.from(
+      `${process.env.SAF_CONSUMER_KEY}:${process.env.SAF_CONSUMER_SECRET}`,
+      // "duxYp3TuxAClnHfohwtfXZyrLT87XliG:qXbGBvs3PPnTC0P4"
+    ).toString("base64");
+
+    console.log(auth);
+
+    return {
+      ok: true,
+      error: null,
+      code: 200,
+    };
 
     //send payment request
     let headers = new Headers();

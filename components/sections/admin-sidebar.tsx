@@ -1,7 +1,7 @@
 import NavLink from "@/components/ui/nav-link";
 import { DashboardIcon } from "../icons/dashboard-icon";
 import { MyShopIcon } from "../icons/myshop-icon";
-import { SettingIcon } from "../icons/settings-icon";
+import { SettingsIcon } from "../icons/settings-icon";
 import { HelpIcon } from "../icons/help-icon";
 import { OrdersIcon } from "../icons/orders-icon";
 import { ProductsIcon } from "../icons/products";
@@ -63,7 +63,7 @@ export default function AdminSidebar({
           title="Settings"
           href="/settings"
           sidebarIsOpen={sidebarIsOpen}
-          icon={<SettingIcon className="h-6 w-6 text-current" />}
+          icon={<SettingsIcon className="h-6 w-6 text-current" />}
         />
         <NavLink
           title="Help"

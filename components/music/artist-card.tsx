@@ -19,11 +19,11 @@ export default function ArtistCard({ artist, isMyMusicPage }: CardProps) {
   const modalName1 = "EDITPRODUCTFORM";
   const modalName2 = "PRODUCTVIEWMODAL";
   return (
-    <div className="rounded-md p-2 shadow-md dark:bg-dark-250 dark:hover:bg-dark-300  md:p-4">
+    <div className="group h-full w-full rounded-md p-2 shadow-lg ring-2  ring-light-500 hover:bg-light-300 dark:bg-dark-250 dark:ring-dark-400 dark:hover:bg-dark-300  md:p-4">
       <Link
         href={isMyMusicPage ? `/admin/my-music/artist/${artist.id}` : "/music"}
       >
-        <div className="group relative flex aspect-square  min-w-[150px]">
+        <div className=" relative flex aspect-square  min-w-[150px]">
           <Image
             alt={`${artist.alias} profile picture`}
             src={src}
@@ -34,7 +34,7 @@ export default function ArtistCard({ artist, isMyMusicPage }: CardProps) {
           />
         </div>
         <div className="flex flex-col px-1 pt-4 ">
-          <div className="group -mt-[1px] mr-auto cursor-pointer truncate">
+          <div className=" -mt-[1px] mr-auto cursor-pointer truncate">
             <div className="flex flex-col justify-center">
               <span className="text-md mb-0.5 truncate text-center font-medium group-hover:text-brand">
                 {artist.alias}

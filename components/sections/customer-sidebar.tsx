@@ -1,8 +1,10 @@
 import { classnames } from "@/utils/classnames";
 import NavLink from "@/components/ui/nav-link";
 import { HomeIcon } from "../icons/home-icon";
-import { SettingIcon } from "../icons/settings-icon";
+import { SettingsIcon } from "../icons/settings-icon";
 import { HelpIcon } from "../icons/help-icon";
+import { MusicIconSolid } from "../icons/musicIconSolid";
+import { ShoppingBagIconSolid } from "../icons/shopping-bag-icon-solid";
 
 interface SidebarProps {
   sidebarIsOpen: boolean;
@@ -17,10 +19,16 @@ export default function CustomerSidebar({
     <div className="flex h-full w-full flex-col">
       <nav className="flex flex-col">
         <NavLink
-          title="Home"
+          title="Music"
           href="/"
           sidebarIsOpen={sidebarIsOpen}
-          icon={<HomeIcon className="h-6 w-6 text-current" />}
+          icon={<MusicIconSolid className="h-6 w-6 text-current" />}
+        />
+        <NavLink
+          title="Merch"
+          href="/merch"
+          sidebarIsOpen={sidebarIsOpen}
+          icon={<ShoppingBagIconSolid className="h-6 w-6 text-current" />}
         />
       </nav>
 
@@ -29,7 +37,7 @@ export default function CustomerSidebar({
           title="Settings"
           href="/settings"
           sidebarIsOpen={sidebarIsOpen}
-          icon={<SettingIcon className="h-6 w-6 text-current" />}
+          icon={<SettingsIcon className="h-6 w-6 text-current" />}
         />
         <NavLink
           title="Help"

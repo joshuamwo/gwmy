@@ -56,6 +56,16 @@ export const myAlbumsState: RecoilState<Album[]> = atom<Album[]>({
   default: [],
 });
 
+export const albumsState: RecoilState<Album[]> = atom<Album[]>({
+  key: "albumsState",
+  default: [],
+});
+
+export const tracksState: RecoilState<Track[]> = atom<Track[]>({
+  key: "tracksState",
+  default: [],
+});
+
 export const mySingleTracksState: RecoilState<SingleTrack[]> = atom<
   SingleTrack[]
 >({

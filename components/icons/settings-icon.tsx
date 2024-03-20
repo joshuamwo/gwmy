@@ -1,4 +1,4 @@
-export const SettingIcon: React.FC<React.SVGAttributes<{}>> = (props) => {
+export const SettingsIcon: React.FC<React.SVGAttributes<{}>> = (props) => {
   return (
     <svg
       viewBox="0 0 18 18"
