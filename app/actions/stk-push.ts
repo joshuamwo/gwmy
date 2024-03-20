@@ -2,7 +2,6 @@
 
 import { CartItem } from "@/types";
 import { z } from "zod";
-const unirest = require("unirest");
 
 interface prevState {
   ok: boolean | null;
@@ -44,6 +43,7 @@ export async function stkPush(
 
   try {
     //validate form data
+
     const validated = schema.parse({
       cart: formData.get("cart"),
       number: formData.get("number"),
@@ -54,62 +54,47 @@ export async function stkPush(
 
     const cart = JSON.parse(validated.cart) as CartItem[];
 
-    //get auth token
-    let authHeaders = new Headers();
-    authHeaders.append(
-      "Authorization",
-      "Bearer cFJZcjZ6anEwaThMMXp6d1FETUxwWkIzeVBDa2hNc2M6UmYyMkJmWm9nMHFRR2xWOQ==",
-    );
-    fetch(
-      "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials",
-      { headers: authHeaders },
-    )
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log(error));
-
-    return {
-      ok: true,
-      error: null,
-      code: 200,
-    };
+    // return {
+    //   ok: true,
+    //   error: null,
+    //   code: 200,
+    // };
 
     //send payment request
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
     headers.append("Authorization", "Bearer gROaLH3z7BLrU6sGwmvVCNyu585f");
-    await fetch(
-      "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest",
-      {
-        method: "POST",
-        headers,
-        body: JSON.stringify({
-          BusinessShortCode: 174379,
-          Password:
-            "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMjQwMzE5MTEzOTA1",
-          Timestamp: dateTime(),
-          TransactionType: "CustomerPayBillOnline",
-          Amount: 1,
-          PartyA: number,
-          PartyB: 174379,
-          PhonezodNumber: number,
-          CallBackURL:
-            "https://181e-105-163-156-33.ngrok-free.app/payment-request-callback",
-          AccountReference: "GWMY",
-          TransactionDesc: "Music",
-        }),
-      },
-    )
+    fetch("https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest", {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        BusinessShortCode: 174379,
+        Password:
+          "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",
+        Timestamp: dateTime(),
+        TransactionType: "CustomerPayBillOnline",
+        Amount: 1,
+        PartyA: number,
+        PartyB: 174379,
+        PhonezodNumber: number,
+        CallBackURL:
+          "https://181e-105-163-156-33.ngrok-free.app/payment-request-callback",
+        AccountReference: "GWMY",
+        TransactionDesc: "Music",
+      }),
+    })
       .then(async (response) => {
+        const body = await response.json();
+        // console.log(response.body());
         return response.text();
       })
       .then((result) => {
         console.log("result", result);
-        // return result;
+        return result;
       })
       .catch((error) => {
         console.log("error", error);
-        throw error;
+        // throw error;
       });
 
     return {
@@ -128,18 +113,18 @@ export async function stkPush(
     };
   }
 
-  // let headers = new Headers();
-  // headers.append(
-  //   "Authorization",
-  //   "Bearer cFJZcjZ6anEwaThMMXp6d1FETUxwWkIzeVBDa2hNc2M6UmYyMkJmWm9nMHFRR2xWOQ==",
-  // );
-  // fetch(
-  //   "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials",
-  //   { headers },
-  // )
-  //   .then((response) => response.text())
-  //   .then((result) => console.log(result))
-  //   .catch((error) => console.log(error));
+  let authHeaders = new Headers();
+  authHeaders.append(
+    "Authorization",
+    "Bearer cFJZcjZ6anEwaThMMXp6d1FETUxwWkIzeVBDa2hNc2M6UmYyMkJmWm9nMHFRR2xWOQ==",
+  );
+  fetch(
+    "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials",
+    { headers: authHeaders },
+  )
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.log(error));
 
   let headers = new Headers();
   headers.append("Content-Type", "application/json");
