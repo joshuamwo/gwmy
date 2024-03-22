@@ -72,7 +72,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div>
+    <div className="pb-20">
       <AllPublishedMusicList />
     </div>
   );
