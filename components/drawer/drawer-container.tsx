@@ -5,13 +5,14 @@ import { Dialog } from "@/components/ui/dialog";
 import { Transition } from "@/components/ui/transition";
 import { useDrawer } from "@/components/drawer/drawer-context";
 import { Drawer, DrawerType } from "@/types";
+import MobileMenu from "../ui/mobile-menu";
 const CartDrawer = dynamic(() => import("@/components/cart/cart-drawer"));
 const SidebarDrawer = dynamic(() => import("@/layouts/sidebar-layout"));
 
 function renderDrawerContent(view: DrawerType) {
   switch (view) {
     case "MOBILE_MENU":
-      return <SidebarDrawer />;
+      return <MobileMenu />;
     default:
       return <CartDrawer />;
   }
@@ -46,14 +47,14 @@ export default function DrawersContainer() {
         <Transition.Child
           as={Fragment}
           enter="transform transition ease-in-out duration-300"
-          enterFrom="translate-x-full"
+          enterFrom="-translate-x-[75%]"
           enterTo="translate-x-0"
           leave="transform transition ease-in-out duration-300"
           leaveFrom="translate-x-0"
-          leaveTo="translate-x-full"
+          leaveTo="-translate-x-[75%]"
         >
-          <div className="fixed inset-y-0 right-0 flex max-w-full">
-            <div className="w-screen max-w-md">
+          <div className="fixed inset-y-0 left-0 flex w-full max-w-full">
+            <div className="w-[75%] max-w-md">
               <div className="flex h-full flex-col bg-light shadow-xl dark:bg-dark-300">
                 {drawerType && renderDrawerContent(drawerType)}
               </div>

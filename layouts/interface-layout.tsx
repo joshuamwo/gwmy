@@ -42,7 +42,7 @@ export default function InterfaceLayout({
           <Sidebar sidebarIsOpen={sidebarIsOpen} />
           <main
             style={{}}
-            className={`flex w-full flex-col ${
+            className={`flex w-full flex-col pt-16 ${
               sidebarIsOpen
                 ? "main-content-sidebar-open"
                 : "main-content-sidebar-closed"

@@ -45,7 +45,7 @@ export default function BottomNavigation() {
         title="My Music"
         href="/music"
         sidebarIsOpen={false}
-        icon={<MusicIconSolid className="h-6 w-6" />}
+        icon={<MusicIconSolid className="h-6 w-6 " />}
       />
       <NavLink
         title="Merch"
@@ -56,12 +56,15 @@ export default function BottomNavigation() {
       <SearchButton className="h-full" />
       {pathname !== "/checkout" && (
         <CartButton
-          className="mt-1.5"
+          className="h-full"
           cartCount={getCartTotalCount()}
           onClick={handleOpenCart}
         />
       )}
-      <Hamburger onClick={() => window.alert("TODO: Mobile menu drawer")} />
+      <Hamburger
+        className="h-full"
+        onClick={() => drawer.openDrawer("MOBILE_MENU")}
+      />
     </nav>
   );
 }
