@@ -6,6 +6,11 @@ import Hamburger from "@/components/ui/hamburger";
 import { HomeIcon } from "@/components/icons/home-icon";
 import { useCart } from "@/context/cart-context";
 import { useDrawer } from "../drawer/drawer-context";
+import { ShoppingBagIcon } from "../ui/shopping-bag-icon";
+import { MusicIconSolid } from "../icons/musicIconSolid";
+import NavLink from "../ui/nav-link";
+import { MusicIcon } from "../ui/music-icon";
+import { ShoppingBagIconSolid } from "../icons/shopping-bag-icon-solid";
 
 export default function BottomNavigation() {
   const router = useRouter();
@@ -19,15 +24,36 @@ export default function BottomNavigation() {
     drawer.openDrawer("CART_VIEW");
   }
   return (
-    <nav className="fixed -bottom-1 z-30 grid h-14 w-full auto-cols-fr grid-flow-col items-center bg-light py-2 text-center shadow-bottom-nav dark:bg-dark-250 sm:hidden">
-      <Button
+    <nav className="fixed bottom-0 z-30 grid h-14 w-full auto-cols-fr grid-flow-col items-center bg-light text-center shadow-bottom-nav transition-all duration-300 dark:bg-dark-250 sm:hidden">
+      {/* <Button
         variant="icon"
         aria-label="Home"
-        onClick={() => router.push("/", { scroll: false })}
+        onClick={() => router.push("/music", { scroll: false })}
+        className="h-full"
       >
-        <HomeIcon className="h-full w-5" />
+        <MusicIconSolid className="h-5 w-5" />
       </Button>
-      <SearchButton />
+      <Button
+        variant="icon"
+        aria-label="Merch"
+        onClick={() => router.push("/merch", { scroll: false })}
+        className="h-full"
+      >
+        <ShoppingBagIcon className="fill h-5 w-5  " />
+      </Button> */}
+      <NavLink
+        title="My Music"
+        href="/music"
+        sidebarIsOpen={false}
+        icon={<MusicIconSolid className="h-6 w-6" />}
+      />
+      <NavLink
+        title="Merch"
+        href="/merch"
+        sidebarIsOpen={false}
+        icon={<ShoppingBagIconSolid className="h-6 w-6" />}
+      />
+      <SearchButton className="h-full" />
       {pathname !== "/checkout" && (
         <CartButton
           className="mt-1.5"

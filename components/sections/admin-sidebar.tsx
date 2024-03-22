@@ -20,13 +20,13 @@ export default function AdminSidebar({
   return (
     <div className="flex h-full w-full flex-col">
       <nav className="flex flex-col">
-        <NavLink
+        {/* <NavLink
           title="My Shop"
           href="/"
           sidebarIsOpen={sidebarIsOpen}
           icon={<MyShopIcon className="h-6 w-6 text-current" />}
-        />
-        <NavLink
+        /> */}
+        {/* <NavLink
           title="Dashboard"
           href="/admin/dashboard"
           sidebarIsOpen={sidebarIsOpen}
@@ -37,7 +37,7 @@ export default function AdminSidebar({
           href="/admin/orders"
           sidebarIsOpen={sidebarIsOpen}
           icon={<OrdersIcon className="h-6 w-6 text-current" />}
-        />
+        /> */}
         <NavLink
           title="My Music"
           href="/admin/my-music"
@@ -45,16 +45,16 @@ export default function AdminSidebar({
           icon={<MusicIcon className="h-6 w-6 text-current" />}
         />
         <NavLink
-          title="My Events"
-          href="/admin/my-events"
-          sidebarIsOpen={sidebarIsOpen}
-          icon={<EventsIcon className="h-6 w-6 fill-inherit text-current " />}
-        />
-        <NavLink
           title="My Products"
           href="/admin/my-products"
           sidebarIsOpen={sidebarIsOpen}
           icon={<ProductsIcon className="h-6 w-6 text-current" />}
+        />
+        <NavLink
+          title="My Events"
+          href="/admin/my-events"
+          sidebarIsOpen={sidebarIsOpen}
+          icon={<EventsIcon className="h-6 w-6 fill-inherit text-current " />}
         />
       </nav>
 
