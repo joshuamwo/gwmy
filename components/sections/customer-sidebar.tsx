@@ -20,7 +20,7 @@ export default function CustomerSidebar({
       <nav className="flex flex-col">
         <NavLink
           title="Music"
-          href="/"
+          href="/music"
           sidebarIsOpen={sidebarIsOpen}
           icon={<MusicIconSolid className="h-6 w-6 text-current" />}
         />

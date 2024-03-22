@@ -27,7 +27,11 @@ export default function TrackCard({ track, isMyMusicPage }: CardProps) {
   return (
     <div className="group h-full w-full rounded-md  p-2 shadow-lg ring-2  ring-light-500 hover:bg-light-500 dark:bg-dark-250 dark:ring-dark-400 dark:hover:bg-dark-300  md:p-4">
       <Link
-        href={isMyMusicPage ? `/admin/my-music/track/${track.id}` : "/music"}
+        href={
+          isMyMusicPage
+            ? `/admin/my-music/track/${track.id}`
+            : `/music/track/${track.id}`
+        }
       >
         <div className="group relative flex aspect-square  ">
           <Image
@@ -55,9 +59,9 @@ export default function TrackCard({ track, isMyMusicPage }: CardProps) {
           </div>
           <div className="relative mt-3 w-full shadow-inner">
             <span className="absolute flex w-full items-center justify-center gap-2 rounded-2xl bg-light-400 px-1.5 py-1  text-sm font-semibold uppercase text-brand shadow-lg dark:bg-dark-300 dark:text-brand-dark dark:shadow-inner">
-              {!isMyMusicPage && (
+              {/* {!isMyMusicPage && (
                 <PlusIcon className="h-4 w-4 rounded-full border border-brand fill-brand p-0.5" />
-              )}{" "}
+              )}{" "} */}
               Ksh.
               {track.price}
             </span>

@@ -40,13 +40,17 @@ export default function AllPublishedMusicList({
         <div className="">
           <h1 className="pl-2 pt-2 text-lg font-bold ">Albums</h1>
           {/* <HorizontalSlider className="hidden sm:flex" albums={albums} /> */}
-          <Albums className="flex sm:hidden" albums={albums} />
+          <Albums
+            className="flex sm:hidden"
+            isMyMusicPage={false}
+            albums={albums}
+          />
         </div>
       )}
 
       {tracks && tracks.length > 0 && (
         <div className="">
-          <h1 className="pl-2 pt-2 text-lg font-bold ">Single Tracks</h1>
+          <h1 className="pl-2 pt-2 text-lg font-bold ">Singles</h1>
           <Tracks tracks={tracks} />
         </div>
       )}

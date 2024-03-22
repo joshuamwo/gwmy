@@ -124,7 +124,11 @@ export default function MyMusic() {
             <div className="">
               <h1 className="text-lg ">Albums</h1>
               <HorizontalSlider className="hidden sm:flex" albums={myAlbums} />
-              <Albums className="flex sm:hidden" albums={myAlbums} />
+              <Albums
+                className="flex sm:hidden"
+                isMyMusicPage={true}
+                albums={myAlbums}
+              />
             </div>
           )}
 

@@ -9,9 +9,11 @@ import { Album } from "@/types";
 export default function Albums({
   className,
   albums,
+  isMyMusicPage,
 }: {
   className?: string;
   albums: Album[];
+  isMyMusicPage: boolean;
 }) {
   return (
     <div
@@ -20,11 +22,11 @@ export default function Albums({
         className,
       )}
     >
-      <div className=" flex w-full flex-wrap ">
+      <div className=" grid grid-cols-2 gap-2.5 gap-y-10 xs:grid-cols-2 sm:grid-cols-3 sm:gap-4 md:grid-cols-3 md:gap-y-6 lg:grid-cols-4 xl:grid-cols-5">
         {albums.length > 0 &&
           albums.map((album) => (
             <div className="!max-w-[300px]" key={album.id}>
-              <AlbumCard album={album} isMyMusicPage={true} />
+              <AlbumCard album={album} isMyMusicPage={isMyMusicPage} />
             </div>
           ))}
       </div>

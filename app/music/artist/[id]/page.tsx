@@ -47,6 +47,7 @@ export default function ArtistPage({ params }: { params: { id: string } }) {
         .from("albums")
         .select("*")
         .eq("owner", params.id)
+        .eq("published", true)
         .returns<Album[]>();
 
       if (error) throw error;
@@ -67,6 +68,7 @@ export default function ArtistPage({ params }: { params: { id: string } }) {
         .select("*")
         .eq("owner", params.id)
         .is("album", null)
+        .eq("published", true)
         .returns<SingleTrack[]>();
 
       if (error) throw error;
@@ -108,13 +110,13 @@ export default function ArtistPage({ params }: { params: { id: string } }) {
                 <h1 className="text-2xl font-bold xs:text-4xl sm:text-5xl md:text-6xl  lg:text-7xl">
                   {artist.alias}{" "}
                 </h1>
-                <h3 className="text-sm font-medium">Artist</h3>
+                <h3 className="text-base font-medium">Artist</h3>
               </div>
             </div>
           </div>
 
           {/* actions */}
-          <div className=" flex justify-end gap-2 p-4">
+          {/* <div className=" flex justify-end gap-2 p-4">
             <Button
               variant="solid"
               className=" h-8 rounded-full text-sm"
@@ -155,7 +157,7 @@ export default function ArtistPage({ params }: { params: { id: string } }) {
             >
               <span className="px-4 text-light-300">Add Album</span>
             </Button>
-          </div>
+          </div> */}
 
           <div className="p-4">
             {/* nothing found */}
@@ -173,14 +175,14 @@ export default function ArtistPage({ params }: { params: { id: string } }) {
               <div className="">
                 <h1 className="text-lg md:pl-4">Albums</h1>
                 {/* <HorizontalSlider className="hidden sm:flex" albums={albums} /> */}
-                <Albums albums={albums} isMyMusicPage={true} />
+                <Albums albums={albums} isMyMusicPage={false} />
               </div>
             )}
 
             {singles && (
               <div className="">
                 <h1 className="text-lg md:pl-4">Singles</h1>
-                <SingleTracks tracks={singles} isMyMusicPage={true} />
+                <SingleTracks tracks={singles} isMyMusicPage={false} />
               </div>
             )}
           </div>
