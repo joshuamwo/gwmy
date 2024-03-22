@@ -60,6 +60,7 @@ export async function stkPush(
     const consumer_key = process.env.SAF_CONSUMER_KEY ?? "";
     const consumer_secret = process.env.SAF_CONSUMER_SECRET ?? "";
     const timestamp = dateTime();
+    const callback_url = process.env.STK_CALLBACK_URL ?? "";
 
     //generate base64 auth key to be used to get auth token from	safaricom
     const authBearer = Buffer.from(
@@ -121,8 +122,7 @@ export async function stkPush(
               PartyA: number,
               PartyB: short_code,
               PhoneNumber: number,
-              CallBackURL:
-                "https://181e-105-163-156-33.ngrok-free.app/payment-request-callback",
+              CallBackURL: callback_url,
               AccountReference: "GWMY",
               TransactionDesc: "Music",
             }),
@@ -130,6 +130,11 @@ export async function stkPush(
         )
           .then(async (response) => {
             const res = await response.text();
+            const resObj = JSON.parse(res);
+
+            if (!resObj.ResponseCode || resObj.ResponseCode !== "0") {
+              console.error("stk push error:", resObj);
+            }
             console.log("stk push response:", res);
             return {
               ok: true,
