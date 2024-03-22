@@ -23,7 +23,7 @@ export default function ArtistCard({ artist, isMyMusicPage }: CardProps) {
       <Link
         href={isMyMusicPage ? `/admin/my-music/artist/${artist.id}` : "/music"}
       >
-        <div className=" relative flex aspect-square  min-w-[150px]">
+        <div className=" relative flex aspect-square">
           <Image
             alt={`${artist.alias} profile picture`}
             src={src}

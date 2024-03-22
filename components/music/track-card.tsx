@@ -29,7 +29,7 @@ export default function TrackCard({ track, isMyMusicPage }: CardProps) {
       <Link
         href={isMyMusicPage ? `/admin/my-music/track/${track.id}` : "/music"}
       >
-        <div className="group relative flex aspect-square  min-w-[150px]">
+        <div className="group relative flex aspect-square  ">
           <Image
             alt={track.name}
             src={src}

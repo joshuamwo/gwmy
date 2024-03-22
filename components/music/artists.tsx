@@ -12,12 +12,12 @@ export default function Artists({
 
   return (
     <div className="w-full px-2 pb-9 pt-5 md:px-6 md:pb-10 md:pt-6 lg:pb-12">
-      <div className="grid grid-cols-2 gap-4 xs:grid-cols-4 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7">
+      <div className="grid grid-cols-2 gap-4 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
         {artists.length > 0
           ? artists.map((artist) => (
               <div
                 key={artist.id}
-                className="h-full max-w-[200px] items-center"
+                className="h-full w-full max-w-[300px] items-center"
               >
                 <ArtistCard artist={artist} isMyMusicPage={isMyMusicPage} />
               </div>
