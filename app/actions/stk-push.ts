@@ -50,59 +50,122 @@ export async function stkPush(
       total: formData.get("total"),
     });
 
-    const number = Number("254" + Number(validated.number));
-
+    const number = "254" + Number(validated.number);
+    console.log("number:", number);
     const cart = JSON.parse(validated.cart) as CartItem[];
 
-    const auth = Buffer.from(
-      `${process.env.SAF_CONSUMER_KEY}:${process.env.SAF_CONSUMER_SECRET}`,
-      // "duxYp3TuxAClnHfohwtfXZyrLT87XliG:qXbGBvs3PPnTC0P4"
+    //saf api constants
+    const short_code = process.env.SAF_BUSINESS_SHORT_CODE ?? "";
+    const pass_key = process.env.SAF_PASS_KEY ?? "";
+    const consumer_key = process.env.SAF_CONSUMER_KEY ?? "";
+    const consumer_secret = process.env.SAF_CONSUMER_SECRET ?? "";
+    const timestamp = dateTime();
+
+    //generate base64 auth key to be used to get auth token from	safaricom
+    const authBearer = Buffer.from(
+      `${consumer_key}:${consumer_secret}`,
     ).toString("base64");
 
-    console.log(auth);
+    //generate base64 password to be used in stk push request
+    const password = Buffer.from(
+      `${short_code + pass_key + timestamp}`,
+    ).toString("base64");
 
-    return {
-      ok: true,
-      error: null,
-      code: 200,
-    };
+    console.log("password:", password);
+    // console.log("password:", password);
 
-    //send payment request
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Authorization", "Bearer gROaLH3z7BLrU6sGwmvVCNyu585f");
-    fetch("https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest", {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        BusinessShortCode: 174379,
-        Password:
-          "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",
-        Timestamp: dateTime(),
-        TransactionType: "CustomerPayBillOnline",
-        Amount: 1,
-        PartyA: number,
-        PartyB: 174379,
-        PhonezodNumber: number,
-        CallBackURL:
-          "https://181e-105-163-156-33.ngrok-free.app/payment-request-callback",
-        AccountReference: "GWMY",
-        TransactionDesc: "Music",
-      }),
-    })
+    //get access bearer token for Mpesa express
+    //define headers
+    let authBearerHeaders = new Headers();
+    authBearerHeaders.append("Authorization", `Basic ${authBearer}`);
+    const response = await fetch(
+      "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials",
+      { headers: authBearerHeaders },
+    )
       .then(async (response) => {
-        const body = await response.json();
-        // console.log(response.body());
-        return response.text();
-      })
-      .then((result) => {
-        console.log("result", result);
-        return result;
+        const res = await response.text();
+        if (res === "no healthy upstream")
+          return {
+            ok: false,
+            message: "failed to get access token, no healthy upstream",
+          };
+        const accessToken = JSON.parse(res).access_token;
+
+        console.log("access token:", accessToken);
+
+        if (!accessToken)
+          return {
+            ok: false,
+            message: "error	getting access token",
+          };
+        //stk push
+        //send payment request
+        let headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        headers.append("Authorization", `Bearer ${accessToken}`);
+
+        const stkPushRes: {
+          ok: boolean;
+          message: string;
+        } = await fetch(
+          "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest",
+          {
+            method: "POST",
+            headers,
+            body: JSON.stringify({
+              BusinessShortCode: 174379,
+              Password: password,
+              Timestamp: timestamp,
+              TransactionType: "CustomerPayBillOnline",
+              Amount: "1",
+              PartyA: number,
+              PartyB: short_code,
+              PhoneNumber: number,
+              CallBackURL:
+                "https://181e-105-163-156-33.ngrok-free.app/payment-request-callback",
+              AccountReference: "GWMY",
+              TransactionDesc: "Music",
+            }),
+          },
+        )
+          .then(async (response) => {
+            const res = await response.text();
+            console.log("stk push response:", res);
+            return {
+              ok: true,
+              message: "payment request sent",
+            };
+          })
+          .catch((error) => {
+            console.error("stk push error", error);
+            return {
+              ok: false,
+              message: "error sending payment request",
+            };
+            // throw error;
+          });
+
+        console.log("stk push response:", stkPushRes);
+        return stkPushRes;
       })
       .catch((error) => {
-        console.log("error", error);
-        // throw error;
+        console.error("access token error", error);
+        return {
+          ok: false,
+          message: "error getting access token",
+        };
       });
+
+    if (!response.ok) {
+      console.error("stkPushError:", response.message);
+      return {
+        ok: false,
+        error: {
+          message: "Failed to send	payment request. Try again later.",
+        },
+        code: 500,
+      };
+    }
 
     return {
       ok: true,
