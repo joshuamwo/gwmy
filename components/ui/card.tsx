@@ -137,15 +137,15 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
           )}
         </div>
       </div>
-      <div className="flex items-start justify-between px-1 pt-3.5 ">
+      {/* <div className="flex items-start justify-between px-1 pt-3.5 ">
         <div className="group -mt-[1px] mr-auto cursor-pointer truncate">
           <Link href={`/product/${product.id}`} className="flex flex-col ">
             <span className="mb-0.5 truncate text-base font-medium text-dark-400 group-hover:text-brand dark:text-light-600">
               {product.product_name.toUpperCase()}
             </span>
-            {/* <span className="text-sm group-hover:text-brand">
+            <span className="text-sm group-hover:text-brand">
               {product.product_description}
-            </span> */}
+            </span>
           </Link>
         </div>
         <div className="mr-0.5 flex flex-shrink-0 flex-col items-end pl-2.5">
@@ -153,7 +153,35 @@ export default function Card({ product, isMyProductsPage }: CardProps) {
             Ksh. {product.price}
           </span>
         </div>
-      </div>
+        
+      </div> */}
+
+      <Link href={`/product/${product.id}`} className=" ">
+        <div className="flex flex-col px-1 pt-4 ">
+          <div className=" -mt-[1px]  cursor-pointer truncate">
+            <div className="flex flex-col">
+              <span className="mb-0.5 truncate text-base	 font-medium group-hover:text-brand">
+                {product.product_name}
+              </span>
+            </div>
+          </div>
+          <div className="flex flex-row items-center justify-between">
+            <span className="truncate text-sm font-medium  group-hover:text-brand dark:text-light-800">
+              {/* <span className="text-dark-600 dark:text-light-600">Song</span> •{" "} */}
+              {product.product_description}
+            </span>
+          </div>
+          <div className="relative mt-3 w-full shadow-inner">
+            <span className="absolute flex w-full items-center justify-center gap-2 rounded-2xl bg-light-400 px-1.5 py-1  text-sm font-semibold uppercase text-brand shadow-lg dark:bg-dark-300 dark:text-brand-dark dark:shadow-inner">
+              {/* {!isMyMusicPage && (
+                <PlusIcon className="h-4 w-4 rounded-full border border-brand fill-brand p-0.5" />
+              )}{" "} */}
+              Ksh.
+              {product.price}
+            </span>
+          </div>
+        </div>
+      </Link>
     </div>
   );
 }

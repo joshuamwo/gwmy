@@ -17,8 +17,8 @@ export default function AllPublishedProductsList({
   const isMounted = useIsMounted();
 
   return (
-    <div className="w-full px-4 pb-9 pt-5 md:px-6 md:pb-10 md:pt-6 lg:px-7 lg:pb-12 3xl:px-8">
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 lg:gap-4 xl:grid-cols-4 3xl:grid-cols-5 3xl:gap-6">
+    <div className="w-full px-4 pb-24 pt-5 md:px-6 md:pb-10 md:pt-6 lg:px-7 lg:pb-12 3xl:px-8">
+      <div className="grid grid-cols-2 gap-x-2 gap-y-6 sm:grid-cols-2 md:grid-cols-3 md:gap-y-6 lg:grid-cols-3 lg:gap-x-4 xl:grid-cols-4 3xl:grid-cols-5 3xl:gap-x-6">
         {products.length > 0
           ? products.map((product) => (
               <Card

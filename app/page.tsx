@@ -1,7 +1,7 @@
 "use client";
 
 import { SpinnerIcon } from "@/components/icons/spinner-icon";
-import { userState } from "@/recoil/atoms";
+import { getUserDoneState, userState } from "@/recoil/atoms";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
@@ -9,11 +9,12 @@ import { useRecoilValue } from "recoil";
 export default function HomePage() {
   const router = useRouter();
   const user = useRecoilValue(userState);
+  const getUserDone = useRecoilValue(getUserDoneState);
   useEffect(() => {
-    if (!user) return;
-    if (user.user_type === "alpha") router.push("/admin/my-music");
+    if (!getUserDone) return;
+    if (user && user.user_type === "alpha") router.push("/admin/my-music");
     else router.push("/music");
-  }, [user]);
+  }, [user, getUserDone]);
   return (
     <>
       {user && (
