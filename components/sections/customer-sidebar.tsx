@@ -16,7 +16,7 @@ export default function CustomerSidebar({
   classname,
 }: SidebarProps) {
   return (
-    <div className="flex h-full w-full flex-col">
+    <div className="flex h-full w-full flex-col ">
       <nav className="flex flex-col gap-4">
         <NavLink
           title="Music"
