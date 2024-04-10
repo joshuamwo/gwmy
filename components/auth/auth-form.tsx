@@ -29,26 +29,26 @@ export default function AuthForm() {
   const [isSignIn, setIsSignIn] = useState<boolean>(false);
 
   return (
-    <div className="bg-light px-6 pt-10 pb-8 dark:bg-dark-300 sm:px-8 lg:p-12">
-      <FormBgPattern className="hidden xs:flex absolute bottom-0 left-0 text-light dark:text-dark-300 dark:opacity-60" />
+    <div className="bg-light px-6 pb-8 pt-10 dark:bg-dark-300 sm:px-8 lg:p-12">
+      <FormBgPattern className="absolute bottom-0 left-0 hidden text-light dark:text-dark-300 dark:opacity-60 xs:flex" />
       <div className="relative z-10 flex items-center">
-        <div className="w-full shrink-0 text-left md:w-[380px]">
-          <div className="flex flex-col pb-5 text-center lg:pb-9 xl:pb-10 xl:pt-2">
+        <div className="mb-9 mt-7 w-full shrink-0 text-left md:w-[380px]">
+          <div className=" flex flex-col pb-5 text-center lg:pb-9 xl:pb-10 xl:pt-2">
             <h2 className="text-lg font-medium tracking-[-0.3px] text-dark dark:text-light lg:text-xl">
               We Hate Passwords Too!
             </h2>
           </div>
-          <div className="space-y-4 lg:space-y-5 flex flex-col items-center">
+          <div className="flex flex-col items-center space-y-4 lg:space-y-5">
             <Button
               type="submit"
-              className="!my-5 w-full text-sm tracking-[0.2px] lg:!my-7"
+              className="w-full text-sm tracking-[0.2px]"
               onClick={signIn}
             >
               <GoogleIcon className="fill-white " />
-              {isSignIn ? "Sign In With Google" : "Sign Up With Google"}
+              Sign In With Google
             </Button>
 
-            <div className="text-13px leading-6 tracking-[0.2px] dark:text-light-900">
+            {/* <div className="text-13px leading-6 tracking-[0.2px] dark:text-light-900">
               {isSignIn ? "Don't have an account?" : "Already have an account?"}{" "}
               <button
                 onClick={signIn}
@@ -56,7 +56,7 @@ export default function AuthForm() {
               >
                 {isSignIn ? "Sign Up" : "Sign In"}
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

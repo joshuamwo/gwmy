@@ -1,7 +1,7 @@
 "use	client";
 
 import ProfileButton from "../ui/profile-button";
-import { useRecoilState } from "@/recoil/recoil";
+import { useRecoilState, useRecoilValue } from "@/recoil/recoil";
 import { useModalAction } from "../modals/modal-controller";
 import { Menu } from "@/components/ui/dropdown";
 import { Fragment, useState } from "react";
@@ -10,6 +10,7 @@ import { useSupabase, userContext } from "@/context/supabase-context";
 import { useRouter } from "next/navigation";
 import { Transition } from "@/components/ui/transition";
 import ActiveLink from "../ui/active-link";
+import { userState } from "@/recoil/atoms";
 
 const AuthorizedMenuItems = [
   {
@@ -67,7 +68,7 @@ function AuthorizedMenu({ user }: any) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute top-[84%] z-30 mt-4 w-56 rounded-md bg-light py-1.5 text-dark shadow-dropdown right-0 origin-top-right  dark:bg-dark-250 dark:text-light">
+        <Menu.Items className="absolute right-0 top-[84%] z-30 mt-4 w-56 origin-top-right rounded-md bg-light py-1.5 text-dark shadow-dropdown  dark:bg-dark-250 dark:text-light">
           {AuthorizedMenuItems.map((item) => (
             <Menu.Item key={item.href}>
               <ActiveLink
@@ -82,7 +83,7 @@ function AuthorizedMenu({ user }: any) {
           <Menu.Item>
             <button
               type="button"
-              className="transition-fill-colors w-full px-5 py-2.5 hover:bg-light-400 text-left  dark:hover:bg-dark-600"
+              className="transition-fill-colors w-full px-5 py-2.5 text-left hover:bg-light-400  dark:hover:bg-dark-600"
               onClick={(e) => signOut(e)}
             >
               Sign Out
@@ -96,7 +97,7 @@ function AuthorizedMenu({ user }: any) {
 
 export default function ProfileMenu() {
   const { openModal } = useModalAction();
-  const user = userContext();
+  const user = useRecoilValue(userState);
 
   function handleProfileMenuClick() {
     user ? " " : openModal("AUTHFORM");
