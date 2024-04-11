@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios, { AxiosError } from "axios";
 
-export async function GET(res: NextResponse) {
-  const auth = new Buffer(
+export async function GET(req: NextRequest) {
+  const auth = Buffer.from(
     `${process.env.SAF_CONSUMER_KEY}:${process.env.SAF_CONSUMER_SECRET}`,
   ).toString("base64");
 
