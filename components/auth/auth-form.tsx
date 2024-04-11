@@ -4,22 +4,24 @@ import { useSupabase } from "@/context/supabase-context";
 import { GoogleIcon } from "../icons/google-icon";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { sign } from "crypto";
+import { createClient } from "@/utils/supabase/client";
 
 export default function AuthForm() {
   // Supabase signup
-  const { supabase } = useSupabase();
+  // const { supabase } = useSupabase();
+  const supabase = createClient();
   const pathname = usePathname();
   const provider = "google";
 
   const signIn = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${window.origin}/auth/callback?next=${pathname}`,
+        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?next=${pathname}`,
       },
     });
+
     if (error) {
       window.alert(error.message);
     }

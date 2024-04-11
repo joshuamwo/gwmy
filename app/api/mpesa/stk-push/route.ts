@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   try {
     //get access token
     const response = await axios.get(
-      `${process.env.SITE_URL}/api/mpesa/access-token`,
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/mpesa/access-token`,
     );
 
     if (!response.data.token) throw new Error("Failed to get access token");

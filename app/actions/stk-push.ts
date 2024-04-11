@@ -57,7 +57,7 @@ export async function stkPush(
 
     //sebd stk oush
     const response = await axios.post(
-      `${process.env.SITE_URL}/api/mpesa/stk-push`,
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/mpesa/stk-push`,
       {
         number: validated.number,
         cart: validated.cart,

@@ -1,10 +1,9 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { createContext, useEffect, useState, useContext } from "react";
-import { useRouter } from "next/navigation";
-import { createBrowserClient } from "@supabase/ssr";
+import { createContext, useEffect, useContext } from "react";
 import { useRecoilState } from "recoil";
 import { getUserDoneState, userState } from "@/recoil/atoms";
 import { UserStateType } from "@/types";
+import { createClient } from "@/utils/supabase/client";
 
 type SupabaseContextType = {
   supabase: SupabaseClient;
@@ -16,16 +15,9 @@ const SupabseContext = createContext<SupabaseContextType | undefined>(
 const UserContext = createContext<UserStateType | undefined>(undefined);
 
 export function SupabaseProvider({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
-  const provider = "google";
   const [getUserDone, setGetUserDone] = useRecoilState(getUserDoneState);
 
-  const [supabase] = useState(() =>
-    createBrowserClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    ),
-  );
+  const supabase = createClient();
 
   //set user state
   const [user, setUser] = useRecoilState(userState);
