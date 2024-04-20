@@ -95,7 +95,7 @@ export default function ArtistPage({ params }: { params: { id: string } }) {
       {artist && (
         <div className="h-full  rounded pb-16">
           {/* Album name and cover */}
-          <div className="flex h-[25vh] min-h-[200px] items-end rounded bg-light-200 dark:bg-dark-400 md:h-[33vh] ">
+          <div className="flex h-[25vh] min-h-[200px] items-end rounded bg-light-500 dark:bg-dark-400 md:h-[33vh] ">
             <div className="flex items-end pb-4 pl-4">
               <div className="relative h-[15vw] max-h-[200px] min-h-[150px] w-[15vw] min-w-[150px] max-w-[200px]">
                 <Image
@@ -159,7 +159,7 @@ export default function ArtistPage({ params }: { params: { id: string } }) {
             </Button>
           </div> */}
 
-          <div className="p-4">
+          <div className=" p-4 ">
             {/* nothing found */}
             {albums && albums.length < 1 && !singles && (
               <div className="flex h-full w-full justify-center">
