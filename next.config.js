@@ -18,8 +18,8 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "media.pitchfork.com",
-        pathname: "/photos/**",
+        hostname: "cdn-az.allevents.in",
+        pathname: "/**",
       },
     ],
   },
