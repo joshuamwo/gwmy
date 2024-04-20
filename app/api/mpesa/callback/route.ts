@@ -28,10 +28,10 @@ export async function POST(request: Request) {
     if (!user_id) return new Response("Unauthorised", { status: 400 });
 
     //get user's cart
-    const { data, error } = await supabase
-      .from("orders")
-      .select()
-      .eq("user_id", user_id);
+    // const { data, error } = await supabase
+    //   .from("orders")
+    //   .select()
+    //   .eq("user_id", user_id);
 
     // If the result code is 0, the transaction was completed
     const body = json.Body.stkCallback.CallbackMetadata;
