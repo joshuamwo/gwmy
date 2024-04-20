@@ -17,7 +17,7 @@ export default function CustomerSidebar({
 }: SidebarProps) {
   return (
     <div className="flex h-full w-full flex-col ">
-      <nav className="flex flex-col gap-4">
+      <nav className="flex flex-col gap-4 py-4">
         <NavLink
           title="Music"
           href="/music"
@@ -32,7 +32,7 @@ export default function CustomerSidebar({
         />
       </nav>
 
-      <nav className="mt-auto flex flex-col gap-4 pb-4">
+      {/* <nav className="mt-auto flex flex-col gap-4 pb-4">
         <NavLink
           title="Settings"
           href="/settings"
@@ -45,7 +45,7 @@ export default function CustomerSidebar({
           sidebarIsOpen={sidebarIsOpen}
           icon={<HelpIcon className="h-6 w-6 text-current" />}
         />
-      </nav>
+      </nav> */}
     </div>
   );
 }

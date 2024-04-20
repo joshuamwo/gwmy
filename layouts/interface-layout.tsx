@@ -31,22 +31,17 @@ export default function InterfaceLayout({
 
   return (
     <>
-      <div className="flex min-h-screen w-full  flex-col bg-light-200 dark:bg-dark-200 ">
+      <div className="flex h-screen w-full flex-col gap-2 bg-light-200 p-2 dark:bg-dark-200 ">
         <Header
           sidebarIsOpen={sidebarIsOpen}
           sidebarToggle={sidebarToggle}
           isUserLoggedIn={isUserLoggedIn}
         />
-        <Toaster position="top-center" reverseOrder={false} />
-        <div className="flex flex-1">
+        <div className="flex flex-1 gap-2 overflow-hidden">
+          <Toaster position="top-center" reverseOrder={false} />
           <Sidebar sidebarIsOpen={sidebarIsOpen} />
           <main
-            style={{}}
-            className={`flex w-full flex-col pt-16 ${
-              sidebarIsOpen
-                ? "main-content-sidebar-open"
-                : "main-content-sidebar-closed"
-            }`}
+            className={`flex h-full w-full flex-col overflow-auto rounded bg-light-400 dark:bg-dark-300`}
           >
             {children}
           </main>

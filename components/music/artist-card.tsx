@@ -19,7 +19,7 @@ export default function ArtistCard({ artist, isMyMusicPage }: CardProps) {
   const modalName1 = "EDITPRODUCTFORM";
   const modalName2 = "PRODUCTVIEWMODAL";
   return (
-    <div className="group h-full w-full rounded-md p-2 shadow-lg ring-2  ring-light-500 hover:bg-light-300 dark:bg-dark-250 dark:ring-dark-400 dark:hover:bg-dark-300  md:p-4">
+    <div className="group h-full w-full rounded-lg p-2 hover:bg-light-200  hover:shadow-lg dark:hover:bg-dark-200  md:p-4">
       <Link
         href={
           isMyMusicPage
@@ -40,13 +40,13 @@ export default function ArtistCard({ artist, isMyMusicPage }: CardProps) {
         <div className="flex flex-col px-1 pt-4 ">
           <div className=" -mt-[1px] mr-auto cursor-pointer truncate">
             <div className="flex flex-col justify-center">
-              <span className="text-md mb-0.5 truncate text-center font-medium group-hover:text-brand">
+              <span className="mb-0.5 truncate text-center text-sm font-medium group-hover:text-brand">
                 {artist.alias}
               </span>
             </div>
           </div>
           <div className="flex flex-row items-center justify-between">
-            <span className="truncate text-sm font-medium text-dark-400 group-hover:text-brand dark:text-light-800">
+            <span className="truncate text-xs font-medium text-dark-400 group-hover:text-brand dark:text-light-800">
               Artist
             </span>
           </div>

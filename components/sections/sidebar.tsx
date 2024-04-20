@@ -14,7 +14,7 @@ interface SidebarProps {
 
 export default function Sidebar({
   sidebarIsOpen,
-  className = "hidden sm:flex fixed bottom-0 z-20 pt-[82px]",
+  className = "hidden sm:flex bottom-0 z-20",
 }: SidebarProps) {
   const user = userContext();
   const isMounted = useIsMounted();
@@ -23,7 +23,7 @@ export default function Sidebar({
   return (
     <aside
       className={classnames(
-        "h-full flex-col justify-between overflow-y-auto bg-light-400  pt-16 text-dark-400  dark:bg-dark-300",
+        "h-full flex-col justify-between overflow-y-auto rounded bg-light-400 text-dark-400 dark:bg-dark-300 ",
         sidebarIsOpen ? "sm:w-60 xl:w-[75px]" : "sm:w-[75px] xl:w-60 ",
         className,
       )}

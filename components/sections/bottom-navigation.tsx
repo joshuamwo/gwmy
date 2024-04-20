@@ -24,7 +24,7 @@ export default function BottomNavigation() {
     drawer.openDrawer("CART_VIEW");
   }
   return (
-    <nav className="fixed bottom-0 z-30 grid h-14 w-full auto-cols-fr grid-flow-col items-center bg-light text-center shadow-bottom-nav transition-all duration-300 dark:bg-dark-250 sm:hidden">
+    <nav className="sticky bottom-0 z-30 grid h-14 w-full auto-cols-fr grid-flow-col items-center rounded bg-light-400 text-center transition-all duration-300 dark:bg-dark-250 sm:hidden">
       {/* <Button
         variant="icon"
         aria-label="Home"
@@ -61,10 +61,10 @@ export default function BottomNavigation() {
           onClick={handleOpenCart}
         />
       )}
-      <Hamburger
+      {/* <Hamburger
         className="h-full"
         onClick={() => drawer.openDrawer("MOBILE_MENU")}
-      />
+      /> */}
     </nav>
   );
 }

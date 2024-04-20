@@ -84,7 +84,7 @@ input[type="number"] {
   @apply h-1.5 w-1.5;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-dark-900;
+  @apply rounded bg-dark-800 dark:bg-dark-400;
 }
 
 /* Track */
