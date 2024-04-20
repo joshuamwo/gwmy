@@ -81,6 +81,8 @@ module.exports = {
       },
       fontFamily: {
         body: ["'Inter', sans-serif"],
+        nanum: ["Nanum Pen Script", "cursive"],
+        liches: ["Staatliches", "sans-serif"],
       },
     },
   },
