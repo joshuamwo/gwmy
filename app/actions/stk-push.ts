@@ -4,6 +4,7 @@ import { CartItem } from "@/types";
 import axios from "axios";
 import { z } from "zod";
 import { SupabaseServer } from "./supabase-server";
+import { createClient } from "@/utils/supabase/server";
 
 interface prevState {
   ok: boolean | null;
@@ -17,27 +18,7 @@ export async function stkPush(
   prevState: prevState,
   formData: FormData,
 ): Promise<prevState> {
-  //get user id
-  // const supabase = SupabaseServer();
-
-  // const user = (await supabase.auth.getUser()).data;
-  // if (!user) {
-  //   return {
-  //     ok: false,
-  //     error: {
-  //       message: "Unauthorised",
-  //     },
-  //     code: 403,
-  //   };
-  // }
-
-  // console.log(user);
-
-  // return {
-  //   ok: true,
-  //   error: null,
-  //   code: 200,
-  // };
+  const supabase = createClient();
 
   //zod validation schema
   const schema = z.object({
@@ -47,6 +28,18 @@ export async function stkPush(
   });
 
   try {
+    //user auth
+    const { user } = (await supabase.auth.getUser()).data;
+    if (!user?.id) {
+      return {
+        ok: false,
+        error: {
+          message: "Unauthorised",
+        },
+        code: 403,
+      };
+    }
+    console.log(user);
     //validate form data
 
     const validated = schema.parse({
@@ -54,6 +47,33 @@ export async function stkPush(
       number: formData.get("number"),
       total: formData.get("total"),
     });
+
+    console.log(validated);
+    const items = JSON.parse(validated.cart);
+
+    // store items in database
+    const { data, error } = await supabase
+      .from("orders")
+      .insert({
+        user_id: user.id,
+        items,
+        total: Number(validated.total),
+        phone: validated.number,
+      })
+      .returns();
+
+    if (error) {
+      console.log(error);
+      throw new Error("Failed to store items ordered in database");
+    }
+
+    console.log("order", data);
+
+    return {
+      ok: true,
+      error: null,
+      code: 200,
+    };
 
     //sebd stk oush
     const response = await axios.post(
