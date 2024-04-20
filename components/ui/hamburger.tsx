@@ -20,7 +20,7 @@ export default function Hamburger({ sidebarIsOpen, ...props }: HamburgerProps) {
           strokeLinejoin="round"
           strokeWidth={1.8}
           d={
-            sidebarIsOpen ? "M4 6h16M4 12h8m-8 6h16" : "M4 6h16M4 12h16M4 18h16"
+            sidebarIsOpen ? "M4 6h16M4 12h16M4 18h16" : "M4 6h16M4 12h8m-8 6h16"
           }
         />
       </svg>

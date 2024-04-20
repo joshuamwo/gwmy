@@ -20,7 +20,7 @@ export default function InterfaceLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(true);
   const sidebarToggle = () => {
     setSidebarIsOpen(!sidebarIsOpen);
   };
