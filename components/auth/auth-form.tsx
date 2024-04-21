@@ -9,6 +9,7 @@ import { createClient } from "@/utils/supabase/client";
 export default function AuthForm() {
   // Supabase signup
   // const { supabase } = useSupabase();
+
   const supabase = createClient();
   const pathname = usePathname();
 
