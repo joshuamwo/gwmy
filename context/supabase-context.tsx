@@ -27,11 +27,10 @@ export function SupabaseProvider({ children }: { children: React.ReactNode }) {
     const { data, error } = await supabase.from("profiles").select("*");
     if (!error) {
       setUser(data[0]);
-      setGetUserDone(true);
     } else {
       // setUser(null);
-      setGetUserDone(true);
     }
+    setGetUserDone(true);
   }
 
   useEffect(() => {

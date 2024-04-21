@@ -75,9 +75,8 @@ export default function Event({ params }: { params: { id: string } }) {
         throw error;
       }
       toast.success("Ticket purchased, redirecting to ticket...");
-      setTimeout(() => {
-        router.push(`/tickets/${data[0].id}`);
-      }, 200);
+      router.push(`/events/tickets/${data[0].id}`);
+      setTimeout(() => {}, 1);
     } catch (error) {
       toast.error("Failed to purchase ticket, please try again");
     } finally {
