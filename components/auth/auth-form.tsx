@@ -11,6 +11,7 @@ export default function AuthForm() {
   // const { supabase } = useSupabase();
   const supabase = createClient();
   const pathname = usePathname();
+
   const provider = "google";
 
   const signIn = async (e: React.MouseEvent<HTMLElement>) => {
