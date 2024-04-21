@@ -4,6 +4,7 @@ import { SmileyIcon } from "@/components/icons/smiley-icon";
 import "./styles.css";
 import { useSupabase } from "@/context/supabase-context";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 interface Ticket {
   holders_name: string;
@@ -34,15 +35,18 @@ export default function Ticket({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     fetchTicket();
+    toast("Take a screenshot of your ticket.", {
+      duration: 10000,
+    });
   }, [undefined]);
 
   return (
-    <div className="min-w-screen flex min-h-screen items-center justify-center bg-pink-600 p-4 dark:bg-pink-600">
+    <div className="min-w-screen relative flex min-h-full flex-col items-center justify-center gap-2 ">
       {/* the ticket */}
       {ticket && (
-        <div className="flex rotate-90 scale-75 bg-pink-600 shadow-lg shadow-dark-300 xs:scale-90 sm:rotate-0 sm:scale-100">
+        <div className="mb-7 flex rotate-90  scale-75 bg-pink-600 shadow-lg shadow-dark-300 xs:scale-90 sm:rotate-0 sm:scale-100">
           <div className=" flex">
-            <div className="ml-7 h-full w-[250px] bg-opacity-80 bg-[url('https://cdn-az.allevents.in/events1/banners/039e456619af4a1c7d596d1cc7b29bb0d125a6cecaa51fcdfb46f79e4aad958c-rimg-w768-h960-dc162035-gmir?v=1713581427')] bg-cover font-liches font-bold sm:w-[250px] ">
+            <div className="ml-7 h-full w-[300px] bg-opacity-80 bg-[url('https://cdn-az.allevents.in/events1/banners/039e456619af4a1c7d596d1cc7b29bb0d125a6cecaa51fcdfb46f79e4aad958c-rimg-w768-h960-dc162035-gmir?v=1713581427')] bg-cover font-liches font-bold sm:w-[300px] ">
               <p className="absolute -ml-6 flex h-full -rotate-180 justify-around py-3 text-center text-base tracking-[0.15em] text-light-600 [writing-mode:vertical-rl] ">
                 <span className="opacity-80">ADMIT ONE</span>
                 <span className="!text-light-300">ADMIT ONE</span>{" "}
