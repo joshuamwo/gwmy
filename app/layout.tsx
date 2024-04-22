@@ -8,8 +8,8 @@ import { classnames } from "@/utils/classnames";
 import MyRootLayout from "@/layouts/my-root-layout";
 
 export const metadata: Metadata = {
-  title: "GWMY",
-  description: "God Wants Me Young",
+  title: "NUNC ENT",
+  description: "Your one stop shop for everything entertainment.",
 };
 
 export default async function RootLayout({
