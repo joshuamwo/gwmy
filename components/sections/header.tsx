@@ -10,6 +10,7 @@ import { useIsMounted } from "@/lib/hooks/use-is-mounted";
 import { useCart } from "@/context/cart-context";
 import { useDrawer } from "../drawer/drawer-context";
 import { useEffect } from "react";
+import Image from "next/image";
 
 interface HeaderProps {
   sidebarIsOpen: boolean;
@@ -47,13 +48,11 @@ export default function Header({
           sidebarIsOpen={sidebarIsOpen}
         />
         <Link href="/" className="flex gap-1 text-light-200">
-          {/* <h1 className="font-bold">GWMY</h1> */}
-          {["G", "W", "M", "Y"].map((letter) => (
+          {/* {["G", "W", "M", "Y"].map((letter) => (
             <div className="group" key={letter}>
               <h1 className=" flex w-8 justify-center rounded bg-brand p-1 transition-all duration-500 hover:bg-dark-400">
                 {letter}
               </h1>
-              {/* tooltip */}
               <div className=" absolute  mt-1 hidden w-8 flex-col rounded bg-brand p-1 text-center group-hover:flex  group-hover:animate-bounce ">
                 {letter === "G"
                   ? ["O", "D"].map((letter) => (
@@ -72,7 +71,21 @@ export default function Header({
                         ))}
               </div>
             </div>
-          ))}
+          ))} */}
+          <Image
+            src="/logo.png"
+            width={100}
+            height={50}
+            className="hidden dark:block"
+            alt="logo"
+          />
+          <Image
+            src="/logo-dark.png"
+            width={100}
+            height={50}
+            className="block dark:hidden"
+            alt="logo"
+          />
         </Link>
       </div>
       <div className="relative flex items-center gap-5 pr-0.5 xs:gap-6 sm:gap-7">

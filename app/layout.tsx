@@ -19,6 +19,10 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en" className={classnames(figtree.className)}>
+      {/* <Head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </Head> */}
+
       <body className="">
         <MyRootLayout>{children}</MyRootLayout>
       </body>
