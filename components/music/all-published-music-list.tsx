@@ -31,14 +31,14 @@ export default function AllPublishedMusicList({
     <div className="my-4">
       {artists && (
         <div className="">
-          <h1 className="mx-5 text-xl font-semibold ">Artists</h1>
+          {/* <h1 className="mx-6 text-base font-semibold ">Artists</h1> */}
           <Artists isMyMusicPage={false} />
         </div>
       )}
 
       {albums && albums.length > 0 && (
         <div className="">
-          <h1 className="mx-6 text-xl font-semibold">Albums</h1>
+          {/* <h1 className="mx-6 text-base font-semibold">Albums</h1> */}
           {/* <HorizontalSlider className="hidden sm:flex" albums={albums} /> */}
           <Albums
             className="flex sm:hidden"
@@ -50,7 +50,7 @@ export default function AllPublishedMusicList({
 
       {tracks && tracks.length > 0 && (
         <div className="">
-          <h1 className="mx-6 text-xl font-semibold">Singles</h1>
+          {/* <h1 className="mx-6 text-base font-semibold">Singles</h1> */}
           <Tracks tracks={tracks} />
         </div>
       )}
