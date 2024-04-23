@@ -28,9 +28,13 @@ module.exports = {
     },
     extend: {
       colors: {
+        brandGreen: "#259943",
+        brandOrange: "#EAAD13",
+        brandRed: "#E52617",
+        brandBlue: "#1374BC",
         brand: {
-          DEFAULT: "#24b47e",
-          dark: "#00997B",
+          DEFAULT: "#259943",
+          dark: "#259943",
         },
         light: {
           DEFAULT: "#ffffff",
@@ -45,7 +49,7 @@ module.exports = {
           900: "#a8a8a8",
         },
         dark: {
-          DEFAULT: "#000000",
+          DEFAULT: "#000001",
           base: "#a5a5a5",
           100: "#181818",
           200: "#212121",

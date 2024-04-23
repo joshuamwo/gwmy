@@ -39,7 +39,7 @@ export default function EventPage() {
   return (
     <div className="h-full w-full">
       {!fetching && events && (
-        <div className="grid p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 ">
+        <div className="grid p-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 ">
           {events.map((event) => {
             return <EventCard event={event} key={event.id} />;
           })}

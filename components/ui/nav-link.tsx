@@ -17,13 +17,13 @@ export default function NavLink({
   return (
     <ActiveLink
       href={href}
-      className="flex h-full items-center gap-1 py-3 text-dark-600 hover:text-dark-300 dark:text-dark-800  hover:dark:bg-dark-300  sm:gap-2"
-      activeClassName="!text-brand active-text-dark dark:active-text-light !dark:text-brand font-medium "
+      className="flex h-full items-center gap-1 text-dark-600 hover:text-dark-300 dark:text-dark-800   sm:gap-2"
+      activeClassName="text-dark-200 dark:text-light-200 active-text-dark dark:active-text-light !dark:text-brand font-medium "
     >
       <span
         className={classnames(
-          "flex  w-full items-center gap-4  ",
-          sidebarIsOpen ? "justify-start pl-6 " : "justify-center p-0 ",
+          "flex  w-full items-center gap-2  ",
+          sidebarIsOpen ? "justify-start" : "justify-center p-0 ",
         )}
       >
         <span className=" ">{icon}</span>

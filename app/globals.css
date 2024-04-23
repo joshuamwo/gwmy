@@ -5,6 +5,27 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  --tw-gradient-from: #259943 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(37 153 67 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+
+  --tw-gradient-to: rgb(234 173 19 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from),
+    #eaad13 var(--tw-gradient-via-position), var(--tw-gradient-to);
+  /* 
+  --tw-gradient-to: rgb(229 38 23 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from),
+    #e52617 var(--tw-gradient-via-position), var(--tw-gradient-to); */
+
+  --tw-gradient-to: #1374bc var(--tw-gradient-to-position);
+
+  background-image: linear-gradient(
+    to right,
+    var(--tw-gradient-stops)
+  ) !important;
+}
+
 /**
  * Need these custom style
  * for header & category filter bar

@@ -6,6 +6,7 @@ import AdminSidebar from "./admin-sidebar";
 import { useIsMounted } from "@/lib/hooks/use-is-mounted";
 import { useRecoilState } from "recoil";
 import { userContext } from "@/context/supabase-context";
+import { LoaderIcon } from "react-hot-toast";
 
 interface SidebarProps {
   sidebarIsOpen: boolean;
@@ -23,21 +24,30 @@ export default function Sidebar({
   return (
     <aside
       className={classnames(
-        "h-full flex-col justify-between overflow-y-auto rounded bg-light-400 text-dark-400 dark:bg-dark-300 ",
-        sidebarIsOpen ? "sm:w-60" : "sm:w-20",
+        "flex flex-col gap-2    ",
+        sidebarIsOpen ? "sm:w-96" : "sm:w-20",
         className,
       )}
     >
-      {isMounted &&
-        getUserDone &&
-        (user?.user_type !== "alpha" ? (
-          <CustomerSidebar
-            sidebarIsOpen={sidebarIsOpen}
-            classname={className}
-          />
+      <div className="flex w-full flex-col rounded-md bg-light-400 text-dark-400 dark:bg-dark-100 ">
+        {isMounted && getUserDone ? (
+          user?.user_type !== "alpha" ? (
+            <CustomerSidebar
+              sidebarIsOpen={sidebarIsOpen}
+              classname={className}
+            />
+          ) : (
+            <AdminSidebar sidebarIsOpen={sidebarIsOpen} classname={className} />
+          )
         ) : (
-          <AdminSidebar sidebarIsOpen={sidebarIsOpen} classname={className} />
-        ))}
+          <div className="flex h-[104px] items-center justify-center ">
+            <LoaderIcon />
+          </div>
+        )}
+      </div>
+				<div className="flex h-full w-full flex-grow rounded-md bg-light-400 text-dark-400 dark:bg-dark-100 ">
+					
+						</div>
     </aside>
   );
 }

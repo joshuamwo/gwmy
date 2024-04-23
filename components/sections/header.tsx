@@ -40,14 +40,14 @@ export default function Header({
   }, [cart]);
 
   return (
-    <div className="app-header sticky top-0 z-30 flex h-16 w-full  items-center justify-between rounded bg-light-400 px-4 py-1  dark:bg-dark-300 sm:h-[70px] sm:px-6">
+    <div className="app-header sticky top-0 z-30 flex h-14 w-full items-center  justify-between rounded-lg bg-light-400 px-4 py-1 dark:bg-dark-100  sm:px-6">
       <div className="flex items-center gap-4">
-        <Hamburger
+        {/* <Hamburger
           className="hidden sm:flex"
           onClick={() => sidebarToggle()}
           sidebarIsOpen={sidebarIsOpen}
-        />
-        <Link href="/" className="flex gap-1 text-light-200">
+        /> */}
+        <Link href="/" className="">
           {/* {["G", "W", "M", "Y"].map((letter) => (
             <div className="group" key={letter}>
               <h1 className=" flex w-8 justify-center rounded bg-brand p-1 transition-all duration-500 hover:bg-dark-400">
@@ -73,14 +73,14 @@ export default function Header({
             </div>
           ))} */}
           <Image
-            src="/logo.png"
+            src="/logo-full-color-2.svg"
             width={100}
             height={50}
             className="hidden dark:block"
             alt="logo"
           />
           <Image
-            src="/logo-dark.png"
+            src="/logo-full-color-2.svg"
             width={100}
             height={50}
             className="block dark:hidden"
