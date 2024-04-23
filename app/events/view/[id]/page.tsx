@@ -90,7 +90,7 @@ export default function Event({ params }: { params: { id: string } }) {
         <div className="flex flex-col gap-7">
           {/* Album name and cover */}
 
-          <div className="flex min-h-[200px] items-end bg-light-600  dark:bg-dark-400 md:h-[50vh] ">
+          <div className="flex min-h-[200px] items-end bg-light-600  dark:bg-dark-200 md:h-[50vh] ">
             <div className="flex w-full flex-col items-start gap-2 pb-4 sm:flex-row sm:items-end sm:pl-4 ">
               <div className="relative h-[100vw] min-h-[150px] w-[100vw] min-w-[150px] rounded shadow sm:h-[30vw] sm:max-h-[45vh] sm:w-[40vw] sm:max-w-[48vh] ">
                 <Image
@@ -101,14 +101,15 @@ export default function Event({ params }: { params: { id: string } }) {
                 />
               </div>
 
-              <div className="flex w-full items-end justify-between px-2 sm:h-[30vw] sm:items-end sm:px-2 ">
-                <div className="order-2 -mb-2 flex justify-end sm:mb-0">
-                  <div className=" flex flex-col items-center gap-2 rounded-lg  bg-light-400 pt-2 text-sm  font-medium shadow  dark:bg-dark-300 ">
-                    <span className="px-4">FRI - SUN</span>
-                    <span className="px-2 text-xl font-semibold text-brand ">
+              <div className="relative flex h-full  w-full items-end justify-between px-2 sm:h-[30vw] sm:items-end sm:px-2 ">
+                <div className="absolute -top-6 right-2 order-2 flex items-start xs:relative sm:items-center">
+                  <div className="relative -ml-10 flex  rotate-[20deg] flex-col items-center gap-2 rounded-lg  bg-light-400 pt-2 text-sm  font-medium shadow-xl  dark:bg-dark-300 ">
+                    <span className="absolute -top-3 left-1  ">📌</span>
+                    <span className="px-2 text-sm ">FRI - SUN</span>
+                    <span className="px-2 text-base font-semibold text-brand ">
                       26 - 28
                     </span>
-                    <span className="px-4">APRIL</span>
+                    <span className="px-2">APRIL</span>
                     <span className="	w-full rounded-b bg-brand py-2 text-center font-semibold text-light-200">
                       FREE
                     </span>
