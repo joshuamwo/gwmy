@@ -30,7 +30,7 @@ export default function InterfaceLayout({
   const getUserDone = useRecoilValue(getUserDoneState);
 
   return (
-    <div className="relative flex h-screen w-full flex-col gap-2 !bg-gradient-to-r from-brand via-brandRed to-brandBlue p-2  dark:bg-gradient-to-l ">
+    <div className="relative flex h-screen w-full flex-col gap-1.5 p-2 ">
       <Header
         sidebarIsOpen={sidebarIsOpen}
         sidebarToggle={sidebarToggle}
@@ -40,7 +40,7 @@ export default function InterfaceLayout({
         <Toaster position="top-center" reverseOrder={false} />
         <Sidebar sidebarIsOpen={sidebarIsOpen} />
         <main
-          className={`flex h-full w-full flex-col overflow-auto rounded bg-light-400 dark:bg-dark-100`}
+          className={`flex h-full w-full flex-col overflow-auto rounded-lg bg-light-400 dark:bg-dark-100`}
         >
           {children}
         </main>

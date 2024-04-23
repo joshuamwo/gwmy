@@ -11,6 +11,7 @@ import { MusicIconSolid } from "../icons/musicIconSolid";
 import NavLink from "../ui/nav-link";
 import { MusicIcon } from "../ui/music-icon";
 import { ShoppingBagIconSolid } from "../icons/shopping-bag-icon-solid";
+import { TicketIcon } from "../icons/ticket-icon";
 
 export default function BottomNavigation() {
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function BottomNavigation() {
     drawer.openDrawer("CART_VIEW");
   }
   return (
-    <nav className="sticky bottom-0 z-30 grid h-14 w-full auto-cols-fr grid-flow-col items-center rounded bg-light-400 text-center transition-all duration-300 dark:bg-dark-300 sm:hidden">
+    <nav className="sticky bottom-0 z-30 grid h-14 w-full auto-cols-fr grid-flow-col items-center rounded-lg bg-light-400 text-center transition-all duration-300 dark:bg-dark-100 sm:hidden">
       {/* <Button
         variant="icon"
         aria-label="Home"
@@ -47,11 +48,17 @@ export default function BottomNavigation() {
         sidebarIsOpen={false}
         icon={<MusicIconSolid className="h-6 w-6 " />}
       />
-      <NavLink
+      {/* <NavLink
         title="Merch"
         href="/merch"
         sidebarIsOpen={false}
         icon={<ShoppingBagIconSolid className="h-6 w-6" />}
+      /> */}
+      <NavLink
+        title="Events"
+        href="/events"
+        sidebarIsOpen={false}
+        icon={<TicketIcon className="h-6 w-6" />}
       />
       <SearchButton className="h-full" />
       {pathname !== "/checkout" && (

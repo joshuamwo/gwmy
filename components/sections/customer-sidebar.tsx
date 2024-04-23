@@ -5,6 +5,7 @@ import { SettingsIcon } from "../icons/settings-icon";
 import { HelpIcon } from "../icons/help-icon";
 import { MusicIconSolid } from "../icons/musicIconSolid";
 import { ShoppingBagIconSolid } from "../icons/shopping-bag-icon-solid";
+import { TicketIcon } from "../icons/ticket-icon";
 
 interface SidebarProps {
   sidebarIsOpen: boolean;
@@ -17,7 +18,7 @@ export default function CustomerSidebar({
 }: SidebarProps) {
   return (
     <>
-      <nav className="flex flex-col gap-4 p-5">
+      <nav className="flex flex-col gap-4 p-5 text-dark-600 dark:text-light-900 ">
         <NavLink
           title="Library"
           href="/music"
@@ -28,7 +29,7 @@ export default function CustomerSidebar({
           title="Events"
           href="/events"
           sidebarIsOpen={sidebarIsOpen}
-          icon={<ShoppingBagIconSolid className="h-6 w-6 text-current" />}
+          icon={<TicketIcon className="h-6 w-6 text-current" />}
         />
       </nav>
     </>

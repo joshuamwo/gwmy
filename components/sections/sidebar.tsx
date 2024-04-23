@@ -7,6 +7,7 @@ import { useIsMounted } from "@/lib/hooks/use-is-mounted";
 import { useRecoilState } from "recoil";
 import { userContext } from "@/context/supabase-context";
 import { LoaderIcon } from "react-hot-toast";
+import Trending from "../ui/trending";
 
 interface SidebarProps {
   sidebarIsOpen: boolean;
@@ -24,7 +25,7 @@ export default function Sidebar({
   return (
     <aside
       className={classnames(
-        "flex flex-col gap-2    ",
+        "flex flex-col gap-2  transition-all duration-500   ",
         sidebarIsOpen ? "sm:w-96" : "sm:w-20",
         className,
       )}
@@ -45,9 +46,9 @@ export default function Sidebar({
           </div>
         )}
       </div>
-				<div className="flex h-full w-full flex-grow rounded-md bg-light-400 text-dark-400 dark:bg-dark-100 ">
-					
-						</div>
+      <div className="flex h-full w-full flex-grow rounded-md bg-light-400 p-5 text-dark-600 dark:bg-dark-100 dark:text-light-900 ">
+        <Trending />
+      </div>
     </aside>
   );
 }

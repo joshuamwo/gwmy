@@ -17,12 +17,12 @@ export default function NavLink({
   return (
     <ActiveLink
       href={href}
-      className="flex h-full items-center gap-1 text-dark-600 hover:text-dark-300 dark:text-dark-800   sm:gap-2"
-      activeClassName="text-dark-200 dark:text-light-200 active-text-dark dark:active-text-light !dark:text-brand font-medium "
+      className="flex h-full items-center gap-1 tracking-wide sm:gap-2 "
+      activeClassName="text-dark-200 dark:text-light-200 font-medium "
     >
       <span
         className={classnames(
-          "flex  w-full items-center gap-2  ",
+          "flex  w-full items-center gap-4  ",
           sidebarIsOpen ? "justify-start" : "justify-center p-0 ",
         )}
       >
