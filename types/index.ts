@@ -262,3 +262,32 @@ export interface Artist {
   mobile_number: string;
   recording_label: string;
 }
+
+export interface EventFormData {
+  name?: string;
+  price?: number;
+  description?: string;
+  cover?: File;
+  start_date_time?: string;
+  end_date_time?: string;
+  venue?: string;
+  location?: string;
+  host?: string;
+}
+
+export interface Event {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  cover: string;
+  start_date: string;
+  end_date: string;
+  start_time: string;
+  end_time: string;
+  venue: string;
+  host: string;
+  location: string;
+  created_at: string;
+  tags: string[];
+}
