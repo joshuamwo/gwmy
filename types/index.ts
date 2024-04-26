@@ -265,20 +265,23 @@ export interface Artist {
 
 export interface EventFormData {
   name?: string;
-  price?: number;
+  price?: string;
   description?: string;
   cover?: File;
-  start_date_time?: string;
-  end_date_time?: string;
+  start_date?: string;
+  end_date?: string;
+  start_time?: string;
+  end_time?: string;
   venue?: string;
   location?: string;
   host?: string;
+  expiry_data_time?: string;
 }
 
 export interface Event {
   id: string;
   name: string;
-  price: number;
+  price: string;
   description: string;
   cover: string;
   start_date: string;

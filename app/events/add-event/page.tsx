@@ -15,10 +15,14 @@ export default function AddEventPage() {
   }
   return (
     <div>
-      <h1>Add Event</h1>
-				<AddEventForm handleSubmit={addEvent} formData={formData} setFormData={setFormData} loading={loading} />
-				
-				
+      <div className="p-4">
+        <AddEventForm
+          handleSubmit={addEvent}
+          formData={formData}
+          setFormData={setFormData}
+          loading={loading}
+        />
+      </div>
     </div>
   );
 }

@@ -24,6 +24,8 @@ body {
     to right,
     var(--tw-gradient-stops)
   ) !important;
+
+  overflow: hidden;
 }
 
 /**
