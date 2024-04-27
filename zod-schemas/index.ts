@@ -51,3 +51,19 @@ export const artistSchema = z.object({
   profile_picture: z.any(),
   recording_label: z.string(),
 });
+
+export const eventSchema = z.object({
+  name: z.string(),
+  price: z.string(),
+  description: z.string(),
+  cover: z.any(),
+  start_date: z.string(),
+  end_date: z.string(),
+  start_time: z.string(),
+  end_time: z.string(),
+  venue: z.string(),
+  location: z.string(),
+  host: z.string(),
+	expiry_data_time: z.string(),
+		categories: z.string(),
+});

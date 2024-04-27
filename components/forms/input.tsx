@@ -11,6 +11,7 @@ type InputProps = React.DetailedHTMLProps<
   inputClassName?: string;
   id: string;
   required?: boolean;
+  name?: string;
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -23,6 +24,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       inputClassName = "bg-transparent",
       id,
       required,
+      name,
       ...props
     },
     ref,
@@ -39,6 +41,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             <textarea
               id={id}
               required={required}
+              name={name}
               className={classnames(
                 " w-full appearance-none rounded border border-light-500 bg-transparent  text-13px text-dark ring-[0.5px] ring-light-500 placeholder:text-dark-900 focus:border-brand focus:ring-[0.5px] focus:ring-brand dark:border-dark-600 dark:text-light dark:ring-dark-600 dark:placeholder:text-dark-700 dark:focus:border-brand dark:focus:ring-brand  ",
                 inputClassName,
@@ -49,6 +52,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               id={id}
               type={type}
               ref={ref}
+              name={name}
               required={required}
               {...props}
               className={classnames(

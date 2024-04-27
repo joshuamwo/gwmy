@@ -1,16 +1,10 @@
-import { useState } from "react";
 import Button from "../ui/button";
-import { ImageCourosel, ImageSlide } from "../ui/image-courosel";
-import { DeleteIcon } from "../icons/delete-icon";
 import Image from "next/image";
-import ImagePreview from "../ui/ImagePreview";
 import resizeImage from "@/lib/resize-image";
-import { useFormState } from "react-dom";
-import { classnames } from "@/utils/classnames";
 
 interface ImageInputProps {
   image?: File;
-  setImage: (images: File | undefined) => void;
+  setImage?: (images: File | undefined) => void;
   label?: string;
   name?: string;
   required?: boolean;
@@ -50,7 +44,7 @@ export default function ImageInput({
       });
 
       const imageUrl = window.URL.createObjectURL(resizedImage);
-      setImage(resizedImage);
+      setImage && setImage(resizedImage);
       setImagePreview(imageUrl);
       return;
     }
@@ -61,7 +55,7 @@ export default function ImageInput({
     // remove image preview and set image to null
 
     setImagePreview(undefined);
-    setImage(undefined);
+    setImage && setImage(undefined);
     return;
   };
 
