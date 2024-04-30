@@ -15,7 +15,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   success?: boolean;
 }
 
-const variantClasses = {
+export const variantClasses = {
   text: "text-dark dark:text-light",
   outline:
     "min-h-[32px]  rounded py-3 px-4 md:px-5 bg-transparent border border-light-500 dark:border-dark-600 text-dark dark:text-light hover:bg-light-400 focus:bg-light-500 dark:hover:bg-dark-600 dark:focus:bg-dark-600",
