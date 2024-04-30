@@ -92,7 +92,7 @@ export default function EventCard({ event }: EventCardProps) {
             </span>
           </div>
           <span className="w-full rounded-b bg-brand py-2 text-center font-bold text-light-600 ">
-            {event.price > 0 ? `Ksh ${event.price}` : "FREE"}
+            {Number(event.price) > 0 ? `Ksh ${event.price}` : "FREE"}
           </span>
         </div>
       </div>

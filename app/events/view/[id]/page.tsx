@@ -33,6 +33,16 @@ export default function Event({ params }: { params: { id: string } }) {
   const [event, setEvent] = useState<Event>();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<TicketingFormData>();
+  const [startDate, setStartDate] = useState<{
+    day: number;
+    month: string;
+    dayOfWeek: string;
+  }>();
+  const [endDate, setEndDate] = useState<{
+    day: number;
+    month: string;
+    dayOfWeek: string;
+  }>();
 
   //fetch event from supabase
   const { supabase } = useSupabase();
@@ -45,6 +55,8 @@ export default function Event({ params }: { params: { id: string } }) {
 
       if (error) throw error;
       setEvent(data[0]);
+      setStartDate(formatDate(data[0].start_date));
+      setEndDate(formatDate(data[0].end_date));
     } catch (error) {
       // console.error("Error fetching event", error);
     }
@@ -84,9 +96,53 @@ export default function Event({ params }: { params: { id: string } }) {
     }
   }
 
+  function formatDate(dateString: string) {
+    const months = [
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OCT",
+      "NOV",
+      "DEC",
+    ];
+    const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const dayOfWeek = daysOfWeek[date.getDay()];
+
+    const formattedDate = {
+      day,
+      month,
+      dayOfWeek,
+    };
+    console.log(formattedDate);
+    return formattedDate;
+  }
+
+  function formatTime(timeString: string) {
+    const [hours, minutes] = timeString.split(":");
+    let formattedTime;
+    if (Number(hours) < 12) {
+      formattedTime = `${parseInt(hours)}:${minutes} AM`;
+    } else if (hours === "12") {
+      formattedTime = `12:${minutes} PM`;
+    } else {
+      formattedTime = `${parseInt(hours) - 12}:${minutes} PM`;
+    }
+    return formattedTime;
+  }
+
   return (
     <div>
-      {event && (
+      {event && startDate && endDate && (
         <div className="flex flex-col gap-7">
           {/* Album name and cover */}
 
@@ -102,18 +158,29 @@ export default function Event({ params }: { params: { id: string } }) {
               </div>
 
               <div className="relative flex h-full  w-full items-end justify-between px-2 sm:h-[30vw] sm:items-end sm:px-2 ">
-                <div className="absolute -top-6 right-2 order-2 flex items-start xs:relative sm:items-center">
-                  <div className="relative -ml-10 flex  rotate-[20deg] flex-col items-center gap-2 rounded-lg  bg-light-400 pt-2 text-sm  font-medium shadow-xl  dark:bg-dark-300 ">
-                    <span className="absolute -top-3 left-1  ">📌</span>
-                    <span className="px-2 text-sm ">FRI - SUN</span>
-                    <span className="px-2 text-base font-semibold text-brand ">
-                      26 - 28
+                <div className="absolute bottom-2 right-2 z-10  flex flex-col items-center gap-2 rounded bg-light-300 pt-2 text-sm font-medium  shadow  transition-all  duration-500 group-hover:opacity-0  dark:bg-dark-400 ">
+                  <div className="flex flex-col items-center gap-2 px-1">
+                    <span className="px-1 ">
+                      {startDate.dayOfWeek === endDate.dayOfWeek
+                        ? startDate.dayOfWeek
+                        : `${startDate.dayOfWeek} - ${endDate.dayOfWeek}`}
                     </span>
-                    <span className="px-2">APRIL</span>
-                    <span className="	w-full rounded-b bg-brand py-2 text-center font-semibold text-light-200">
-                      FREE
+
+                    <span className=" px-1	text-base font-semibold text-brand">
+                      {startDate.day === endDate.day
+                        ? startDate.day
+                        : `${startDate.day} - ${endDate.day}`}
+                    </span>
+
+                    <span className="px-1 ">
+                      {startDate.month === endDate.month
+                        ? startDate.month
+                        : `${startDate.month} - ${endDate.month}`}
                     </span>
                   </div>
+                  <span className="w-full rounded-b bg-brand py-2 text-center text-base font-bold text-light ">
+                    {Number(event.price) > 0 ? `Ksh. ${event.price}` : "FREE"}
+                  </span>
                 </div>
 
                 <div className="order-1 flex flex-col gap-2 pl-4  md:gap-4">
@@ -123,11 +190,7 @@ export default function Event({ params }: { params: { id: string } }) {
                   </h1>
                   <h3 className="flex flex-wrap gap-2 text-base font-medium">
                     <span>{event.host}</span>
-                    {/* {track.other_artists &&
-                    track.other_artists.map((artist, index) => (
-                      <span key={index}>• {artist}</span>
-                    ))} */}
-                    {/*  */}
+                   
                   </h3>
                 </div>
               </div>
