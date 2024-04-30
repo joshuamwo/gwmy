@@ -7,10 +7,14 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Event } from "@/types";
 import Image from "next/image";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import Button from "@/components/ui/button";
 
 interface Ticket {
   holders_name: string;
-  ticket_number: string;
+  ticket_number: number;
+  event_id: string;
 }
 
 export default function Ticket({ params }: { params: { id: string } }) {
@@ -98,6 +102,22 @@ export default function Ticket({ params }: { params: { id: string } }) {
     }
   }
 
+  const handleDownloadTicket = async () => {
+    const element = document.getElementById("the_ticket");
+    if (element && event && ticket) {
+      const canvas = await html2canvas(element);
+      const data = canvas.toDataURL("image/jpg");
+      const link = document.createElement("a");
+
+      link.href = data;
+      link.download = `${event.name}-${ticket.ticket_number}.png`;
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   const fetchEvent = async (eventId: string) => {
     try {
       const { error, data } = await supabase
@@ -124,79 +144,80 @@ export default function Ticket({ params }: { params: { id: string } }) {
   }, [undefined]);
 
   return (
-    <div className="min-w-screen relative flex min-h-full flex-col items-center justify-center gap-2 ">
+    <div className=" relative flex h-screen flex-col items-center justify-center overflow-auto  ">
       {/* the ticket */}
       {ticket && event && (
-        <div className="mb-7 flex rotate-90  scale-75 bg-brand shadow-lg shadow-dark-300 xs:scale-90 sm:rotate-0 sm:scale-100">
-          <div className="flex">
-            <div className="relative ml-7 h-[300px] w-[300px] bg-opacity-80 font-liches font-bold">
-              <p className="z-10 -ml-6 flex h-full -rotate-180 justify-around py-3 text-center text-base tracking-[0.15em] text-light-600 [writing-mode:vertical-rl] ">
-                <span className="opacity-80">ADMIT ONE</span>
-                <span className="!text-light-300">ADMIT ONE</span>{" "}
-                <span className="opacity-80">ADMIT ONE</span>
-              </p>
+        <>
+          <div
+            id="the_ticket"
+            // className="flex  overflow-auto"
+            className=" flex rotate-90 scale-75 bg-brand shadow-lg shadow-dark-300 xs:scale-90 sm:rotate-0 sm:scale-100"
+          >
+            <div className="relative flex h-[300px] w-[300px] items-center justify-center bg-brand">
               <Image
                 src={event.cover}
                 alt={event.name}
                 fill
-                className=" object-cover"
+                className="object-cover"
               />
+            </div>
 
-              {/* <div className="flex items-end justify-end  p-1.5 text-xl  tracking-wide text-white  ">
-                <p className=" ">#{ticket.ticket_number}</p>
-              </div> */}
-            </div>
-          </div>
-          <div className="flex min-w-[500px] flex-col justify-between justify-items-stretch bg-light-300 px-10 py-3 text-center ">
-            <p className="flex items-center justify-around border-b border-dark-200 pb-2 font-liches font-medium text-dark-300 ">
-              {/* <span className="w-[100px] text-left text-lg ">
-                {startDate?.day === endDate?.day
-                  ? startDate?.dayOfWeek
-                  : `${startDate?.dayOfWeek} - ${endDate?.dayOfWeek}`}
-              </span> */}
-              <span className="w-[100px] text-[20px] font-medium   ">
-                {startDate?.month === endDate?.month && startDate?.month}
-                {startDate?.month === endDate?.month &&
-                  (startDate?.day === endDate?.day
-                    ? startDate?.day
-                    : `${startDate?.day} - ${endDate?.day}`)}
-                {startDate?.month !== endDate?.month &&
-                  ` ${startDate?.month} ${startDate?.day} - ${endDate?.month} ${endDate?.day}`}
-              </span>
-              <span className="w-[100px] text-right text-lg ">
-                {startDate?.year === endDate?.year
-                  ? startDate?.year
-                  : `${startDate?.year} - ${endDate?.year}`}
-              </span>
-            </p>
-            {/* event name */}
-            <div className=" font-liches text-dark-400 ">
-              <h1 className=" mt-2 text-3xl tracking-widest">{event.name}</h1>
-              <h2 className="py-3 font-nanum text-5xl text-brand ">
-                {ticket.holders_name}
-              </h2>
-            </div>
-            <div className=" font-liches text-xl font-medium tracking-widest text-dark-300 ">
-              <p>
-                {startTime ?? ""} <span>TO</span> {endTime ?? ""}
+            <div className="flex min-w-[500px] flex-col justify-between justify-items-stretch bg-light-300 px-10 py-2 text-center ">
+              <p className="flex items-center justify-around border-b border-dark-200 pb-2 font-liches font-medium text-dark-300 ">
+                <span className="w-[100px] text-[20px] font-medium   ">
+                  {startDate?.month === endDate?.month && startDate?.month}{" "}
+                  {startDate?.month === endDate?.month &&
+                    (startDate?.day === endDate?.day
+                      ? startDate?.day
+                      : `${startDate?.day} - ${endDate?.day}`)}
+                  {startDate?.month !== endDate?.month &&
+                    ` ${startDate?.month} ${startDate?.day} - ${endDate?.month} ${endDate?.day}`}
+                </span>
+                <span className="w-[100px] text-right text-lg ">
+                  {startDate?.year === endDate?.year
+                    ? startDate?.year
+                    : `${startDate?.year} - ${endDate?.year}`}
+                </span>
+              </p>
+              {/* event name */}
+              <div className=" font-liches text-dark-400 ">
+                <h1 className="text-3xl tracking-widest">{event.name}</h1>
+                <h2 className="mt-3 font-nanum text-5xl text-brand ">
+                  {ticket.holders_name}
+                </h2>
+              </div>
+              <div className=" font-liches text-xl font-medium tracking-widest text-dark-300 ">
+                <p>
+                  {startTime ?? ""} <span>TO</span> {endTime ?? ""}
+                </p>
+              </div>
+              <p className=" flex w-full items-center justify-around border-t border-dark-200 pt-2 font-liches text-[20px] text-dark-200 ">
+                <span className=""> {event.host}</span>
+                <SmileyIcon className=" h-7 w-7 stroke-2" />
+                <span className="">{event.venue}</span>
               </p>
             </div>
-            <p className="flex w-full items-center justify-around border-t border-dark-200 pt-2 font-liches text-[20px] text-dark-200 ">
-              <span>{event.host}</span>
-              <span className="separator">
-                <SmileyIcon className="h-7 w-7 stroke-2 " />
-              </span>
-              <span>{event.venue}</span>
-            </p>
-          </div>
 
-          {/* right */}
-          <div className="relative flex items-center justify-center bg-brand p-4 ">
-            <p className="absolute right-0 flex h-full -rotate-180 justify-around py-3 text-center font-liches text-base text-lg tracking-[0.15em] text-light-200 [writing-mode:vertical-lr] ">
-              #{ticket.ticket_number}
-            </p>
+            {/* right */}
+            <div className="relative flex flex-col items-center justify-center bg-brand p-4 font-liches text-2xl ">
+              <span className="font-medium">#</span>
+              {ticket.ticket_number
+                .toString()
+                .split("")
+                .map((num, index) => (
+                  <span key={index} className="text-l">
+                    {num}
+                  </span>
+                ))}
+            </div>
           </div>
-        </div>
+          <Button
+            onClick={handleDownloadTicket}
+            className="absolute bottom-4 right-4 z-20 rounded-md bg-brand p-2 text-white"
+          >
+            Download
+          </Button>
+        </>
       )}
     </div>
   );
