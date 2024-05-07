@@ -143,7 +143,7 @@ export default function Event({ params }: { params: { id: string } }) {
   return (
     <div>
       {event && startDate && endDate && (
-        <div className="flex flex-col gap-7">
+        <div className="flex flex-col gap-7 overflow-x-hidden">
           {/* Album name and cover */}
 
           <div className="flex min-h-[200px] items-end bg-light-600  dark:bg-dark-200 md:h-[50vh] ">
@@ -190,7 +190,6 @@ export default function Event({ params }: { params: { id: string } }) {
                   </h1>
                   <h3 className="flex flex-wrap gap-2 text-base font-medium">
                     <span>{event.host}</span>
-                   
                   </h3>
                 </div>
               </div>
@@ -198,7 +197,7 @@ export default function Event({ params }: { params: { id: string } }) {
           </div>
 
           {/* actions */}
-          <div className=" ">
+          <div className="pb-7 ">
             <h1 className="px-4 text-2xl font-medium text-dark-300 dark:text-light-800">
               Get your ticket 👇
             </h1>

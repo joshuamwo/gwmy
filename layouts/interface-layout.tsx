@@ -30,22 +30,27 @@ export default function InterfaceLayout({
   const getUserDone = useRecoilValue(getUserDoneState);
 
   return (
-    <div className="relative flex h-screen w-full flex-col gap-1.5 p-2 ">
-      <Header
-        sidebarIsOpen={sidebarIsOpen}
-        sidebarToggle={sidebarToggle}
-        isUserLoggedIn={isUserLoggedIn}
-      />
-      <div className="flex flex-1 gap-2 overflow-hidden">
-        <Toaster position="top-center" reverseOrder={false} />
+    <div className="root-layout">
+      <div>
+        <Header
+          sidebarIsOpen={sidebarIsOpen}
+          sidebarToggle={sidebarToggle}
+          isUserLoggedIn={isUserLoggedIn}
+        />
+      </div>
+      <div className="flex flex-1 gap-1.5 overflow-hidden">
         <Sidebar sidebarIsOpen={sidebarIsOpen} />
+
         <main
-          className={`flex h-full w-full flex-col overflow-auto rounded-lg bg-light-400 dark:bg-dark-100`}
+          className={`flex w-full flex-col overflow-auto rounded-lg bg-light-400 dark:bg-dark-100`}
         >
           {children}
         </main>
       </div>
+
       <BottomNavigation />
+
+      <Toaster position="top-center" reverseOrder={false} />
       <ModalContainer />
       <DrawersContainer />
     </div>

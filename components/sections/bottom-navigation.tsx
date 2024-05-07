@@ -25,7 +25,7 @@ export default function BottomNavigation() {
     drawer.openDrawer("CART_VIEW");
   }
   return (
-    <nav className="sticky bottom-0 z-30 grid h-14 w-full auto-cols-fr grid-flow-col items-center rounded-lg bg-light-400 text-center text-dark-600 transition-all duration-300 dark:bg-dark-100 dark:text-light-900 sm:hidden">
+    <nav className="z-30 grid h-14 w-full auto-cols-fr grid-flow-col items-center rounded-lg bg-light-400 text-center text-dark-600 transition-all duration-300 dark:bg-dark-100 dark:text-light-900 sm:hidden">
       {/* <Button
         variant="icon"
         aria-label="Home"
